@@ -386,4 +386,3 @@ function gce_edit_display_link_field(){
 	<input type="text" name="gce_options[display_link_text]" value="<?php echo stripslashes(esc_html($options['display_link_text'])); ?>" />
 	<?php
 }
-?>

@@ -373,4 +373,3 @@ function gce_add_display_link_field() {
 	<input type="text" name="gce_options[display_link_text]" value="More details" />
 	<?php
 }
-?>

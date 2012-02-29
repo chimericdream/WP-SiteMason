@@ -426,4 +426,3 @@ function gce_get_timezone_choices(){
 		</optgroup>
 	</select>';
 }
-?>

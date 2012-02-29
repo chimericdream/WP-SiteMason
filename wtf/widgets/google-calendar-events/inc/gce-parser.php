@@ -352,4 +352,3 @@ class GCE_Parser {
 		return $markup;
 	}
 }
-?>

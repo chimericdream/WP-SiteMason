@@ -36,4 +36,3 @@ function gce_delete_title_field(){
 	<input type="text" name="gce_options[title]" disabled="disabled" value="<?php echo $options['title']; ?>" size="50" />
 	<?php
 }
-?>

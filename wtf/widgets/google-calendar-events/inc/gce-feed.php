@@ -245,4 +245,3 @@ class GCE_Feed{
 		return $this->builder;
 	}
 }
-?>
