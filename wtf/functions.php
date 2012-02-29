@@ -1,5 +1,4 @@
 <?php
-
 /**********************************/
 /*  WTF Options Methods
 /**********************************/
@@ -23,7 +22,7 @@ function wtf_navigation($page_options = 'title_li=', $cat_options = 'show_count=
 	if(get_option('wtf_top_nav') == 'cats'){
 		wp_list_categories($cat_options);
 	} else {
-		wp_list_pages($page_options); 
+		wp_list_pages($page_options);
 	}
 }
 
@@ -34,7 +33,7 @@ function wtf_custom_css()
 	}
 }
 
-function wtf_exclude_rss_cats($query) 
+function wtf_exclude_rss_cats($query)
 {
 	if ($query->is_feed && get_option('wtf_exclude_rss_cats') != '') {
 		$query->set('cat', get_option('wtf_exclude_rss_cats'));
@@ -50,72 +49,63 @@ add_filter('pre_get_posts','wtf_exclude_rss_cats');
 function wtf_breadcrumbs()
 {
 	global $wp_query;
- 
-	if ( !is_home() ){
- 
+
+	if (!is_home() && !is_front_page()) {
 		// Start the UL
 		echo '<ul class="breadcrumbs">';
 		// Add the Home link
-		echo '<li><a href="'. get_settings('home') .'">'. get_bloginfo('name') .'</a></li>';
- 
-		if ( is_category() ) 
-		{
-			$catTitle = single_cat_title( "", false );
-			$cat = get_cat_ID( $catTitle );
-			echo "<li> &raquo; ". get_category_parents( $cat, TRUE, " &raquo; " ) ."</li>";
-		}
-		elseif ( is_archive() && !is_category() ) 
-		{
-			echo "<li> &raquo; Archives</li>";
-		}
-		elseif ( is_search() ) {
- 
-			echo "<li> &raquo; Search Results</li>";
-		}
-		elseif ( is_404() ) 
-		{
-			echo "<li> &raquo; 404 Not Found</li>";
-		}
-		elseif ( is_single() ) 
-		{
+		echo '<li><a href="' . get_settings('home') . '">' . get_bloginfo('name') . '</a></li>';
+
+        $post_type = get_post_type();
+        
+		if (is_category()) {
+			$catTitle = single_cat_title('', false);
+			$cat = get_cat_ID($catTitle);
+			echo '<li>' . get_category_parents($cat, false, ' ') . '</li>';
+        } elseif (is_post_type_archive()) {
+            echo '<li>' . post_type_archive_title('', false) . '</li>';
+		} elseif (is_archive() && !is_category()) {
+			echo '<li>Archives</li>';
+		} elseif (is_search()) {
+			echo '<li>Search Results</li>';
+		} elseif (is_404()) {
+			echo '<li>404 Not Found</li>';
+        } elseif (is_single() && !($post_type == false || $post_type == 'page' || $post_type == 'post')) {
+            $label = get_post_type_object($post_type);
+            echo '<li><a href="' . get_post_type_archive_link($post_type) . '">' . $label->labels->name . '</a></li>';
+            echo '<li>' . the_title('', '', false) . '</li>';
+		} elseif (is_single()) {
 			$category = get_the_category();
-			$category_id = get_cat_ID( $category[0]->cat_name );
- 
-			echo '<li> &raquo; '. get_category_parents( $category_id, TRUE, " &raquo; " );
-			echo the_title('','', FALSE) ."</li>";
-		}
-		elseif ( is_page() ) 
-		{
+			$category_id = get_cat_ID($category[0]->cat_name);
+			echo '<li>'. get_category_parents($category_id, TRUE, ' ');
+			echo the_title('', '', FALSE) . '</li>';
+		} elseif (is_page()) {
 			$post = $wp_query->get_queried_object();
- 
-			if ( $post->post_parent == 0 ){
- 
-				echo "<li> &raquo; ".the_title('','', FALSE)."</li>";
- 
+			if ($post->post_parent == 0) {
+				echo '<li>' . the_title('', '', FALSE) . '</li>';
 			} else {
-				$title = the_title('','', FALSE);
-				$ancestors = array_reverse( get_post_ancestors( $post->ID ) );
+				$title = the_title('', '', FALSE);
+				$ancestors = array_reverse(get_post_ancestors($post->ID));
 				array_push($ancestors, $post->ID);
-				
-				foreach ( $ancestors as $ancestor ){
-					if( $ancestor != end($ancestors) ){
-						echo '<li> &raquo; <a href="'. get_permalink($ancestor) .'">'. strip_tags( apply_filters( 'single_post_title', get_the_title( $ancestor ) ) ) .'</a></li>';
+				foreach ($ancestors as $ancestor) {
+					if ($ancestor != end($ancestors)) {
+						echo '<li><a href="' . get_permalink($ancestor) . '">' . strip_tags(apply_filters('single_post_title', get_the_title($ancestor))) . '</a></li>';
 					} else {
-						echo '<li> &raquo; '. strip_tags( apply_filters( 'single_post_title', get_the_title( $ancestor ) ) ) .'</li>';
+						echo '<li>' . strip_tags(apply_filters('single_post_title', get_the_title($ancestor))) . '</li>';
 					}
 				}
 			}
 		}
- 
+
 		// End the UL
-		echo "</ul>";
+		echo '</ul>';
 	}
 }
 
 function wtf_popular_posts($showposts = 5)
 {
 	global $wpdb;
-	
+
 	echo '<ul class="popular_posts">';
 	$result = $wpdb->get_results("SELECT comment_count,ID,post_title FROM $wpdb->posts ORDER BY comment_count DESC LIMIT 0 , ". $showposts);
 	foreach ($result as $post) {
@@ -125,8 +115,8 @@ function wtf_popular_posts($showposts = 5)
 		$commentcount = $post->comment_count;
 		if ($commentcount != 0) {
 			echo '<li><a href="'. get_permalink($postid) .'" title="'. $title .'">'. $title .'</a></li>';
-		} 
-	} 
+		}
+	}
 	echo '</ul>';
 }
 
@@ -135,19 +125,19 @@ function wtf_related_posts($showposts = 5)
 {
 	global $post;
 	$tags = wp_get_post_tags($post->ID);
-	if($tags) {
+	if ($tags) {
 		$first_tag = $tags[0]->term_id;
-		$args=array(
-			'tag__in' => array($first_tag),
-			'post__not_in' => array($post->ID),
-			'showposts'=>$showposts,
-			'caller_get_posts'=>1
+		$args = array(
+			'tag__in'          => array($first_tag),
+			'post__not_in'     => array($post->ID),
+			'showposts'        => $showposts,
+			'caller_get_posts' => 1
 		);
-		
+
 		$my_query = new WP_Query($args);
-		if($my_query->have_posts()) {
+		if ($my_query->have_posts()) {
 			echo '<ul class="related_posts">';
-			while ($my_query->have_posts()) { 
+			while ($my_query->have_posts()) {
 				$my_query->the_post();
 				echo '<li><a href="'. get_permalink() .'" title="Permanent Link to '. the_title_attribute('echo=0') .'">'. get_the_title() .'</a></li>';
 			}
@@ -158,11 +148,11 @@ function wtf_related_posts($showposts = 5)
 
 function wtf_future_posts($showposts = 5, $date_format = 'jS F Y')
 {
-	query_posts('showposts='. $showposts .'&post_status=future'); 
+	query_posts('showposts='. $showposts .'&post_status=future');
 	if ( have_posts() ){
 		echo '<ul class="future_posts">';
 		while ( have_posts() ){
-			the_post(); 
+			the_post();
 
 			echo '<li>'. get_the_title() .' <span class="future_date">'. get_the_time($date_format) .'</span></li>';
 		}
@@ -170,14 +160,14 @@ function wtf_future_posts($showposts = 5, $date_format = 'jS F Y')
 	}
 }
 
-function wtf_pings_count($post_id) 
+function wtf_pings_count($post_id)
 {
 	global $wpdb;
 	$count = "SELECT COUNT(*) FROM $wpdb->comments WHERE (comment_type = 'pingback' OR comment_type = 'trackback') AND comment_post_ID = '$post_id'";
 	return $wpdb->get_var($count);
 }
 
-function wtf_tiny_url($url) 
+function wtf_tiny_url($url)
 {
 	$dataUrl = 'http://tinyurl.com/api-create.php?url=' . $url;
 	$tinyurl = wtf_api_call($dataUrl);
@@ -188,7 +178,7 @@ function wtf_tiny_url($url)
 	}
 }
 
-function wtf_feedburner_count($feedburner_id) 
+function wtf_feedburner_count($feedburner_id)
 {
 	$url = "https://feedburner.google.com/api/awareness/1.0/GetFeedData?uri=". $feedburner_id;
 	$data = wtf_api_call($url);
@@ -204,20 +194,8 @@ function wtf_feedburner_count($feedburner_id)
 	return '0';
 }
 
-function wtf_latest_tweet($twitter_id)
-{
-	$url = "http://search.twitter.com/search.atom?q=from:" . $twitter_id . "&rpp=1";
-	$feed = wtf_api_call($url);
-
-	$stepOne = explode("<content type=\"html\">", $feed);
-	$stepTwo = explode("</content>", $stepOne[1]);
-	$tweet = $stepTwo[0];
-
-	return htmlspecialchars_decode($tweet);
-}
-
 //cURL helper method
-function wtf_api_call($url) 
+function wtf_api_call($url)
 {
 	if (function_exists('curl_init')) {
 		$ch = curl_init();
@@ -236,5 +214,3 @@ function wtf_api_call($url)
 		return false;
 	}
 }
-
-?>
