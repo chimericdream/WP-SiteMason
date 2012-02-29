@@ -1,34 +1,55 @@
 <?php
-    require_once (TEMPLATEPATH . '/wtf/wtf.php');
+define('THEME_NAMESPACE', 'your_namespace_here');
+define('HOME_URI', get_bloginfo('url'));
+define('THEME_URI', get_stylesheet_directory_uri());
+define('THEME_IMAGES', THEME_URI . '/images');
+define('THEME_CSS', THEME_URI . '/css');
+define('THEME_JS', THEME_URI . '/js');
+define('THEME_PERMALINKS', '/%year%/%monthnum%/%postname%/');
+define('SITE_TITLE',   'Your Site Title Here');
+define('SITE_TAGLINE', 'This is an awesome tagline');
+define('WP_HOME',   'http://www.yourdomain.com/path/to/wordpress/');
+define('SITE_HOME', 'http://www.yourdomain.com/');
 
-    // Add RSS links to <head> section
-    automatic_feed_links();
+require_once TEMPLATEPATH . '/wtf/wtf.php';
+if (file_exists(TEMPLATEPATH . '/inc/taxonomies.php')) {
+    require_once TEMPLATEPATH . '/inc/taxonomies.php';
+}
+if (file_exists(TEMPLATEPATH . '/inc/post_types.php')) {
+    require_once TEMPLATEPATH . '/inc/post_types.php';
+}
 
-    // Load jQuery
-    if ( !is_admin() ) {
-       wp_deregister_script('jquery');
-       wp_register_script('jquery', ("http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"), false);
-       wp_enqueue_script('jquery');
+add_theme_support('post-thumbnails');
+
+add_action('init', THEME_NAMESPACE . '_init', 0);
+
+// Load javascripts
+if (!is_admin()) {
+    wp_register_script(THEME_NAMESPACE . '_js_file', THEME_URI . '/scripts.js');
+    wp_enqueue_script(THEME_NAMESPACE . '_js_file');
+
+    add_filter('pre_get_posts', 'custom_posts_per_page');
+}
+
+function your_namespace_here_init()
+{
+    setup_extra_thumbnail_sizes();
+}
+
+// posts per page based on custom post types
+function custom_posts_per_page($query)
+{
+    switch ($query->query_vars['post_type']) {
+//        case 'post_type_name':
+//            $query->query_vars['posts_per_page'] = 30;
+//            break;
+        default:
+            break;
     }
+    return $query;
+}
 
-    // Clean up the <head>
-    function removeHeadLinks() {
-        remove_action('wp_head', 'rsd_link');
-        remove_action('wp_head', 'wlwmanifest_link');
-    }
-    add_action('init', 'removeHeadLinks');
-    remove_action('wp_head', 'wp_generator');
-    
-    if (function_exists('register_sidebar')) {
-        register_sidebar(array(
-            'name' => 'Sidebar Widgets',
-            'id'   => 'sidebar-widgets',
-            'description'   => 'These are widgets for the sidebar.',
-            'before_widget' => '<div id="%1$s" class="widget %2$s">',
-            'after_widget'  => '</div>',
-            'before_title'  => '<h2>',
-            'after_title'   => '</h2>'
-        ));
-    }
-
-?>
+function setup_extra_thumbnail_sizes()
+{
+//    add_image_size('image-size-name', width, height, (bool) crop);
+}
