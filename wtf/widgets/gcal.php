@@ -36,6 +36,10 @@ define('GCE_TEXT_DOMAIN', 'google-calendar-events');
 define('GCE_OPTIONS_NAME', 'gce_options');
 define('GCE_GENERAL_OPTIONS_NAME', 'gce_general');
 define('GCE_VERSION', '0.7.2');
+define('GCE_DIRECTORY', dirname(__FILE__) . '/gcal');
+define('GCE_CSS_DIRECTORY', GCE_DIRECTORY . '/css');
+define('GCE_JS_DIRECTORY', GCE_DIRECTORY . '/js');
+define('GCE_LANG_DIRECTORY', GCE_DIRECTORY . '/languages');
 
 if (!class_exists('Google_Calendar_Events')) {
 
@@ -208,7 +212,7 @@ if (!class_exists('Google_Calendar_Events')) {
 
         function init_plugin() {
             //Load text domain for i18n
-            load_plugin_textdomain(GCE_TEXT_DOMAIN, false, dirname(plugin_basename(__FILE__)) . '/languages');
+            load_plugin_textdomain(GCE_TEXT_DOMAIN, false, GCE_LANG_DIRECTORY);
         }
 
         //Adds 'Settings' link to main WordPress Plugins page
@@ -231,7 +235,7 @@ if (!class_exists('Google_Calendar_Events')) {
             global $gce_settings_page;
 
             if ($gce_settings_page == $hook_suffix) {
-                wp_enqueue_script('gce_scripts', WP_PLUGIN_URL . '/' . GCE_PLUGIN_NAME . '/js/gce-admin-script.js', array('jquery'));
+                wp_enqueue_script('gce_scripts', GCE_JS_DIRECTORY . '/gce-admin-script.js', array('jquery'));
             }
         }
 
@@ -289,7 +293,7 @@ if (!class_exists('Google_Calendar_Events')) {
             } else {
                 //Main admin section
                 settings_fields('gce_general');
-                require_once 'admin/main.php';
+                require_once GCE_DIRECTORY . '/admin/main.php';
             }
                     ?>
                 </form>
@@ -330,10 +334,10 @@ if (!class_exists('Google_Calendar_Events')) {
             register_setting('gce_options', 'gce_options', array($this, 'validate_feed_options'));
             register_setting('gce_general', 'gce_general', array($this, 'validate_general_options'));
 
-            require_once 'admin/add.php';
-            require_once 'admin/edit.php';
-            require_once 'admin/delete.php';
-            require_once 'admin/refresh.php';
+            require_once GCE_DIRECTORY . '/admin/add.php';
+            require_once GCE_DIRECTORY . '/admin/edit.php';
+            require_once GCE_DIRECTORY . '/admin/delete.php';
+            require_once GCE_DIRECTORY . '/admin/refresh.php';
         }
 
         //Clears any expired transients from the database
@@ -356,7 +360,7 @@ if (!class_exists('Google_Calendar_Events')) {
 
         //Register the widget
         function add_widget() {
-            require_once 'widget/gce-widget.php';
+            require_once GCE_DIRECTORY . '/widget/gce-widget.php';
             return register_widget('GCE_Widget');
         }
 
@@ -584,13 +588,13 @@ if (!class_exists('Google_Calendar_Events')) {
 
         //Adds the required CSS
         function add_styles() {
-            wp_enqueue_style('gce_styles', WP_PLUGIN_URL . '/' . GCE_PLUGIN_NAME . '/css/gce-style.css');
+            wp_enqueue_style('gce_styles', GCE_CSS_DIRECTORY . '/gce-style.css');
 
             $options = get_option(GCE_GENERAL_OPTIONS_NAME);
 
             //If old stylesheet option is enabled, enqueue old styles
             if ($options['old_stylesheet']) {
-                wp_enqueue_style('gce_old_styles', WP_PLUGIN_URL . '/' . GCE_PLUGIN_NAME . '/css/gce-old-style.css');
+                wp_enqueue_style('gce_old_styles', GCE_CSS_DIRECTORY . '/gce-old-style.css');
             }
 
             //If user has entered a URL to a custom stylesheet, enqueue it too
@@ -605,8 +609,8 @@ if (!class_exists('Google_Calendar_Events')) {
             $add_to_footer = (bool) $options['javascript'];
 
             wp_enqueue_script('jquery');
-            wp_enqueue_script('gce_jquery_qtip', WP_PLUGIN_URL . '/' . GCE_PLUGIN_NAME . '/js/jquery-qtip.js', array('jquery'), null, $add_to_footer);
-            wp_enqueue_script('gce_scripts', WP_PLUGIN_URL . '/' . GCE_PLUGIN_NAME . '/js/gce-script.js', array('jquery'), null, $add_to_footer);
+            wp_enqueue_script('gce_jquery_qtip', GCE_JS_DIRECTORY . '/jquery-qtip.js', array('jquery'), null, $add_to_footer);
+            wp_enqueue_script('gce_scripts', GCE_CSS_DIRECTORY . '/gce-script.js', array('jquery'), null, $add_to_footer);
             wp_localize_script('gce_scripts', 'GoogleCalendarEvents', array(
                 'ajaxurl' => admin_url('admin-ajax.php', is_ssl() ? 'https' : 'http'),
                 'loading' => $options['loading']
@@ -642,7 +646,7 @@ if (!class_exists('Google_Calendar_Events')) {
 }
 
 function gce_print_list($feed_ids, $title_text, $max_events, $sort_order, $grouped = false) {
-    require_once 'inc/gce-parser.php';
+    require_once GCE_DIRECTORY . '/inc/gce-parser.php';
 
     $ids = explode('-', $feed_ids);
 
@@ -674,7 +678,7 @@ function gce_print_list($feed_ids, $title_text, $max_events, $sort_order, $group
 }
 
 function gce_print_grid($feed_ids, $title_text, $max_events, $ajaxified = false, $month = null, $year = null) {
-    require_once 'inc/gce-parser.php';
+    require_once GCE_DIRECTORY . '/inc/gce-parser.php';
 
     $ids = explode('-', $feed_ids);
 

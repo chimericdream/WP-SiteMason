@@ -9,7 +9,7 @@ class GCE_Parser {
 	private $sort_order = 'asc';
 
 	function __construct( $feed_ids, $title_text = null, $max_events = 0, $sort_order = 'asc' ) {
-		require_once 'gce-feed.php';
+		require_once GCE_DIRECTORY . '/inc/gce-feed.php';
 
 		$this->title = $title_text;
 		$this->max_events_display = $max_events;
@@ -193,7 +193,7 @@ class GCE_Parser {
 
 	//Returns grid markup
 	function get_grid ( $year = null, $month = null, $ajaxified = false ) {
-		require_once 'php-calendar.php';
+		require_once GCE_DIRECTORY . '/inc/php-calendar.php';
 
 		$time_now = current_time( 'timestamp' );
 

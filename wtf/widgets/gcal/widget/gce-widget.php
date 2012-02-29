@@ -179,7 +179,7 @@ class GCE_Widget extends WP_Widget {
 }
 
 function gce_widget_content_grid($feed_ids, $title_text, $max_events, $widget_id, $ajaxified = false, $month = null, $year = null) {
-    require_once WP_PLUGIN_DIR . '/' . GCE_PLUGIN_NAME . '/inc/gce-parser.php';
+    require_once GCE_DIRECTORY . '/inc/gce-parser.php';
 
     $ids = explode('-', $feed_ids);
 
@@ -220,7 +220,7 @@ function gce_widget_content_grid($feed_ids, $title_text, $max_events, $widget_id
 }
 
 function gce_widget_content_list($feed_ids, $title_text, $max_events, $sort_order, $grouped = false) {
-    require_once WP_PLUGIN_DIR . '/' . GCE_PLUGIN_NAME . '/inc/gce-parser.php';
+    require_once GCE_DIRECTORY . '/inc/gce-parser.php';
 
     $ids = explode('-', $feed_ids);
 

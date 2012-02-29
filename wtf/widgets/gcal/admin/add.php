@@ -147,10 +147,9 @@ function gce_add_time_format_field(){
 
 //Timezone offset
 function gce_add_timezone_field() {
-	require_once 'timezone-choices.php';
-	$timezone_list = gce_get_timezone_choices();
-	//Set selected="selected" for default option
-	$timezone_list = str_replace( '<option value="default">Default</option>', '<option value="default" selected="selected">Default</option>', $timezone_list );
+	require_once GCE_DIRECTORY . '/admin/timezone-choices.php';
+    $tzstring = get_option('timezone_string');
+	$timezone_list = gce_get_timezone_choices($tzstring);
 	?>
 	<span class="description"><?php _e( 'If you are having problems with dates and times displaying in the wrong timezone, select a city in your required timezone here.', GCE_TEXT_DOMAIN ); ?></span>
 	<br />

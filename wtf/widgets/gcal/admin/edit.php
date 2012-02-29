@@ -153,10 +153,8 @@ function gce_edit_time_format_field(){
 function gce_edit_timezone_field(){
 	$options = get_option(GCE_OPTIONS_NAME);
 	$options = $options[$_GET['id']];
-	require_once 'timezone-choices.php';
-	$timezone_list = gce_get_timezone_choices();
-	//Set selected="selected" for selected timezone
-	$timezone_list = str_replace(('<option value="' . $options['timezone'] . '"'), ('<option value="' . $options['timezone'] . '" selected="selected"'), $timezone_list);
+	require_once GCE_DIRECTORY . '/admin/timezone-choices.php';
+	$timezone_list = gce_get_timezone_choices($options['timezone']);
 	?>
 	<span class="description"><?php _e('If you are having problems with dates and times displaying in the wrong timezone, select a city in your required timezone here.', GCE_TEXT_DOMAIN); ?></span>
 	<br />
@@ -186,7 +184,6 @@ function gce_edit_multiple_field(){
 	<br /><br />
 	<?php
 }
-
 
 //Display options
 function gce_edit_display_main_text(){

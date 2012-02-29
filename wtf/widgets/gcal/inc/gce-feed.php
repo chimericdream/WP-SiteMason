@@ -18,7 +18,7 @@ class GCE_Feed{
 	private $error = false;
 
 	function init() {
-		require_once 'gce-event.php';
+		require_once GCE_DIRECTORY . '/inc/gce-event.php';
 
 		//Break the feed URL up into its parts (scheme, host, path, query)
 		$url_parts = parse_url( $this->feed_url );
