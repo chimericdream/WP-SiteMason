@@ -694,4 +694,3 @@ function gce_print_grid( $feed_ids, $title_text, $max_events, $ajaxified = false
 }
 
 $gce = new Google_Calendar_Events();
-?>
