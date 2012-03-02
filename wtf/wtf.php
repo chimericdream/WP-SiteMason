@@ -15,7 +15,7 @@ v1.2	- Design Update.
 
 require_once dirname(__FILE__) .'/config.php';
 require_once dirname(__FILE__) .'/functions.php';
-require_once dirname(__FILE__) .'/widgets.php';
+require_once dirname(__FILE__) .'/plugins.php';
 
 add_action('init', 'wtf_init', 0);
 add_action('after_setup_theme', 'wtf_setup');
