@@ -1,0 +1,19 @@
+ul.collapse-archives-list {
+    padding-left: 0;
+}
+
+ul.collapse-archives-list, ul.collapse-archives-list ul {
+    list-style-type: none;
+}
+
+ul.collapse-archives-list ul {
+    padding-left: 12px;
+}
+
+ul.collapse-archives-list ul li {
+    margin-left: 0;
+}
+
+body.js ul.collapse-archives-list ul {
+    display: none;
+}
