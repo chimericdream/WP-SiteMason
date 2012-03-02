@@ -1,19 +1,7 @@
 /**
- * Theme Name: Eternal Second Blank WP Theme
- * Description: This is just a BLANK starter WordPress Theme template -- WordPress v2.9.1
+ * Theme Name: Eternal Second Base WP Theme
+ * Description: This is just a base WordPress Theme template to handle the theme framework -- Create a child theme instead of using this directly.
  * Author: Bill Parrott
  * Author URI: http://chimericdream.com
  * Version: 1.0
 */
-@import url('./css/reset.css');
-@import url('./css/misc.css');
-@import url('./css/sidebar.css');
-@import url('./css/navigation.css');
-@import url('./css/search.css');
-@import url('./css/posts.css');
-@import url('./css/comments.css');
-
-#page-wrap {
-    margin: 20px auto;
-    width: 960px;
-}

@@ -8,29 +8,22 @@ define('THEME_URI_RELATIVE', str_replace(WP_HOME, '', THEME_URI));
 define('THEME_IMAGES', THEME_URI . '/images');
 define('THEME_CSS', THEME_URI . '/css');
 define('THEME_JS', THEME_URI . '/js');
-define('WTF_PATH', TEMPLATEPATH . '/wtf');
-define('WTF_URI', THEME_URI . '/wtf');
+define('THEME_FRAMEWORK_PATH', TEMPLATEPATH . '/../base_framework_theme');
+define('WTF_PATH', TEMPLATEPATH . '/../base_framework_theme/wtf');
+define('WTF_URI', THEME_URI . '/../base_framework_theme/wtf');
 define('WTF_URI_RELATIVE', str_replace(WP_HOME, '', WTF_URI));
 define('THEME_PERMALINKS', '/%year%/%monthnum%/%postname%/');
 define('SITE_TITLE',   'Your Site Title Here');
 define('SITE_TAGLINE', 'This is an awesome tagline');
 
-require_once WTF_PATH . '/wtf/wtf.php';
-if (file_exists(TEMPLATEPATH . '/inc/taxonomies.php')) {
-    require_once TEMPLATEPATH . '/inc/taxonomies.php';
-}
-if (file_exists(TEMPLATEPATH . '/inc/post_types.php')) {
-    require_once TEMPLATEPATH . '/inc/post_types.php';
-}
+require_once THEME_FRAMEWORK_PATH . '/functions.php';
 
 add_theme_support('post-thumbnails');
-
 add_action('init', THEME_NAMESPACE . '_init', 0);
 
-// Load javascripts
 if (!is_admin()) {
-    wp_register_script(THEME_NAMESPACE . '_js_file', THEME_URI . '/scripts.js');
-    wp_enqueue_script(THEME_NAMESPACE . '_js_file');
+//    wp_register_script(THEME_NAMESPACE . '_js_file', THEME_URI . '/scripts.js');
+//    wp_enqueue_script(THEME_NAMESPACE . '_js_file');
 
     if (function_exists('custom_posts_per_page')) {
         add_filter('pre_get_posts', 'custom_posts_per_page');
@@ -39,35 +32,25 @@ if (!is_admin()) {
 
 function your_namespace_here_init()
 {
-    setup_extra_thumbnail_sizes();
-}
+    if (function_exists('setup_extra_thumbnail_sizes')) {
+        setup_extra_thumbnail_sizes();
+    }
+} //end your_namespace_here_init
 
 // posts per page based on custom post types
-function custom_posts_per_page($query)
-{
-    switch ($query->query_vars['post_type']) {
+//function custom_posts_per_page($query)
+//{
+//    switch ($query->query_vars['post_type']) {
 //        case 'post_type_name':
 //            $query->query_vars['posts_per_page'] = 30;
 //            break;
-        default:
-            break;
-    }
-    return $query;
-}
+//        default:
+//            break;
+//    }
+//    return $query;
+//} //end custom_posts_per_page
 
-function setup_extra_thumbnail_sizes()
-{
+//function setup_extra_thumbnail_sizes()
+//{
 //    add_image_size('image-size-name', width, height, (bool) crop);
-}
-
-function checkActivePage($url, $whichPage)
-{
-    if ($whichPage == 'home' && $url == '/') {
-        return ' class="active"';
-    }
-
-    if (strpos($url, $whichPage) !== false) {
-        return ' class="active"';
-    }
-    return '';
-}
+//} //end setup_extra_thumbnail_sizes
