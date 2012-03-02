@@ -1,4 +1,12 @@
 <?php
+//set defaults
+if (!get_option('wtf_top_nav')) {
+    add_option('wtf_top_nav', 'pages');
+}
+if (!get_option('wtf_custom_css')) {
+    add_option('wtf_custom_css', '');
+}
+
 function wtf_main_page() {
     $saved = false;
     if ($_REQUEST['action'] == 'save') {

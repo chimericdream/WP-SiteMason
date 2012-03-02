@@ -1,4 +1,15 @@
 <?php
+//set defaults
+if (!get_option('wtf_rss_url')) {
+    add_option('wtf_rss_url', '');
+}
+if (!get_option('wtf_rss_email')) {
+    add_option('wtf_rss_email', '');
+}
+if (!get_option('wtf_exclude_rss_cats')) {
+    add_option('wtf_exclude_rss_cats', '');
+}
+
 function wtf_rss_page() {
     $saved = false;
     if ($_REQUEST['action'] == 'save') {

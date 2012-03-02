@@ -1,4 +1,14 @@
 <?php
+//set defaults
+if (!get_option('wtf-plugins-wp-calendar')) {
+    add_option('wtf-plugins-wp-calendar', false);
+}
+if (!get_option('wtf-plugins-google-calendar')) {
+    add_option('wtf-plugins-google-calendar', false);
+}
+if (!get_option('wtf-plugins-twitter')) {
+    add_option('wtf-plugins-twitter', false);
+}
 
 function wtf_plugin_page() {
     $saved = false;

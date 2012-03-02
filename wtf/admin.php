@@ -13,10 +13,10 @@ function wtf_admin() {
         'wtf_main_page'
     );
 
-    $main_page      = add_submenu_page('theme-admin', 'Theme Options', 'Theme Options', 'edit_themes', 'theme-admin', 'wtf_main_page');
-    $analytics_page = add_submenu_page('theme-admin', 'Google Analytics', 'Google Analytics', 'edit_themes', 'theme-admin-analytics', 'wtf_analytics_page');
-    $rss_page       = add_submenu_page('theme-admin', 'RSS Settings', 'RSS Settings', 'edit_themes', 'theme-admin-rss', 'wtf_rss_page');
-    $plugin_page    = add_submenu_page('theme-admin', 'Plugins', 'Plugins', 'edit_themes', 'theme-admin-plugins', 'wtf_plugin_page');
+    $main_page         = add_submenu_page('theme-admin', 'Theme Options', 'Theme Options', 'edit_themes', 'theme-admin', 'wtf_main_page');
+    $analytics_subpage = add_submenu_page('theme-admin', 'Google Analytics', 'Google Analytics', 'edit_themes', 'theme-admin-analytics', 'wtf_analytics_page');
+    $rss_subpage       = add_submenu_page('theme-admin', 'RSS Settings', 'RSS Settings', 'edit_themes', 'theme-admin-rss', 'wtf_rss_page');
+    $plugin_subpage    = add_submenu_page('theme-admin', 'Plugins', 'Plugins', 'edit_themes', 'theme-admin-plugins', 'wtf_plugin_page');
 //    $analytics_page = add_submenu_page(
 //        'theme-admin',
 //        'Google Analytics',
@@ -27,38 +27,18 @@ function wtf_admin() {
 //    );
 //
     add_action('admin_head-' . $main_page,      'wtf_header');
-    add_action('admin_head-' . $plugin_page,    'wtf_header');
-    add_action('admin_head-' . $rss_page,       'wtf_header');
-    add_action('admin_head-' . $analytics_page, 'wtf_header');
+    add_action('admin_head-' . $plugin_subpage,    'wtf_header');
+    add_action('admin_head-' . $rss_subpage,       'wtf_header');
+    add_action('admin_head-' . $analytics_subpage, 'wtf_header');
 
-    $widget_page = add_menu_page(
-        WTF_THEME_NAME . ' Widgets',
-        WTF_THEME_NAME . ' Widgets',
+    $plugin_page = add_menu_page(
+        WTF_THEME_NAME . ' Plugins',
+        WTF_THEME_NAME . ' Plugins',
         'edit_themes',
-        'theme-widgets',
-        'wtf_widget_main_page'
+        'theme-plugins',
+        'wtf_plugin_main_page'
     );
-    add_action('admin_head-' . $widget_page,    'wtf_header');
-
-    //set defaults
-    if (!get_option('wtf_top_nav')) {
-        add_option('wtf_top_nav', 'pages');
-    }
-    if (!get_option('wtf_rss_url')) {
-        add_option('wtf_rss_url', '');
-    }
-    if (!get_option('wtf_rss_email')) {
-        add_option('wtf_rss_email', '');
-    }
-    if (!get_option('wtf_tracking_code')) {
-        add_option('wtf_tracking_code', '');
-    }
-    if (!get_option('wtf_custom_css')) {
-        add_option('wtf_custom_css', '');
-    }
-    if (!get_option('wtf_exclude_rss_cats')) {
-        add_option('wtf_exclude_rss_cats', '');
-    }
+    add_action('admin_head-' . $plugin_page,    'wtf_header');
 }
 
 //end wtf_admin

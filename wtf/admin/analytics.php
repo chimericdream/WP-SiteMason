@@ -1,4 +1,9 @@
 <?php
+//set defaults
+if (!get_option('wtf_tracking_code')) {
+    add_option('wtf_tracking_code', '');
+}
+
 function wtf_analytics_page() {
     $saved = false;
     if ($_REQUEST['action'] == 'save') {
