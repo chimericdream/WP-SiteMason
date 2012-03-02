@@ -23,7 +23,7 @@ add_action('admin_menu', 'wtf_admin');
 
 require_once dirname(__FILE__) . '/admin.php';
 require_once dirname(__FILE__) . '/functions.php';
-require_once dirname(__FILE__) . '/widgets.php';
+require_once dirname(__FILE__) . '/plugins.php';
 
 // Add RSS links to <head> section
 add_theme_support('automatic-feed-links');
