@@ -1,15 +1,19 @@
 <?php
 define('THEME_NAMESPACE', 'your_namespace_here');
+define('WP_HOME',   'http://www.yourdomain.com/path/to/wordpress/');
+define('SITE_HOME', 'http://www.yourdomain.com/');
 define('HOME_URI', get_bloginfo('url'));
 define('THEME_URI', get_stylesheet_directory_uri());
+define('THEME_URI_RELATIVE', str_replace(WP_HOME, '', THEME_URI));
 define('THEME_IMAGES', THEME_URI . '/images');
 define('THEME_CSS', THEME_URI . '/css');
 define('THEME_JS', THEME_URI . '/js');
+define('WTF_PATH', TEMPLATEPATH . '/wtf');
+define('WTF_URI', THEME_URI . '/wtf');
+define('WTF_URI_RELATIVE', str_replace(WP_HOME, '', WTF_URI));
 define('THEME_PERMALINKS', '/%year%/%monthnum%/%postname%/');
 define('SITE_TITLE',   'Your Site Title Here');
 define('SITE_TAGLINE', 'This is an awesome tagline');
-define('WP_HOME',   'http://www.yourdomain.com/path/to/wordpress/');
-define('SITE_HOME', 'http://www.yourdomain.com/');
 
 require_once TEMPLATEPATH . '/wtf/wtf.php';
 if (file_exists(TEMPLATEPATH . '/inc/taxonomies.php')) {
@@ -52,4 +56,16 @@ function custom_posts_per_page($query)
 function setup_extra_thumbnail_sizes()
 {
 //    add_image_size('image-size-name', width, height, (bool) crop);
+}
+
+function checkActivePage($url, $whichPage)
+{
+    if ($whichPage == 'home' && $url == '/') {
+        return ' class="active"';
+    }
+
+    if (strpos($url, $whichPage) !== false) {
+        return ' class="active"';
+    }
+    return '';
 }
