@@ -227,7 +227,7 @@ if (!class_exists('Google_Calendar_Events')) {
         function setup_admin() {
             global $gce_settings_page;
 
-            $gce_settings_page = add_submenu_page('theme-widgets', 'Google Calendar Events', 'Google Calendar Events', 'manage_options', 'theme-widgets-gcal', array($this, 'admin_page'));
+            $gce_settings_page = add_submenu_page('theme-plugins', 'Google Calendar Events', 'Google Calendar Events', 'manage_options', 'theme-plugins-gcal', array($this, 'admin_page'));
             add_action('admin_head-' . $gce_settings_page,    'wtf_header');
             add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
         }

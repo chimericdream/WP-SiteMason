@@ -34,10 +34,11 @@ function wtf_admin() {
     $plugin_page = add_menu_page(
         WTF_THEME_NAME . ' Plugins',
         WTF_THEME_NAME . ' Plugins',
-        'edit_themes',
+        'manage_options',
         'theme-plugins',
         'wtf_plugin_main_page'
     );
+    $plugin_page = add_submenu_page('theme-plugins', 'About the plugins', 'About the plugins', 'manage_options', 'theme-plugins', 'wtf_plugin_main_page');
     add_action('admin_head-' . $plugin_page,    'wtf_header');
 }
 

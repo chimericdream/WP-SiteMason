@@ -45,7 +45,7 @@ if (!defined('SITE_TAGLINE')) {
     define('SITE_TAGLINE', 'This is an awesome tagline');
 }
 
-require_once WTF_PATH . '/wtf/wtf.php';
+require_once WTF_PATH . '/wtf.php';
 if (file_exists(TEMPLATEPATH . '/inc/taxonomies.php')) {
     require_once TEMPLATEPATH . '/inc/taxonomies.php';
 }

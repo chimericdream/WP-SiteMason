@@ -3,11 +3,11 @@ add_action('admin_menu', 'wtf_twitter_admin');
 
 function wtf_twitter_admin()
 {
-    $twitter_page = add_submenu_page('theme-widgets', 'Twitter', 'Twitter', 'manage_options', 'theme-widgets-twitter', 'wtf_twitter_widget_page');
+    $twitter_page = add_submenu_page('theme-plugins', 'Twitter', 'Twitter', 'manage_options', 'theme-plugins-twitter', 'wtf_twitter_plugin_page');
     add_action('admin_head-' . $twitter_page,    'wtf_header');
 } //end wtf_twitter_admin
 
-function wtf_twitter_widget_page()
+function wtf_twitter_plugin_page()
 {
     $saved = false;
     if ($_REQUEST['action'] == 'save') {
@@ -81,4 +81,4 @@ function wtf_twitter_widget_page()
 </div>
 <div style="clear:both;height:20px;"></div>
     <?php
-} //end wtf_twitter_widget_page
+} //end wtf_twitter_plugin_page
