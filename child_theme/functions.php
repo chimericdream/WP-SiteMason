@@ -16,8 +16,6 @@ define('THEME_PERMALINKS', '/%year%/%monthnum%/%postname%/');
 define('SITE_TITLE',   'Your Site Title Here');
 define('SITE_TAGLINE', 'This is an awesome tagline');
 
-require_once THEME_FRAMEWORK_PATH . '/functions.php';
-
 add_theme_support('post-thumbnails');
 add_action('init', THEME_NAMESPACE . '_init', 0);
 
