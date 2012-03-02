@@ -202,7 +202,17 @@ function gce_widget_content_grid($feed_ids, $title_text, $max_events, $widget_id
 
         //Add AJAX script if required
         if ($ajaxified) {
-            $markup .= '<script type="text/javascript">jQuery(document).ready(function($){gce_ajaxify("' . $widget_id . '", "' . $feed_ids . '", "' . $max_events . '", "' . $title_text . '", "widget");});</script>';
+            $hash = md5($widget_id . $feed_ids . $max_events . $title_text . 'widget');
+            $filename = GCE_DIRECTORY . '/js/ajax-caches/' . $hash . '.js';
+            $fileuri = GCE_JS_DIRECTORY . '/ajax-caches/' . $hash . '.js';
+            if (!file_exists($filename)) {
+                $string = 'jQuery(document).ready(function($){gce_ajaxify("' . $widget_id . '", "' . $feed_ids . '", "' . $max_events . '", "' . $title_text . '", "widget");});';
+                $fh = fopen($filename, 'w+');
+                fwrite($fh, $string);
+                fclose($fh);
+            }
+            wp_register_script('wtf-gcal-cache-' . $hash, $fileuri, array('jquery', 'gce_scripts', 'gce_jquery_qtip'));
+            wp_enqueue_script('wtf-gcal-cache-' . $hash);
         }
 
         $markup .= $grid->get_grid($year, $month, $ajaxified);

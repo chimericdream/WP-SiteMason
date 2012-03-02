@@ -1,0 +1,19 @@
+.wtf-twitter-widget {
+    font-size: 90%;
+}
+
+.wtf-twitter-widget h2 {
+    font-size: 125%;
+}
+
+.wtf-twitter-widget > p {
+    color: #555;
+}
+
+.wtf-twitter-widget .tweet {
+    padding: 10px;
+}
+
+.wtf-twitter-widget .tweet.alt {
+    background-color: #ddd;
+}

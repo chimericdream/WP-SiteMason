@@ -1,10 +1,16 @@
 <?php
+require_once dirname(__FILE__) . '/twitter/admin.php';
+
 add_action('widgets_init', 'loadWtfTwitterWidget');
 
 function loadWtfTwitterWidget()
 {
     register_widget('WTF_Twitter_Widget');
-}
+    if ((bool) get_option('wtf-twitter-use-css') == true) {
+        wp_register_style('wtf-twitter-widget', WTF_URI . '/widgets/twitter/style.css');
+        wp_enqueue_style('wtf-twitter-widget');
+    }
+} //end loadWtfTwitterWidget
 
 class WTF_Twitter_Widget extends WP_Widget
 {
@@ -40,12 +46,13 @@ class WTF_Twitter_Widget extends WP_Widget
      */
     public function form($instance)
     {
-
+        $default_account = get_option('wtf-twitter-default-account', 'youraccount');
+        $tweet_limit     = get_option('wtf-twitter-tweet-limit', '5');
         /* Set up some default widget settings. */
         $defaults = array(
             'title' => __($this->name, $this->id_base),
-            'account' => 'youraccount',
-            'limit' => '5',
+            'account' => $default_account,
+            'limit' => $tweet_limit,
         );
         $instance = wp_parse_args((array) $instance, $defaults);
         ?>
@@ -115,6 +122,14 @@ class WTF_Twitter_Widget extends WP_Widget
 
     private function getTwitterFeed($account, $limit)
     {
+        $key = 'wtf_twitter_feed' . $account;
+
+        // Let's see if we have a cached version
+        $tweetlist = get_transient($key);
+        if ($tweetlist !== false) {
+            return $tweetlist;
+        }
+
         //initialize a new curl resource
         $ch = curl_init();
 
@@ -184,6 +199,11 @@ class WTF_Twitter_Widget extends WP_Widget
             $tweetlist .= '<span class="time">Posted on: <a href="https://twitter.com/#!/' . $account . '/status/' . $tweet['id'] . '">' . $tweet['time'] . '</a></span>';
             $tweetlist .= '</div>';
         }
+
+        $time_limit = 60 * (int) get_option('wtf-twitter-time-limit', '15');
+        // Cache the tweet list for 15 minutes
+        set_transient($key, $tweetlist, $time_limit);
+
         return $tweetlist;
     }
 }
