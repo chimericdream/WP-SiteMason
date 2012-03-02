@@ -2,10 +2,10 @@
 require_once dirname(__FILE__) . '/admin/analytics.php';
 require_once dirname(__FILE__) . '/admin/main.php';
 require_once dirname(__FILE__) . '/admin/rss.php';
-require_once dirname(__FILE__) . '/admin/widgets.php';
+require_once dirname(__FILE__) . '/admin/plugins.php';
 
 function wtf_admin() {
-    $plugin_page = add_menu_page(
+    $main_page = add_menu_page(
         WTF_THEME_NAME,
         WTF_THEME_NAME,
         'edit_themes',
@@ -13,10 +13,10 @@ function wtf_admin() {
         'wtf_main_page'
     );
 
-    $plugin_page    = add_submenu_page('theme-admin', 'Theme Options', 'Theme Options', 'edit_themes', 'theme-admin', 'wtf_main_page');
+    $main_page      = add_submenu_page('theme-admin', 'Theme Options', 'Theme Options', 'edit_themes', 'theme-admin', 'wtf_main_page');
     $analytics_page = add_submenu_page('theme-admin', 'Google Analytics', 'Google Analytics', 'edit_themes', 'theme-admin-analytics', 'wtf_analytics_page');
     $rss_page       = add_submenu_page('theme-admin', 'RSS Settings', 'RSS Settings', 'edit_themes', 'theme-admin-rss', 'wtf_rss_page');
-    $widget_subpage = add_submenu_page('theme-admin', 'Widgets', 'Widgets', 'edit_themes', 'theme-admin-widgets', 'wtf_widget_page');
+    $plugin_page    = add_submenu_page('theme-admin', 'Plugins', 'Plugins', 'edit_themes', 'theme-admin-plugins', 'wtf_plugin_page');
 //    $analytics_page = add_submenu_page(
 //        'theme-admin',
 //        'Google Analytics',
@@ -26,8 +26,8 @@ function wtf_admin() {
 //        'wtf_analytics_page'
 //    );
 //
+    add_action('admin_head-' . $main_page,      'wtf_header');
     add_action('admin_head-' . $plugin_page,    'wtf_header');
-    add_action('admin_head-' . $widget_subpage, 'wtf_header');
     add_action('admin_head-' . $rss_page,       'wtf_header');
     add_action('admin_head-' . $analytics_page, 'wtf_header');
 
