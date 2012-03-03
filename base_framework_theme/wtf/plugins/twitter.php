@@ -14,7 +14,6 @@ function loadWtfTwitterWidget()
 
 class WTF_Twitter_Widget extends WP_Widget
 {
-
     public $id_base = 'wtf-twitter-widget';
     public $name = 'Recent Tweets';
 
