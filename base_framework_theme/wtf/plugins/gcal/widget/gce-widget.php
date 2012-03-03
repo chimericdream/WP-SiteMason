@@ -4,7 +4,11 @@ class GCE_Widget extends WP_Widget {
 
     function GCE_Widget() {
         parent::WP_Widget(
-                false, $name = 'Google Calendar Events', array('description' => 'Display a list or calendar grid of events from one or more Google Calendar feeds you have added')
+            false, 
+            $name = 'Google Calendar Events', 
+            array(
+                'description' => 'Display a list or calendar grid of events from one or more Google Calendar feeds you have added'
+            )
         );
     }
 
