@@ -32,13 +32,12 @@
  * GCalendar: Copyright 2007-2009 Allon Moritz
  */
 define('GCE_PLUGIN_NAME', str_replace('.php', '', basename(__FILE__)));
-define('GCE_TEXT_DOMAIN', 'google-calendar-events');
 define('GCE_OPTIONS_NAME', 'gce_options');
 define('GCE_GENERAL_OPTIONS_NAME', 'gce_general');
 define('GCE_VERSION', '0.7.2');
 define('GCE_DIRECTORY', dirname(__FILE__) . '/gcal');
-define('GCE_CSS_DIRECTORY', THEME_URI . '/wtf/widgets/gcal/css');
-define('GCE_JS_DIRECTORY', THEME_URI . '/wtf/widgets/gcal/js');
+define('GCE_CSS_DIRECTORY', WTF_URI . '/plugins/gcal/css');
+define('GCE_JS_DIRECTORY', WTF_URI . '/plugins/gcal/js');
 define('GCE_LANG_DIRECTORY', GCE_DIRECTORY . '/languages');
 
 if (!class_exists('Google_Calendar_Events')) {
@@ -61,12 +60,11 @@ if (!class_exists('Google_Calendar_Events')) {
                 add_action('admin_init', array($this, 'init_admin'));
                 add_action('wp_enqueue_scripts', array($this, 'add_styles'));
                 add_action('wp_enqueue_scripts', array($this, 'add_scripts'));
-                add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($this, 'add_settings_link'));
                 add_shortcode('google-calendar-events', array($this, 'shortcode_handler'));
             }
         }
 
-        //PHP 5.2 is required (json_decode), so if PHP version is lower then 5.2, display an error message and deactivate the plugin
+        //PHP 5.2 is required (json_decode), so if PHP version is lower then 5.2, display an error message
         function activate_plugin() {
             if (version_compare(PHP_VERSION, '5.2', '<')) {
                 if (is_admin() && (!defined('DOING_AJAX') || !DOING_AJAX)) {
@@ -75,7 +73,7 @@ if (!class_exists('Google_Calendar_Events')) {
                     return false;
                 }
             }
-            
+
             return true;
         }
 
@@ -213,14 +211,7 @@ if (!class_exists('Google_Calendar_Events')) {
         }
 
         function init_plugin() {
-            //Load text domain for i18n
-            load_plugin_textdomain(GCE_TEXT_DOMAIN, false, GCE_LANG_DIRECTORY);
-        }
-
-        //Adds 'Settings' link to main WordPress Plugins page
-        function add_settings_link($links) {
-            array_unshift($links, '<a href="options-general.php?page=google-calendar-events.php">' . __('Settings', GCE_TEXT_DOMAIN) . '</a>');
-            return $links;
+            
         }
 
         //Setup admin settings page
@@ -228,7 +219,7 @@ if (!class_exists('Google_Calendar_Events')) {
             global $gce_settings_page;
 
             $gce_settings_page = add_submenu_page('theme-plugins', 'Google Calendar Events', 'Google Calendar Events', 'manage_options', 'theme-plugins-gcal', array($this, 'admin_page'));
-            add_action('admin_head-' . $gce_settings_page,    'wtf_header');
+            add_action('admin_head-' . $gce_settings_page, 'wtf_header');
             add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
         }
 
@@ -246,15 +237,7 @@ if (!class_exists('Google_Calendar_Events')) {
             ?>
             <div class="wrap">
                 <div id="icon-options-general" class="icon32"><br /></div>
-                <h2><?php _e('Google Calendar Events', GCE_TEXT_DOMAIN); ?></h2>
-                <?php if (get_option('gce_clear_old_transients')): ?>
-                    <div class="error">
-                        <p><strong><?php _e('Notice:', GCE_TEXT_DOMAIN); ?></strong> <?php _e('The way in which Google Calendar Events stores cached data has been much improved in version 0.6. As you have upgraded from a previous version of the plugin, there is likely to be some data from the old caching system hanging around in your database that is now useless. Click below to clear expired cached data from your database.', GCE_TEXT_DOMAIN); ?></p>
-                        <p><a href="<?php echo wp_nonce_url(add_query_arg(array('gce_action' => 'clear_old_transients')), 'gce_action_clear_old_transients'); ?>"><?php _e('Clear expired cached data', GCE_TEXT_DOMAIN); ?></a></p>
-                        <p><?php _e('or', GCE_TEXT_DOMAIN); ?></p>
-                        <p><a href="<?php echo wp_nonce_url(add_query_arg(array('gce_action' => 'ignore_old_transients')), 'gce_action_ignore_old_transients'); ?>"><?php _e('Ignore this notice', GCE_TEXT_DOMAIN); ?></a></p>
-                    </div>
-                <?php endif; ?>
+                <h2>Google Calendar Events</h2>
                 <form method="post" action="options.php" id="test-form">
                     <?php
                     if (isset($_GET['action']) && !isset($_GET['settings-updated'])) {
@@ -266,14 +249,14 @@ if (!class_exists('Google_Calendar_Events')) {
                                 do_settings_sections('add_display');
                                 do_settings_sections('add_builder');
                                 do_settings_sections('add_simple_display');
-                                ?><p class="submit"><input type="submit" class="button-primary submit" name="gce_options[submit_add]" value="<?php _e('Add Feed', GCE_TEXT_DOMAIN); ?>" /></p>
-                                <p><a href="<?php echo admin_url('options-general.php?page=' . GCE_PLUGIN_NAME . '.php'); ?>" class="button-secondary"><?php _e('Cancel', GCE_TEXT_DOMAIN); ?></a></p><?php
+                                ?><p class="submit"><input type="submit" class="button-primary submit" name="gce_options[submit_add]" value="Add Feed" /></p>
+                                <p><a href="<?php echo admin_url('admin.php?page=theme-plugins-gcal'); ?>" class="button-secondary">Cancel</a></p><?php
                         break;
                     case 'refresh':
                         settings_fields('gce_options');
                         do_settings_sections('refresh_feed');
-                                ?><p class="submit"><input type="submit" class="button-primary submit" name="gce_options[submit_refresh]" value="<?php _e('Refresh Feed', GCE_TEXT_DOMAIN); ?>" /></p>
-                                <p><a href="<?php echo admin_url('options-general.php?page=' . GCE_PLUGIN_NAME . '.php'); ?>" class="button-secondary"><?php _e('Cancel', GCE_TEXT_DOMAIN); ?></a></p><?php
+                                ?><p class="submit"><input type="submit" class="button-primary submit" name="gce_options[submit_refresh]" value="Refresh Feed" /></p>
+                                <p><a href="<?php echo admin_url('admin.php?page=theme-plugins-gcal'); ?>" class="button-secondary">Cancel</a></p><?php
                         break;
                     //Edit feed section
                     case 'edit':
@@ -282,15 +265,15 @@ if (!class_exists('Google_Calendar_Events')) {
                         do_settings_sections('edit_display');
                         do_settings_sections('edit_builder');
                         do_settings_sections('edit_simple_display');
-                                ?><p class="submit"><input type="submit" class="button-primary submit" name="gce_options[submit_edit]" value="<?php _e('Save Changes', GCE_TEXT_DOMAIN); ?>" /></p>
-                                <p><a href="<?php echo admin_url('options-general.php?page=' . GCE_PLUGIN_NAME . '.php'); ?>" class="button-secondary"><?php _e('Cancel', GCE_TEXT_DOMAIN); ?></a></p><?php
+                                ?><p class="submit"><input type="submit" class="button-primary submit" name="gce_options[submit_edit]" value="Save Changes" /></p>
+                                <p><a href="<?php echo admin_url('admin.php?page=theme-plugins-gcal'); ?>" class="button-secondary">Cancel</a></p><?php
                         break;
                     //Delete feed section
                     case 'delete':
                         settings_fields('gce_options');
                         do_settings_sections('delete_feed');
-                                ?><p class="submit"><input type="submit" class="button-primary submit" name="gce_options[submit_delete]" value="<?php _e('Delete Feed', GCE_TEXT_DOMAIN); ?>" /></p>
-                                <p><a href="<?php echo admin_url('options-general.php?page=' . GCE_PLUGIN_NAME . '.php'); ?>" class="button-secondary"><?php _e('Cancel', GCE_TEXT_DOMAIN); ?></a></p><?php
+                                ?><p class="submit"><input type="submit" class="button-primary submit" name="gce_options[submit_delete]" value="Delete Feed" /></p>
+                                <p><a href="<?php echo admin_url('admin.php?page=theme-plugins-gcal'); ?>" class="button-secondary">Cancel</a></p><?php
                 }
             } else {
                 //Main admin section
@@ -324,7 +307,7 @@ if (!class_exists('Google_Calendar_Events')) {
                     case 'clear_old_transients':
                         check_admin_referer('gce_action_clear_old_transients');
                         $this->clear_old_transients();
-                        add_settings_error('gce_options', 'gce_cleared_old_transients', __('Old cached data cleared.', GCE_TEXT_DOMAIN), 'updated');
+                        add_settings_error('gce_options', 'gce_cleared_old_transients', 'Old cached data cleared.', 'updated');
                         break;
                     case 'ignore_old_transients':
                         check_admin_referer('gce_action_ignore_old_transients');
@@ -375,11 +358,11 @@ if (!class_exists('Google_Calendar_Events')) {
                 //If delete button was clicked, delete feed from options array and remove associated transients
                 unset($options[$input['id']]);
                 $this->delete_feed_transients((int) $input['id']);
-                add_settings_error('gce_options', 'gce_deleted', __(sprintf('Feed %s deleted.', absint($input['id'])), GCE_TEXT_DOMAIN), 'updated');
+                add_settings_error('gce_options', 'gce_deleted', sprintf('Feed %s deleted.', absint($input['id'])), 'updated');
             } elseif (isset($input['submit_refresh'])) {
                 //If refresh button was clicked, delete transients associated with feed
                 $this->delete_feed_transients((int) $input['id']);
-                add_settings_error('gce_options', 'gce_refreshed', __(sprintf('Cached data for feed %s cleared.', absint($input['id'])), GCE_TEXT_DOMAIN), 'updated');
+                add_settings_error('gce_options', 'gce_refreshed', sprintf('Cached data for feed %s cleared.', absint($input['id'])), 'updated');
             } else {
                 //Otherwise, validate options and add / update them
                 //Check id is positive integer
@@ -483,9 +466,9 @@ if (!class_exists('Google_Calendar_Events')) {
                 );
 
                 if (isset($input['submit_add'])) {
-                    add_settings_error('gce_options', 'gce_added', __(sprintf('Feed %s added.', absint($input['id'])), GCE_TEXT_DOMAIN), 'updated');
+                    add_settings_error('gce_options', 'gce_added', sprintf('Feed %s added.', absint($input['id'])), 'updated');
                 } else {
-                    add_settings_error('gce_options', 'gce_edited', __(sprintf('Settings for feed %s updated.', absint($input['id'])), GCE_TEXT_DOMAIN), 'updated');
+                    add_settings_error('gce_options', 'gce_edited', sprintf('Settings for feed %s updated.', absint($input['id'])), 'updated');
                 }
             }
 
@@ -503,7 +486,7 @@ if (!class_exists('Google_Calendar_Events')) {
             $options['fields'] = (isset($input['fields'])) ? true : false;
             $options['old_stylesheet'] = (isset($input['old_stylesheet'])) ? true : false;
 
-            add_settings_error('gce_general', 'gce_general_updated', __('General options updated.', GCE_TEXT_DOMAIN), 'updated');
+            add_settings_error('gce_general', 'gce_general_updated', 'General options updated.', 'updated');
 
             return $options;
         }
@@ -564,7 +547,7 @@ if (!class_exists('Google_Calendar_Events')) {
 
                 //Check that at least one valid feed id has been entered
                 if (empty($feed_ids) || $no_feeds_exist) {
-                    return __('No valid Feed IDs have been entered for this shortcode. Please check that you have entered the IDs correctly and that the Feeds have not been deleted.', GCE_TEXT_DOMAIN);
+                    return 'No valid Feed IDs have been entered for this shortcode. Please check that you have entered the IDs correctly and that the Feeds have not been deleted.';
                 } else {
                     //Turns feed_ids back into string of feed ids delimited by '-' ('1-2-3-4' for example)
                     $feed_ids = implode('-', $feed_ids);
@@ -584,7 +567,7 @@ if (!class_exists('Google_Calendar_Events')) {
                     }
                 }
             } else {
-                return __('No feeds have been added yet. You can add a feed in the Google Calendar Events settings.', GCE_TEXT_DOMAIN);
+                return 'No feeds have been added yet. You can add a feed in the Google Calendar Events settings.';
             }
         }
 

@@ -1,0 +1,2 @@
+This directory exists so that the smartoptimizer code can store the cached CSS &
+JS files.

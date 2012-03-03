@@ -1,0 +1,2 @@
+This directory exists so that the Google Calendar code can store the cached JS
+files.

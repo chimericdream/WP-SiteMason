@@ -45,7 +45,7 @@ function minify_js($str) {
 			$i+=2;
 			while ($i<strlen($str) && $str[$i]!="\n" && $str[$i]!="\r") $i++;
 		}
-		
+
 
 
 		$LF_needed = false;
@@ -59,15 +59,15 @@ function minify_js($str) {
 				$i++;
 			}
 		}
-		
+
 		if (strlen($str) <= $i+1) break;
-		
+
 		$current_char = $str[$i];
-		
+
 		if ($LF_needed) $current_char = "\n";
 		elseif ($current_char == "\t") $current_char = " ";
 		elseif ($current_char == "\r") $current_char = "\n";
-		
+
 		// detect unnecessary white spaces
 		if ($current_char == " ") {
 			if (strlen($res) &&
@@ -84,14 +84,13 @@ function minify_js($str) {
 				preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-1].$str[$i+1])// || // for example i+ ++j;
 				)) $res .= $current_char;
 		} else $res .= $current_char;
-		
+
 		// if the next charachter be a slash, detects if it is a divide operator or start of a regex
 		if (preg_match('/[({[=+\-*\/%&|!><?:~^,;]/', $current_char)) $maybe_regex = true;
 		elseif (!preg_match('/[\n ]/', $current_char)) $maybe_regex = false;
-		
+
 		$i++;
 	}
 	if ($i<strlen($str) && preg_match('/[^\n\r\t ]/', $str[$i])) $res .= $str[$i];
 	return $res;
 }
-?>

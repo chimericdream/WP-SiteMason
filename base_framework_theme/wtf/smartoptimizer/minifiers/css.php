@@ -6,18 +6,18 @@
 function convertUrl($url, $count)
 {
 	global $settings, $mimeTypes, $fileDir;
-	
+
 	static $baseUrl = '';
-	
+
 	$url = trim($url);
-	
+
 	if (preg_match('@^[^/]+:@', $url)) return $url;
-	
+
 	$fileType = substr(strrchr($url, '.'), 1);
 	if (isset($mimeTypes[$fileType])) $mimeType = $mimeTypes[$fileType];
 	elseif (function_exists('mime_content_type')) $mimeType = mime_content_type($url);
 	else $mimeType = null;
-	
+
 	if (!$settings['embed'] ||
 		!file_exists($fileDir.$url) ||
 		($settings['embedMaxSize'] > 0 && filesize($fileDir.$url) > $settings['embedMaxSize']) ||
@@ -31,20 +31,20 @@ function convertUrl($url, $count)
 		}
 		return $baseUrl . $url;
 	}
-	
+
 	$contents = file_get_contents($fileDir.$url);
-	 
+
 	if ($fileType == 'css') {
 		$oldFileDir = $fileDir;
 		$fileDir = rtrim(dirname($fileDir.$url), '\/').'/';
 		$oldBaseUrl = $baseUrl;
 		$baseUrl = 'http'.(@$_SERVER['HTTPS']?'s':'').'://'.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['SCRIPT_NAME']), '\/').'/'.$fileDir;
-		$contents = minify_css($contents);		
+		$contents = minify_css($contents);
 		$fileDir = $oldFileDir;
 		$baseUrl = $oldBaseUrl;
 	}
-	
-	$base64   = base64_encode($contents); 
+
+	$base64   = base64_encode($contents);
 	return 'data:' . $mimeType . ';base64,' . $base64;
 }
 
@@ -87,30 +87,29 @@ function minify_css($str) {
 			if ($current_char == "\n") $str[$i] = "\n";
 			else $str[$i] = ' ';
 		}
-		
+
 		if (strlen($str) <= $i+1) break;
-		
+
 		$current_char = $str[$i];
-		
+
 		if ($inside_block && $current_char == '}') {
 			$inside_block = false;
 		}
-		
+
 		if ($current_char == '{') {
 			$inside_block = true;
 		}
-		
+
 		if (preg_match('/[\n\r\t ]/', $current_char)) $current_char = " ";
-		
+
 		if ($current_char == " ") {
 			$pattern = $inside_block?'/^[^{};,:\n\r\t ]{2}$/':'/^[^{};,>+\n\r\t ]{2}$/';
 			if (strlen($res) &&	preg_match($pattern, $res[strlen($res)-1].$str[$i+1]))
 				$res .= $current_char;
 		} else $res .= $current_char;
-		
+
 		$i++;
 	}
 	if ($i<strlen($str) && preg_match('/[^\n\r\t ]/', $str[$i])) $res .= $str[$i];
 	return $res;
 }
-?>

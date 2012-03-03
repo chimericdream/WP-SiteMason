@@ -4,7 +4,7 @@ class GCE_Widget extends WP_Widget {
 
     function GCE_Widget() {
         parent::WP_Widget(
-                false, $name = __('Google Calendar Events', GCE_TEXT_DOMAIN), array('description' => __('Display a list or calendar grid of events from one or more Google Calendar feeds you have added', GCE_TEXT_DOMAIN))
+                false, $name = 'Google Calendar Events', array('description' => 'Display a list or calendar grid of events from one or more Google Calendar feeds you have added')
         );
     }
 
@@ -57,7 +57,7 @@ class GCE_Widget extends WP_Widget {
             //Check that at least one valid feed id has been entered
             if (empty($feed_ids) || $no_feeds_exist) {
                 if (current_user_can('manage_options')) {
-                    _e('No valid Feed IDs have been entered for this widget. Please check that you have entered the IDs correctly in the widget settings (Appearance > Widgets), and that the Feeds have not been deleted.', GCE_TEXT_DOMAIN);
+                    echo 'No valid Feed IDs have been entered for this widget. Please check that you have entered the IDs correctly in the widget settings (Appearance > Widgets), and that the Feeds have not been deleted.';
                 } else {
                     $options = get_option(GCE_GENERAL_OPTIONS_NAME);
                     echo $options['error'];
@@ -100,7 +100,7 @@ class GCE_Widget extends WP_Widget {
             }
         } else {
             if (current_user_can('manage_options')) {
-                _e('No feeds have been added yet. You can add a feed in the Google Calendar Events settings.', GCE_TEXT_DOMAIN);
+                echo 'No feeds have been added yet. You can add a feed in the Google Calendar Events settings.';
             } else {
                 $options = get_option(GCE_GENERAL_OPTIONS_NAME);
                 echo $options['error'];
@@ -130,7 +130,7 @@ class GCE_Widget extends WP_Widget {
         if (empty($options)) {
             //If no feeds or groups 
             ?>
-            <p><?php _e('No feeds have been added yet. You can add feeds in the Google Calendar Events settings.', GCE_TEXT_DOMAIN); ?></p>
+            <p>No feeds have been added yet. You can add feeds in the Google Calendar Events settings.</p>
             <?php
         } else {
             $title = (isset($instance['title'])) ? $instance['title'] : '';
@@ -146,28 +146,28 @@ class GCE_Widget extends WP_Widget {
                 <input type="text" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo $title; ?>" class="widefat" />
             </p><p>
                 <label for="<?php echo $this->get_field_id('id'); ?>">
-                    <?php _e('Feeds to display, as a comma separated list (e.g. 1, 2, 4). Leave blank to display all feeds:', GCE_TEXT_DOMAIN); ?>
+                    Feeds to display, as a comma separated list (e.g. 1, 2, 4). Leave blank to display all feeds:
                 </label>
                 <input type="text" id="<?php echo $this->get_field_id('id'); ?>" name="<?php echo $this->get_field_name('id'); ?>" value="<?php echo $ids; ?>" class="widefat" />
             </p><p>
-                <label for="<?php echo $this->get_field_id('display_type'); ?>"><?php _e('Display events as:', GCE_TEXT_DOMAIN); ?></label>
+                <label for="<?php echo $this->get_field_id('display_type'); ?>">Display events as:</label>
                 <select id="<?php echo $this->get_field_id('display_type'); ?>" name="<?php echo $this->get_field_name('display_type'); ?>" class="widefat">
-                    <option value="grid"<?php selected($display_type, 'grid'); ?>><?php _e('Calendar Grid', GCE_TEXT_DOMAIN); ?></option>
-                    <option value="ajax"<?php selected($display_type, 'ajax'); ?>><?php _e('Calendar Grid - with AJAX', GCE_TEXT_DOMAIN); ?></option>
-                    <option value="list"<?php selected($display_type, 'list'); ?>><?php _e('List', GCE_TEXT_DOMAIN); ?></option>
-                    <option value="list-grouped"<?php selected($display_type, 'list-grouped'); ?>><?php _e('List - grouped by date', GCE_TEXT_DOMAIN); ?></option>
+                    <option value="grid"<?php selected($display_type, 'grid'); ?>>Calendar Grid</option>
+                    <option value="ajax"<?php selected($display_type, 'ajax'); ?>>Calendar Grid - with AJAX</option>
+                    <option value="list"<?php selected($display_type, 'list'); ?>>List</option>
+                    <option value="list-grouped"<?php selected($display_type, 'list-grouped'); ?>>List - grouped by date</option>
                 </select>
             </p><p>
-                <label for="<?php echo $this->get_field_id('max_events'); ?>"><?php _e('Maximum no. events to display. Enter 0 to show all retrieved.'); ?></label>
+                <label for="<?php echo $this->get_field_id('max_events'); ?>">Maximum no. events to display. Enter 0 to show all retrieved.</label>
                 <input type="text" id="<?php echo $this->get_field_id('max_events'); ?>" name="<?php echo $this->get_field_name('max_events'); ?>" value="<?php echo $max_events; ?>" class="widefat" />
             </p><p>
                 <label for="<?php echo $this->get_field_id('order'); ?>"><?php _e('Sort order (only applies to lists):'); ?></label>
                 <select id="<?php echo $this->get_field_id('order'); ?>" name="<?php echo $this->get_field_name('order'); ?>" class="widefat">
-                    <option value="asc"<?php selected($order, 'asc'); ?>><?php _e('Ascending', GCE_TEXT_DOMAIN); ?></option>
-                    <option value="desc"<?php selected($order, 'desc'); ?>><?php _e('Descending', GCE_TEXT_DOMAIN); ?></option>
+                    <option value="asc"<?php selected($order, 'asc'); ?>>Ascending</option>
+                    <option value="desc"<?php selected($order, 'desc'); ?>>Descending</option>
                 </select>
             </p><p>
-                <label for="<?php echo $this->get_field_id('display_title'); ?>"><?php _e('Display title on tooltip / list item? (e.g. \'Events on 7th March\') Grouped lists always have a title displayed.', GCE_TEXT_DOMAIN); ?></label>
+                <label for="<?php echo $this->get_field_id('display_title'); ?>">Display title on tooltip / list item? (e.g. 'Events on 7th March') Grouped lists always have a title displayed.</label>
                 <br />
                 <input type="checkbox" id="<?php echo $this->get_field_id('display_title'); ?>" name="<?php echo $this->get_field_name('display_title'); ?>"<?php checked($display_title, true); ?> value="on" />
                 <input type="text" id="<?php echo $this->get_field_id('display_title_text'); ?>" name="<?php echo $this->get_field_name('display_title_text'); ?>" value="<?php echo $title_text; ?>" style="width:90%;" />
