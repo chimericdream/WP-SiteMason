@@ -1,29 +1,52 @@
 <?php
+$wtf_plugins = array(
+    array(
+        'title'       => 'Calendar (Google)',
+        'field_name'  => 'gcal',
+        'note'        => 'This enables you to use a Google Calendar feed for '
+                       . 'embedding in your site and sidebar.',
+        'option_name' => 'wtf-plugins-google-calendar',
+    ),
+    array(
+        'title'       => 'Calendar (WordPress)',
+        'field_name'  => 'wp_calendar',
+        'note'        => 'This enables you to use a WordPress-based calendar '
+                       . 'for embedding in your site and sidebar.',
+        'option_name' => 'wtf-plugins-wp-calendar',
+    ),
+    array(
+        'title'       => 'Collapsing Archives',
+        'field_name'  => 'collapse_arch',
+        'note'        => 'This enables you to have either a widget or template '
+                       . 'function to enable collapsing archives in your '
+                       . 'sidebar. Useful if you want to display your archives '
+                       . 'but don\'t want to take up a lot of space with them.',
+        'option_name' => 'wtf-plugins-collapse-arch',
+    ),
+    array(
+        'title'       => 'Twitter Feed',
+        'field_name'  => 'twitter',
+        'note'        => 'This enables a plugin to show a Twitter feed in your '
+                       . 'sidebar.',
+        'option_name' => 'wtf-plugins-twitter',
+    ),
+);
+
 //set defaults
-if (!get_option('wtf-plugins-wp-calendar')) {
-    add_option('wtf-plugins-wp-calendar', false);
-}
-if (!get_option('wtf-plugins-collapse-arch')) {
-    add_option('wtf-plugins-collapse-arch', false);
-}
-if (!get_option('wtf-plugins-google-calendar')) {
-    add_option('wtf-plugins-google-calendar', false);
-}
-if (!get_option('wtf-plugins-twitter')) {
-    add_option('wtf-plugins-twitter', false);
+foreach ($wtf_plugins as $p) {
+    if (!get_option($p['option_name'])) {
+        add_option($p['option_name'], false);
+    }
 }
 
 function wtf_plugin_page() {
+    global $wtf_plugins;
     $saved = false;
     if ($_REQUEST['action'] == 'save') {
-        $wp_cal = ($_POST['wp_calendar'] == 'true') ? true : false;
-        $gcal = ($_POST['gcal'] == 'true') ? true : false;
-        $twitter = ($_POST['twitter'] == 'true') ? true : false;
-        $collapse_arch = ($_POST['collapse_arch'] == 'true') ? true : false;
-        update_option('wtf-plugins-wp-calendar', $wp_cal);
-        update_option('wtf-plugins-google-calendar', $gcal);
-        update_option('wtf-plugins-twitter', $twitter);
-        update_option('wtf-plugins-collapse-arch', $collapse_arch);
+        foreach ($wtf_plugins as $p) {
+            $value = ($_POST[$p['field_name']] == 'true') ? true : false;
+            update_option($p['option_name'], $value);
+        }
 
         $saved = true;
     }
@@ -44,33 +67,7 @@ function wtf_plugin_page() {
 
                 <!-- START OPTIONS -->
                 <?php
-                $plugins = array(
-                    array(
-                        'title'       => 'Calendar (Google)',
-                        'field_name'  => 'gcal',
-                        'note'        => 'This enables you to use a Google Calendar feed for embedding in your site and sidebar.',
-                        'option_name' => 'wtf-plugins-google-calendar',
-                    ),
-                    array(
-                        'title'       => 'Calendar (WordPress)',
-                        'field_name'  => 'wp_calendar',
-                        'note'        => 'This enables you to use a WordPress-based calendar for embedding in your site and sidebar.',
-                        'option_name' => 'wtf-plugins-wp-calendar',
-                    ),
-                    array(
-                        'title'       => 'Collapsing Archives',
-                        'field_name'  => 'collapse_arch',
-                        'note'        => 'This enables you to have either a widget or template function to enable collapsing archives in your sidebar. Useful if you want to display your archives but don\'t want to take up a lot of space with them.',
-                        'option_name' => 'wtf-plugins-collapse-arch',
-                    ),
-                    array(
-                        'title'       => 'Twitter Feed',
-                        'field_name'  => 'twitter',
-                        'note'        => 'This enables a plugin to show a Twitter feed in your sidebar.',
-                        'option_name' => 'wtf-plugins-twitter',
-                    ),
-                );
-                foreach ($plugins as $p) {
+                foreach ($wtf_plugins as $p) {
                     $title       = $p['title'];
                     $field_name  = $p['field_name'];
                     $note        = $p['note'];
