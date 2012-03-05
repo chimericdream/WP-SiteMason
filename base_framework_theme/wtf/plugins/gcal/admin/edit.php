@@ -7,7 +7,6 @@ if (isset($_GET['action'])) {
 }
 
 add_settings_section('gce_edit', 'Edit Feed', 'gce_edit_main_text', 'edit_feed');
-//Unique ID                                           //Title                                                                     //Function                         //Page       //Section ID
 add_settings_field('gce_edit_id_field', 'Feed ID', 'gce_edit_id_field', 'edit_feed', 'gce_edit');
 add_settings_field('gce_edit_title_field', 'Feed Title', 'gce_edit_title_field', 'edit_feed', 'gce_edit');
 add_settings_field('gce_edit_url_field', 'Feed URL', 'gce_edit_url_field', 'edit_feed', 'gce_edit');

@@ -1,6 +1,7 @@
 <?php
 
-class GCE_Feed {
+class GCE_Feed
+{
 
     private $feed_id = 1;
     private $feed_title = '';
@@ -19,7 +20,8 @@ class GCE_Feed {
     private $events = array();
     private $error = false;
 
-    function init() {
+    public function init()
+    {
         require_once GCE_DIRECTORY . '/inc/gce-event.php';
 
         //Break the feed URL up into its parts (scheme, host, path, query)
@@ -100,7 +102,7 @@ class GCE_Feed {
                         $this->error = 'Some data was retrieved, but could not be parsed successfully. Please ensure your feed URL is correct.';
                     }
                 } else {
-                    //The response code wasn't 200, so generate a helpful(ish) error message depending on error code 
+                    //The response code wasn't 200, so generate a helpful(ish) error message depending on error code
                     switch ($raw_data['response']['code']) {
                         case 404:
                             $this->error = 'The feed could not be found (404). Please ensure your feed URL is correct.';
@@ -122,129 +124,31 @@ class GCE_Feed {
         foreach ($this->events as $event) {
             $event->set_feed($this);
         }
-    }
+    } //end init
 
     //Convert an ISO date/time to a UNIX timestamp
-    function iso_to_ts($iso) {
+    public function iso_to_ts($iso)
+    {
         sscanf($iso, "%u-%u-%uT%u:%u:%uZ", $year, $month, $day, $hour, $minute, $second);
         return mktime($hour, $minute, $second, $month, $day, $year);
-    }
+    } //end iso_to_ts
 
     //Return error message, or false if no error occurred
-    function error() {
+    public function error() {
         return $this->error;
-    }
+    } //end error
 
-    //Setters
+    public function __call($function, $args)
+    {
+        if (strpos($function, 'set_') !== false) {
+            $var = str_replace('set_', '', $function);
+            $this->$var = $args[0];
+            return;
+        }
 
-    function set_feed_id($v) {
-        $this->feed_id = $v;
-    }
-
-    function set_feed_title($v) {
-        $this->feed_title = $v;
-    }
-
-    function set_feed_url($v) {
-        $this->feed_url = $v;
-    }
-
-    function set_max_events($v) {
-        $this->max_events = $v;
-    }
-
-    function set_cache_duration($v) {
-        $this->cache_duration = $v;
-    }
-
-    function set_date_format($v) {
-        $this->date_format = $v;
-    }
-
-    function set_time_format($v) {
-        $this->time_format = $v;
-    }
-
-    function set_timezone($v) {
-        $this->timezone = $v;
-    }
-
-    function set_display_options($v) {
-        $this->display_opts = $v;
-    }
-
-    function set_multi_day($v) {
-        $this->multi_day = $v;
-    }
-
-    function set_feed_start($v) {
-        $this->feed_start = $v;
-    }
-
-    function set_feed_end($v) {
-        $this->feed_end = $v;
-    }
-
-    function set_use_builder($v) {
-        $this->use_builder = $v;
-    }
-
-    function set_builder($v) {
-        $this->builder = $v;
-    }
-
-    //Getters
-
-    function get_events() {
-        return $this->events;
-    }
-
-    function get_feed_id() {
-        return $this->feed_id;
-    }
-
-    function get_feed_title() {
-        return $this->feed_title;
-    }
-
-    function get_feed_url() {
-        return $this->feed_url;
-    }
-
-    function get_date_format() {
-        return $this->date_format;
-    }
-
-    function get_time_format() {
-        return $this->time_format;
-    }
-
-    function get_display_options() {
-        return $this->display_opts;
-    }
-
-    function get_multi_day() {
-        return $this->multi_day;
-    }
-
-    function get_feed_start() {
-        return $this->feed_start;
-    }
-
-    function get_feed_end() {
-        return $this->feed_end;
-    }
-
-    function get_timezone() {
-        return $this->timezone;
-    }
-
-    function get_use_builder() {
-        return $this->use_builder;
-    }
-
-    function get_builder() {
-        return $this->builder;
-    }
-
-}
+        if (strpos($function, 'get_') !== false) {
+            $var = str_replace('get_', '', $function);
+            return $this->$var;
+        }
+    } //end __call
+} //end class GCE_Feed

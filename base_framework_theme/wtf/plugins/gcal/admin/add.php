@@ -7,7 +7,6 @@ if (isset($_GET['action'])) {
 }
 
 add_settings_section('gce_add', 'Add a Feed', 'gce_add_main_text', 'add_feed');
-//Unique ID                                          //Title                                                                     //Function                        //Page      //Section ID
 add_settings_field('gce_add_id_field', 'Feed ID', 'gce_add_id_field', 'add_feed', 'gce_add');
 add_settings_field('gce_add_title_field', 'Feed Title', 'gce_add_title_field', 'add_feed', 'gce_add');
 add_settings_field('gce_add_url_field', 'Feed URL', 'gce_add_url_field', 'add_feed', 'gce_add');

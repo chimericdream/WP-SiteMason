@@ -1,6 +1,7 @@
 <?php
 
-class GCE_Parser {
+class GCE_Parser
+{
 
     private $feeds = array();
     private $merged_feed_data = array();
@@ -10,7 +11,8 @@ class GCE_Parser {
     private $start_of_week = 0;
     private $sort_order = 'asc';
 
-    function __construct($feed_ids, $title_text = null, $max_events = 0, $sort_order = 'asc') {
+    function __construct($feed_ids, $title_text = null, $max_events = 0, $sort_order = 'asc')
+    {
         require_once GCE_DIRECTORY . '/inc/gce-feed.php';
 
         $this->title = $title_text;
@@ -137,24 +139,27 @@ class GCE_Parser {
         //Sort the items into date order
         if (!empty($this->merged_feed_data))
             usort($this->merged_feed_data, array($this, 'compare'));
-    }
+    } //end __construct
 
     //Comparison function for use when sorting merged feed data (with usort)
-    function compare($event1, $event2) {
+    function compare($event1, $event2)
+    {
         //Sort ascending or descending
         if ('asc' == $this->sort_order)
             return $event1->get_start_time() - $event2->get_start_time();
 
         return $event2->get_start_time() - $event1->get_start_time();
-    }
+    } //end compare
 
     //Returns number of errors that have occurred
-    function get_num_errors() {
+    function get_num_errors()
+    {
         return count($this->errors);
-    }
+    } //end get_num_errors
 
     //Outputs a message describing each error that has occurred
-    function error_messages() {
+    function error_messages()
+    {
         $message = '<p>' . '1 or more of your feeds could not be displayed. The following errors occurred:' . '</p><ul>';
 
         foreach ($this->errors as $feed_id => $error) {
@@ -162,10 +167,11 @@ class GCE_Parser {
         }
 
         return $message . '</ul>';
-    }
+    } //end error_messages
 
     //Returns array of days with events, with sub-arrays of events for that day
-    function get_event_days() {
+    function get_event_days()
+    {
         $event_days = array();
 
         //Total number of events retrieved
@@ -191,10 +197,11 @@ class GCE_Parser {
         }
 
         return $event_days;
-    }
+    } //end get_event_days
 
     //Returns grid markup
-    function get_grid($year = null, $month = null, $ajaxified = false) {
+    function get_grid($year = null, $month = null, $ajaxified = false)
+    {
         require_once GCE_DIRECTORY . '/inc/php-calendar.php';
 
         $time_now = current_time('timestamp');
@@ -305,9 +312,10 @@ class GCE_Parser {
 
         //Generate the calendar markup and return it
         return gce_generate_calendar($year, $month, $event_days, 1, null, $this->start_of_week, $pn);
-    }
+    } //end get_grid
 
-    function get_list($grouped = false) {
+    function get_list($grouped = false)
+    {
         $time_now = current_time('timestamp');
 
         $event_days = $this->get_event_days();
@@ -352,6 +360,6 @@ class GCE_Parser {
         $markup .= '</ul>';
 
         return $markup;
-    }
+    } //end get_list
 
-}
+} //end class GCE_Parser

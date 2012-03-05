@@ -7,7 +7,6 @@ if (isset($_GET['action'])) {
 }
 
 add_settings_section('gce_delete', 'Delete Feed', 'gce_delete_main_text', 'delete_feed');
-//Unique ID                                  //Title                            //Function                //Page         //Section ID
 add_settings_field('gce_delete_id_field', 'Feed ID', 'gce_delete_id_field', 'delete_feed', 'gce_delete');
 add_settings_field('gce_delete_title_field', 'Feed Title', 'gce_delete_title_field', 'delete_feed', 'gce_delete');
 

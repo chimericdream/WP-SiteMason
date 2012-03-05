@@ -239,7 +239,6 @@ class collapsArchWidget extends WP_Widget
             <input type="checkbox" name="<?php echo $this->get_field_name('debug'); ?>" <?php if ($debug == '1') echo 'checked'; ?> id="<?php echo $this->get_field_id('collapsArch'); ?>"></input>
             <label for="collapsArchDebug">Show debugging information (shows up as a hidden pre right after the title)</label>
         </p>
-        <p>Style can be set from the <a href='options-general.php?page=collapsArch.php'>options page</a></p>
         <?php
     } //end form
 } //end class collapsArchWidget

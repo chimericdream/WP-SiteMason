@@ -1,6 +1,7 @@
 <?php
 
-class GCE_Event {
+class GCE_Event
+{
 
     private $id;
     private $title;
@@ -17,7 +18,8 @@ class GCE_Event {
     private $time_now;
     private $regex;
 
-    function __construct($id, $title, $description, $location, $start_time, $end_time, $link) {
+    function __construct($id, $title, $description, $location, $start_time, $end_time, $link)
+    {
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;
@@ -40,7 +42,7 @@ class GCE_Event {
         } else {
             $this->day_type = 'SPD';
         }
-    }
+    } //end __construct
 
     function set_feed($feed) {
         $this->feed = $feed;

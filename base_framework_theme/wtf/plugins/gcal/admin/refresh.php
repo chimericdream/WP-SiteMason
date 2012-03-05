@@ -7,7 +7,6 @@ if (isset($_GET['action'])) {
 }
 
 add_settings_section('gce_refresh', 'Refresh Feed Cache', 'gce_refresh_main_text', 'refresh_feed');
-//Unique ID                                  //Title                            //Function                //Page         //Section ID
 add_settings_field('gce_refresh_id_field', 'Feed ID', 'gce_refresh_id_field', 'refresh_feed', 'gce_refresh');
 add_settings_field('gce_refresh_title_field', 'Feed Title', 'gce_refresh_title_field', 'refresh_feed', 'gce_refresh');
 

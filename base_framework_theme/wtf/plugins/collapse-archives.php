@@ -25,68 +25,13 @@
   along with Collapsing Archives; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-$url = get_settings('siteurl');
-
 require_once dirname(__FILE__) . '/collapse-archives/admin.php';
 require_once dirname(__FILE__) . '/collapse-archives/widget.php';
 
-// LOCALIZATION
-function collapsArch_load_domain() {
-    //load_plugin_textdomain('collapsArch', WP_PLUGIN_DIR . "/" . basename(dirname(__FILE__)), basename(dirname(__FILE__)));
-}
-
-add_action('init', 'collapsArch_load_domain');
-
-if (!is_admin()) {
-    //wp_enqueue_script('collapsFunctions', WP_PLUGIN_URL . "/collapsing-archives/collapsFunctions.js", array('jquery'), '1.7', false);
-}
-//register_activation_hook(__FILE__, array('collapsArch', 'init'));
-
-class collapsArch {
-    function init() {
-//        if (!get_option('collapsArchSidebarId')) {
-//            add_option('collapsArchSidebarId', 'sidebar');
-//        }
-    } //end init
-
-    function phpArrayToJS($array, $name, $options)
-    {
-        /* generates javscript code to create an array from a php array */
-        print "try { $name" . "['catTest'] = 'test'; } catch (err) { $name = new Object(); }\n";
-        if (!$options['expandYears'] && $options['expandMonths']) {
-            $lastYear = -1;
-            foreach ($array as $key => $value) {
-                $parts = explode('-', $key);
-                $label = $parts[0];
-                $year = $parts[1];
-                $moreparts = explode(':', $key);
-                $widget = $moreparts[1];
-                if ($year != $lastYear) {
-                    if ($lastYear > 0) {
-                        print "';\n";
-                    }
-                    print $name . "['$label-$year:$widget'] = '" . addslashes(str_replace("\n", '', $value));
-                    $lastYear = $year;
-                } else {
-                    print addslashes(str_replace("\n", '', $value));
-                }
-            }
-            print "';\n";
-        } else {
-            foreach ($array as $key => $value) {
-                print $name . "['$key'] = '" . addslashes(str_replace("\n", '', $value)) . "';\n";
-            }
-        }
-    } //end phpArrayToJS
-}
-
-global $collapsArchItems;
-$collapsArchItems = array();
-
 function list_archives($options)
 {
-    $archives = '';
     global $wpdb;
+    $archives = '';
 
     $filterCategories = array();
     if (!empty($options['includeOrExcludeCategories']) && !empty($options['categoriesToFilter'])) {

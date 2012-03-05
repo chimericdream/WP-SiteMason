@@ -1,18 +1,19 @@
 <?php
 
-class GCE_Widget extends WP_Widget {
+class GCE_Widget extends WP_Widget
+{
 
-    function GCE_Widget() {
+    function GCE_Widget()
+    {
         parent::WP_Widget(
-            false, 
-            $name = 'Google Calendar Events', 
-            array(
-                'description' => 'Display a list or calendar grid of events from one or more Google Calendar feeds you have added'
-            )
+                false, $name = 'Google Calendar Events', array(
+            'description' => 'Display a list or calendar grid of events from one or more Google Calendar feeds you have added'
+                )
         );
-    }
+    } //end GCE_Widget
 
-    function widget($args, $instance) {
+    function widget($args, $instance)
+    {
         extract($args);
 
         //Output before widget stuff
@@ -113,9 +114,10 @@ class GCE_Widget extends WP_Widget {
 
         //Output after widget stuff
         echo $after_widget;
-    }
+    } //end widget
 
-    function update($new_instance, $old_instance) {
+    function update($new_instance, $old_instance)
+    {
         $instance = $old_instance;
         $instance['title'] = esc_html($new_instance['title']);
         $instance['id'] = esc_html($new_instance['id']);
@@ -125,14 +127,15 @@ class GCE_Widget extends WP_Widget {
         $instance['display_title'] = ('on' == $new_instance['display_title']) ? true : false;
         $instance['display_title_text'] = wp_filter_kses($new_instance['display_title_text']);
         return $instance;
-    }
+    } //end update
 
-    function form($instance) {
+    function form($instance)
+    {
         //Get saved feed options
         $options = get_option(GCE_OPTIONS_NAME);
 
         if (empty($options)) {
-            //If no feeds or groups 
+            //If no feeds or groups
             ?>
             <p>No feeds have been added yet. You can add feeds in the Google Calendar Events settings.</p>
             <?php
@@ -178,11 +181,12 @@ class GCE_Widget extends WP_Widget {
             </p>
             <?php
         }
-    }
+    } //end form
 
-}
+} //end class GCE_Widget
 
-function gce_widget_content_grid($feed_ids, $title_text, $max_events, $widget_id, $ajaxified = false, $month = null, $year = null) {
+function gce_widget_content_grid($feed_ids, $title_text, $max_events, $widget_id, $ajaxified = false, $month = null, $year = null)
+{
     require_once GCE_DIRECTORY . '/inc/gce-parser.php';
 
     $ids = explode('-', $feed_ids);
@@ -231,9 +235,10 @@ function gce_widget_content_grid($feed_ids, $title_text, $max_events, $widget_id
     }
 
     echo $markup;
-}
+} //end gce_widget_content_grid
 
-function gce_widget_content_list($feed_ids, $title_text, $max_events, $sort_order, $grouped = false) {
+function gce_widget_content_list($feed_ids, $title_text, $max_events, $sort_order, $grouped = false)
+{
     require_once GCE_DIRECTORY . '/inc/gce-parser.php';
 
     $ids = explode('-', $feed_ids);
@@ -260,4 +265,4 @@ function gce_widget_content_list($feed_ids, $title_text, $max_events, $sort_orde
             echo $options['error'];
         }
     }
-}
+} //end gce_widget_content_list
