@@ -545,6 +545,7 @@ function wtf_cal_edit_calendar()
 
 // Deal with adding an event to the database
     if ($action == 'add') {
+        delete_transient('wtf-cal');
         $title = !empty($_REQUEST['event_title']) ? $_REQUEST['event_title'] : '';
         $desc = !empty($_REQUEST['event_desc']) ? $_REQUEST['event_desc'] : '';
         $begin = !empty($_REQUEST['event_begin']) ? $_REQUEST['event_begin'] : '';
@@ -665,6 +666,7 @@ function wtf_cal_edit_calendar()
     }
 // Permit saving of events that have been edited
     elseif ($action == 'edit_save') {
+        delete_transient('wtf-cal');
         $title = !empty($_REQUEST['event_title']) ? $_REQUEST['event_title'] : '';
         $desc = !empty($_REQUEST['event_desc']) ? $_REQUEST['event_desc'] : '';
         $begin = !empty($_REQUEST['event_begin']) ? $_REQUEST['event_begin'] : '';
@@ -792,6 +794,7 @@ function wtf_cal_edit_calendar()
     }
 // Deal with deleting an event from the database
     elseif ($action == 'delete') {
+        delete_transient('wtf-cal');
         if (empty($event_id)) {
             ?>
             <div class="error"><p><strong><?php _e('Error', 'calendar'); ?>:</strong> <?php _e("You can't delete an event if you haven't submitted an event id", 'calendar'); ?></p></div>
@@ -883,17 +886,20 @@ function wtf_cal_manage_categories()
     <?php
     // We do some checking to see what we're doing
     if (isset($_POST['mode']) && $_POST['mode'] == 'add') {
+        delete_transient('wtf-cal');
         // Proceed with the save
         $sql = "INSERT INTO " . WTF_CALENDAR_CATEGORIES_TABLE . " SET category_name='" . mysql_escape_string($_POST['category_name']) . "', category_colour='" . mysql_escape_string($_POST['category_colour']) . "'";
         $wpdb->get_results($sql);
         echo "<div class=\"updated\"><p><strong>" . __('Category added successfully', 'wtf_calendar') . "</strong></p></div>";
     } else if (isset($_GET['mode']) && isset($_GET['category_id']) && $_GET['mode'] == 'delete') {
+        delete_transient('wtf-cal');
         $sql = "DELETE FROM " . WTF_CALENDAR_CATEGORIES_TABLE . " WHERE category_id=" . mysql_escape_string($_GET['category_id']);
         $wpdb->get_results($sql);
         $sql = "UPDATE " . WTF_CALENDAR_TABLE . " SET event_category=1 WHERE event_category=" . mysql_escape_string($_GET['category_id']);
         $wpdb->get_results($sql);
         echo "<div class=\"updated\"><p><strong>" . __('Category deleted successfully', 'wtf_calendar') . "</strong></p></div>";
     } else if (isset($_GET['mode']) && isset($_GET['category_id']) && $_GET['mode'] == 'edit' && !isset($_POST['mode'])) {
+        delete_transient('wtf-cal');
         $sql = "SELECT * FROM " . WTF_CALENDAR_CATEGORIES_TABLE . " WHERE category_id=" . intval(mysql_escape_string($_GET['category_id']));
         $cur_cat = $wpdb->get_row($sql);
         ?>
@@ -922,6 +928,7 @@ function wtf_cal_manage_categories()
         </div>
         <?php
     } else if (isset($_POST['mode']) && isset($_POST['category_id']) && isset($_POST['category_name']) && isset($_POST['category_colour']) && $_POST['mode'] == 'edit') {
+        delete_transient('wtf-cal');
         // Proceed with the save
         $sql = "UPDATE " . WTF_CALENDAR_CATEGORIES_TABLE . " SET category_name='" . mysql_escape_string($_POST['category_name']) . "', category_colour='" . mysql_escape_string($_POST['category_colour']) . "' WHERE category_id=" . mysql_escape_string($_POST['category_id']);
         $wpdb->get_results($sql);

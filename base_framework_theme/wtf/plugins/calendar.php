@@ -488,6 +488,10 @@ function wtf_cal_grab_events($y, $m, $d, $typing, $cat_list = '')
 // this bit is really rather easy!
 function wtf_cal_calendar($cat_list = '')
 {
+    $content = get_transient('wtf-cal');
+    if (false !== $content) {
+        return $content;
+    }
     global $wpdb;
 
     // Deal with the week not starting on a monday
@@ -729,7 +733,7 @@ function wtf_cal_calendar($cat_list = '')
         $calendar_body .= '</table>';
     }
 
-    
+    set_transient('wtf-cal', $calendar_body, 60*60*24);
 
     // Phew! After that bit of string building, spit it all out.
     // The actual printing is done by the calling function.
