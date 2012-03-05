@@ -299,7 +299,7 @@ function wtf_cal_grab_events($y, $m, $d, $typing, $cat_list = '')
     // Get the date format right
     $date = $y . '-' . $m . '-' . $d;
     $datetime = strtotime($date);
-    
+
     // Format the category list
     if ($cat_list == '') {
         $cat_sql = '';
@@ -493,23 +493,23 @@ function wtf_cal_calendar($cat_list = '')
     // Deal with the week not starting on a monday
     if (get_option('start_of_week') == 0) {
         $name_days = array(
-            1 => __('Sunday', 'wtf_calendar'), 
-            2 => __('Monday', 'wtf_calendar'), 
-            3 => __('Tuesday', 'wtf_calendar'), 
-            4 => __('Wednesday', 'wtf_calendar'), 
-            5 => __('Thursday', 'wtf_calendar'), 
-            6 => __('Friday', 'wtf_calendar'), 
+            1 => __('Sunday', 'wtf_calendar'),
+            2 => __('Monday', 'wtf_calendar'),
+            3 => __('Tuesday', 'wtf_calendar'),
+            4 => __('Wednesday', 'wtf_calendar'),
+            5 => __('Thursday', 'wtf_calendar'),
+            6 => __('Friday', 'wtf_calendar'),
             7 => __('Saturday', 'wtf_calendar')
         );
     }
     // Choose Monday if anything other than Sunday is set
     else {
         $name_days = array(
-            1 => __('Monday', 'wtf_calendar'), 
-            2 => __('Tuesday', 'wtf_calendar'), 
-            3 => __('Wednesday', 'wtf_calendar'), 
-            4 => __('Thursday', 'wtf_calendar'), 
-            5 => __('Friday', 'wtf_calendar'), 
+            1 => __('Monday', 'wtf_calendar'),
+            2 => __('Tuesday', 'wtf_calendar'),
+            3 => __('Wednesday', 'wtf_calendar'),
+            4 => __('Thursday', 'wtf_calendar'),
+            5 => __('Friday', 'wtf_calendar'),
             6 => __('Saturday', 'wtf_calendar'),
             7 => __('Sunday', 'wtf_calendar')
         );
@@ -517,15 +517,15 @@ function wtf_cal_calendar($cat_list = '')
 
     // Carry on with the script
     $name_months = array(
-        1 => __('January', 'wtf_calendar'), 
-        2 => __('February', 'wtf_calendar'), 
-        3 => __('March', 'wtf_calendar'), 
-        4 => __('April', 'wtf_calendar'), 
-        5 => __('May', 'wtf_calendar'), 
+        1 => __('January', 'wtf_calendar'),
+        2 => __('February', 'wtf_calendar'),
+        3 => __('March', 'wtf_calendar'),
+        4 => __('April', 'wtf_calendar'),
+        5 => __('May', 'wtf_calendar'),
         6 => __('June', 'wtf_calendar'),
         7 => __('July', 'wtf_calendar'),
         8 => __('August', 'wtf_calendar'),
-        9 => __('September', 'wtf_calendar'), 
+        9 => __('September', 'wtf_calendar'),
         10 => __('October', 'wtf_calendar'),
         11 => __('November', 'wtf_calendar'),
         12 => __('December', 'wtf_calendar')
@@ -728,6 +728,8 @@ function wtf_cal_calendar($cat_list = '')
         }
         $calendar_body .= '</table>';
     }
+
+    
 
     // Phew! After that bit of string building, spit it all out.
     // The actual printing is done by the calling function.

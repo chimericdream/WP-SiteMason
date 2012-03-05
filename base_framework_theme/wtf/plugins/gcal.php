@@ -41,10 +41,10 @@ define('GCE_JS_DIRECTORY', WTF_URI . '/plugins/gcal/js');
 define('GCE_LANG_DIRECTORY', GCE_DIRECTORY . '/languages');
 
 if (!class_exists('Google_Calendar_Events')) {
-
-    class Google_Calendar_Events {
-
-        function __construct() {
+    class Google_Calendar_Events
+    {
+        function __construct()
+        {
             $safe = $this->activate_plugin();
             if (!$safe) {
                 return;
@@ -62,10 +62,11 @@ if (!class_exists('Google_Calendar_Events')) {
                 add_action('wp_enqueue_scripts', array($this, 'add_scripts'));
                 add_shortcode('google-calendar-events', array($this, 'shortcode_handler'));
             }
-        }
+        } //__construct
 
         //PHP 5.2 is required (json_decode), so if PHP version is lower then 5.2, display an error message
-        function activate_plugin() {
+        function activate_plugin()
+        {
             if (version_compare(PHP_VERSION, '5.2', '<')) {
                 if (is_admin() && (!defined('DOING_AJAX') || !DOING_AJAX)) {
                     wp_die('Google Calendar Events requires the server on which your site resides to be running PHP 5.2 or higher. As of version 3.2, WordPress itself will also <a href="http://wordpress.org/news/2010/07/eol-for-php4-and-mysql4">have this requirement</a>. You should get in touch with your web hosting provider and ask them to update PHP.<br /><br /><a href="' . admin_url() . '">Back to WordPress admin</a>');
@@ -75,10 +76,11 @@ if (!class_exists('Google_Calendar_Events')) {
             }
 
             return true;
-        }
+        } //end activate_plugin
 
         //If any new options have been added between versions, this will update any saved feeds with defaults for new options (shouldn't overwrite anything saved)
-        function update_settings() {
+        function update_settings()
+        {
             //If there are some plugin options in the database, but no version info, then this must be an upgrade from version 0.5 or below, so add flag that will provide user with option to clear old transients
             if (get_option(GCE_OPTIONS_NAME) && !get_option('gce_version')) {
                 add_option('gce_clear_old_transients', true);
@@ -208,32 +210,36 @@ if (!class_exists('Google_Calendar_Events')) {
 
             //Save general options
             update_option(GCE_GENERAL_OPTIONS_NAME, $defaults);
-        }
+        } //end update_settings
 
-        function init_plugin() {
-            
-        }
+        function init_plugin()
+        {
+
+        } //end init_plugin
 
         //Setup admin settings page
-        function setup_admin() {
+        function setup_admin()
+        {
             global $gce_settings_page;
 
             $gce_settings_page = add_submenu_page('theme-plugins', 'Google Calendar Events', 'Google Calendar Events', 'manage_options', 'theme-plugins-gcal', array($this, 'admin_page'));
             add_action('admin_head-' . $gce_settings_page, 'wtf_header');
             add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
-        }
+        } //end setup_admin
 
         //Add admin JavaScript (to GCE settings page only)
-        function enqueue_admin_scripts($hook_suffix) {
+        function enqueue_admin_scripts($hook_suffix)
+        {
             global $gce_settings_page;
 
             if ($gce_settings_page == $hook_suffix) {
                 wp_enqueue_script('gce_scripts', GCE_JS_DIRECTORY . '/gce-admin-script.js', array('jquery'));
             }
-        }
+        } //end enqueue_admin_scripts
 
         //Prints admin settings page
-        function admin_page() {
+        function admin_page()
+        {
             ?>
             <div class="wrap">
                 <div id="icon-options-general" class="icon32"><br /></div>
@@ -284,10 +290,11 @@ if (!class_exists('Google_Calendar_Events')) {
                 </form>
             </div>
             <?php
-        }
+        } //end admin_page
 
         //Initialize admin stuff
-        function init_admin() {
+        function init_admin()
+        {
             $version = get_option('gce_version');
 
             //If updating from before 0.7, set old_stylesheet option to true
@@ -323,10 +330,11 @@ if (!class_exists('Google_Calendar_Events')) {
             require_once GCE_DIRECTORY . '/admin/edit.php';
             require_once GCE_DIRECTORY . '/admin/delete.php';
             require_once GCE_DIRECTORY . '/admin/refresh.php';
-        }
+        } //end init_admin
 
         //Clears any expired transients from the database
-        function clear_old_transients() {
+        function clear_old_transients()
+        {
             global $wpdb;
 
             //Retrieve names of all transients
@@ -341,16 +349,18 @@ if (!class_exists('Google_Calendar_Events')) {
 
             //Remove the flag
             delete_option('gce_clear_old_transients');
-        }
+        } //end clear_old_transients
 
         //Register the widget
-        function add_widget() {
+        function add_widget()
+        {
             require_once GCE_DIRECTORY . '/widget/gce-widget.php';
             return register_widget('GCE_Widget');
-        }
+        } //end add_widget
 
         //Check / validate submitted feed options data before being stored
-        function validate_feed_options($input) {
+        function validate_feed_options($input)
+        {
             //Get saved options
             $options = get_option(GCE_OPTIONS_NAME);
 
@@ -473,10 +483,11 @@ if (!class_exists('Google_Calendar_Events')) {
             }
 
             return $options;
-        }
+        } //end validate_feed_options
 
         //Validate submitted general options
-        function validate_general_options($input) {
+        function validate_general_options($input)
+        {
             $options = get_option(GCE_GENERAL_OPTIONS_NAME);
 
             $options['stylesheet'] = esc_url($input['stylesheet']);
@@ -489,16 +500,18 @@ if (!class_exists('Google_Calendar_Events')) {
             add_settings_error('gce_general', 'gce_general_updated', 'General options updated.', 'updated');
 
             return $options;
-        }
+        } //end validate_general_options
 
         //Delete all transients (cached feed data) associated with feed specified
-        function delete_feed_transients($id) {
+        function delete_feed_transients($id)
+        {
             delete_transient('gce_feed_' . $id);
             delete_transient('gce_feed_' . $id . '_url');
-        }
+        } //end delete_feed_transients
 
         //Handles the shortcode stuff
-        function shortcode_handler($atts) {
+        function shortcode_handler($atts)
+        {
             $options = get_option(GCE_OPTIONS_NAME);
 
             //Check that any feeds have been added
@@ -569,10 +582,11 @@ if (!class_exists('Google_Calendar_Events')) {
             } else {
                 return 'No feeds have been added yet. You can add a feed in the Google Calendar Events settings.';
             }
-        }
+        } //end shortcode_handler
 
         //Adds the required CSS
-        function add_styles() {
+        function add_styles()
+        {
             wp_enqueue_style('gce_styles', GCE_CSS_DIRECTORY . '/gce-style.css');
 
             $options = get_option(GCE_GENERAL_OPTIONS_NAME);
@@ -586,10 +600,11 @@ if (!class_exists('Google_Calendar_Events')) {
             if ('' != $options['stylesheet']) {
                 wp_enqueue_style('gce_custom_styles', $options['stylesheet']);
             }
-        }
+        } //end add_styles
 
         //Adds the required scripts
-        function add_scripts() {
+        function add_scripts()
+        {
             $options = get_option(GCE_GENERAL_OPTIONS_NAME);
 
             wp_register_script('gce_jquery_qtip', GCE_JS_DIRECTORY . '/jquery-qtip.js', array('jquery'));
@@ -601,10 +616,11 @@ if (!class_exists('Google_Calendar_Events')) {
                 'ajaxurl' => admin_url('admin-ajax.php', is_ssl() ? 'https' : 'http'),
                 'loading' => $options['loading']
             ));
-        }
+        } //end add_scripts
 
         //AJAX stuffs
-        function gce_ajax() {
+        function gce_ajax()
+        {
             if (isset($_GET['gce_feed_ids'])) {
                 $ids = $_GET['gce_feed_ids'];
                 $title = $_GET['gce_title_text'];
@@ -625,13 +641,18 @@ if (!class_exists('Google_Calendar_Events')) {
                 }
             }
             die();
-        }
-
-    }
-
+        } //end gce_ajax
+    } //end class Google_Calendar_Events
 }
 
-function gce_print_list($feed_ids, $title_text, $max_events, $sort_order, $grouped = false) {
+function gce_print_list($feed_ids, $title_text, $max_events, $sort_order, $grouped = false)
+{
+    $hash = md5($feed_ids);
+    $content = get_transient('gcal-list-' . $hash);
+    if (false !== $content) {
+        return $content;
+    }
+
     require_once GCE_DIRECTORY . '/inc/gce-parser.php';
 
     $ids = explode('-', $feed_ids);
@@ -650,6 +671,9 @@ function gce_print_list($feed_ids, $title_text, $max_events, $sort_order, $group
             return $list->error_messages() . $markup;
         }
 
+        // Cache the list markup for 8 hours
+        set_transient('gcal-list-' . $hash, $markup, 60*60*8);
+
         //Otherwise just return the list markup
         return $markup;
     } else {
@@ -661,9 +685,16 @@ function gce_print_list($feed_ids, $title_text, $max_events, $sort_order, $group
             return wp_kses_post($options['error']);
         }
     }
-}
+} //end gce_print_list
 
-function gce_print_grid($feed_ids, $title_text, $max_events, $ajaxified = false, $month = null, $year = null) {
+function gce_print_grid($feed_ids, $title_text, $max_events, $ajaxified = false, $month = null, $year = null)
+{
+    $hash = md5($feed_ids);
+    $content = get_transient('gcal-grid-' . $hash);
+    if (false !== $content) {
+        return $content;
+    }
+
     require_once GCE_DIRECTORY . '/inc/gce-parser.php';
 
     $ids = explode('-', $feed_ids);
@@ -702,6 +733,9 @@ function gce_print_grid($feed_ids, $title_text, $max_events, $ajaxified = false,
             return $grid->error_messages() . $markup;
         }
 
+        // Cache the list markup for 8 hours
+        set_transient('gcal-grid-' . $hash, $markup, 60*60*8);
+
         //Otherwise just return the grid markup
         return $markup;
     } else {
@@ -713,6 +747,6 @@ function gce_print_grid($feed_ids, $title_text, $max_events, $ajaxified = false,
             return wp_kses_post($options['error']);
         }
     }
-}
+} //end gce_print_grid
 
 $gce = new Google_Calendar_Events();

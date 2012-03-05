@@ -36,7 +36,7 @@ class WTF_Twitter_Widget extends WP_Widget
         );
 
         parent::WP_Widget($this->id_base, __($this->name, $this->id_base), $options, $controls);
-    }
+    } //end WTF_Twitter_Widget
 
     /**
      * Displays the widget settings controls on the widget panel.
@@ -75,7 +75,7 @@ class WTF_Twitter_Widget extends WP_Widget
         </p>
 
         <?php
-    }
+    } //end form
 
     /**
      * How to display the widget on the screen.
@@ -102,7 +102,7 @@ class WTF_Twitter_Widget extends WP_Widget
 
         /* After widget (defined by themes). */
         echo $after_widget;
-    }
+    } //end widget
 
     /**
      * Update the widget settings.
@@ -117,7 +117,7 @@ class WTF_Twitter_Widget extends WP_Widget
         $instance['limit'] = strip_tags($new_instance['limit']);
 
         return $instance;
-    }
+    } //end update
 
     private function getTwitterFeed($account, $limit)
     {
@@ -204,5 +204,5 @@ class WTF_Twitter_Widget extends WP_Widget
         set_transient($key, $tweetlist, $time_limit);
 
         return $tweetlist;
-    }
-}
+    } //end getTwitterFeed
+} //end class WTF_Twitter_Widget
