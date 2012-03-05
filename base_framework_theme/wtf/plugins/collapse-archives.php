@@ -225,6 +225,11 @@ function list_archives($options)
 
 function collapsArch($args = '')
 {
+    $archives = get_transient('wtf-collapse-archives');
+    if (false !== $archives) {
+        return $archives;
+    }
+
     $defaults = array(
         'title'                      => 'Archives',
         'noTitle'                    => '',
@@ -258,6 +263,16 @@ function collapsArch($args = '')
         if (!$options['number'] || $options['number'] == '') {
             $options['number'] = 1;
         }
-        return list_archives($options);
+        $archives = list_archives($options);
+    
+        set_transient('wtf-collapse-archives', $archives, 60*60*24*7);
+        return $archives;
     }
 } //end collapsArch
+
+function collapseArchNewPost()
+{
+    delete_transient('wtf-collapse-archives');
+} //end collapseArchNewPost
+
+add_action('save_post', 'collapseArchNewPost');
