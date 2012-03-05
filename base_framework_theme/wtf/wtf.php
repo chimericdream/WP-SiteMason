@@ -84,17 +84,14 @@ function wtf_init()
     if (function_exists($post_types)) {
         $post_types();
     }
-}
+} //end wtf_init
 
-//end wtf_init
 // Clean up the <head>
 function wtf_remove_head_links()
 {
     remove_action('wp_head', 'rsd_link');
     remove_action('wp_head', 'wlwmanifest_link');
-}
-
-//end wtf_remove_head_links
+} //end wtf_remove_head_links
 
 function wtf_setup()
 {
@@ -193,18 +190,14 @@ function wtf_setup()
         </div>';
         add_action('admin_notices', $c = create_function('', 'echo "' . addcslashes($msg, '"') . '";'));
     }
-}
-
-//end wtf_setup
+} //end wtf_setup
 
 function wtf_change_permalinks()
 {
     global $wp_rewrite;
     $wp_rewrite->set_permalink_structure(THEME_PERMALINKS);
     $wp_rewrite->flush_rules();
-}
-
-//end wtf_change_permalinks
+} //end wtf_change_permalinks
 
 function wtf_htaccess_optimization($rules)
 {
@@ -251,6 +244,6 @@ EOD;
 EOD;
 
     return $rules . $smart_optimizer;
-}
+} //end wtf_htaccess_optimization
 
 add_filter('mod_rewrite_rules', 'wtf_htaccess_optimization');
