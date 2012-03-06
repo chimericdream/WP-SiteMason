@@ -57,7 +57,9 @@
     ?>
 </head>
 <body <?php body_class(); ?>>
-    <header role="page-head">
-        <h1><a href="<?php echo get_option('home'); ?>/"><?php bloginfo('name'); ?></a></h1>
-        <div class="description"><?php bloginfo('description'); ?></div>
+    <header role="page-head" class="container_24">
+        <h1 class="grid_12"><a href="<?php echo get_option('home'); ?>/"><?php bloginfo('name'); ?></a></h1>
+        <div class="description grid_12 last"><?php bloginfo('description'); ?></div>
     </header>
+    <section role="content" class="container_24">
+        <section role="main-content" class="grid_16">

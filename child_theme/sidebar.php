@@ -1,4 +1,4 @@
-<aside role="sidebar">
+<aside role="sidebar" class="grid_8 last">
 <?php
 if (!function_exists('dynamic_sidebar') || !dynamic_sidebar('Sidebar Widgets')) {
     // All this stuff in here only shows up if you DON'T have any widgets active in this zone

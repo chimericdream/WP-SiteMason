@@ -23,5 +23,4 @@ if (have_posts()) {
 } else {
     echo '<h2>No posts found.</h2>';
 }
-get_sidebar();
 get_footer();

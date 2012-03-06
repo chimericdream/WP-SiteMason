@@ -21,5 +21,4 @@ if (have_posts()) {
         comments_template();
     }
 }
-get_sidebar();
 get_footer();

@@ -16,8 +16,3 @@
 @import url('./css/search.css');
 @import url('./css/posts.css');
 @import url('./css/comments.css');
-
-#page-wrap {
-    margin: 20px auto;
-    width: 960px;
-}
