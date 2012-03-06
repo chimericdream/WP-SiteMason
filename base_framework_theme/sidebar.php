@@ -1,39 +1,30 @@
-<div id="sidebar">
-
-    <?php if (function_exists('dynamic_sidebar') && dynamic_sidebar('Sidebar Widgets')) : else : ?>
-    
-        <!-- All this stuff in here only shows up if you DON'T have any widgets active in this zone -->
-
-    	<?php get_search_form(); ?>
-    
-    	<?php wp_list_pages('title_li=<h2>Pages</h2>' ); ?>
-    
-    	<h2>Archives</h2>
-    	<ul>
-    		<?php wp_get_archives('type=monthly'); ?>
-    	</ul>
-        
-        <h2>Categories</h2>
-        <ul>
-    	   <?php wp_list_categories('show_count=1&title_li='); ?>
-        </ul>
-        
-    	<?php wp_list_bookmarks(); ?>
-    
-    	<h2>Meta</h2>
-    	<ul>
-    		<?php wp_register(); ?>
-    		<li><?php wp_loginout(); ?></li>
-    		<li><a href="http://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress</a></li>
-    		<?php wp_meta(); ?>
-    	</ul>
-    	
-    	<h2>Subscribe</h2>
-    	<ul>
-    		<li><a href="<?php bloginfo('rss2_url'); ?>">Entries (RSS)</a></li>
-    		<li><a href="<?php bloginfo('comments_rss2_url'); ?>">Comments (RSS)</a></li>
-    	</ul>
-	
-	<?php endif; ?>
-
-</div>
+<aside role="sidebar">
+<?php
+if (!function_exists('dynamic_sidebar') || !dynamic_sidebar('Sidebar Widgets')) {
+    // All this stuff in here only shows up if you DON'T have any widgets active in this zone
+    get_search_form();
+    wp_list_pages('title_li=<h2>Pages</h2>');
+    echo '    <h2>Archives</h2>';
+    echo '    <ul>';
+    wp_get_archives('type=monthly');
+    echo '    </ul>';
+    echo '    <h2>Categories</h2>';
+    echo '    <ul>';
+    wp_list_categories('show_count=1&title_li=');
+    echo '    </ul>';
+    wp_list_bookmarks();
+    echo '    <h2>Meta</h2>';
+    echo '    <ul>';
+    wp_register();
+    echo '        <li>' . wp_loginout('', false) . '</li>';
+    echo '        <li><a href="http://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress</a></li>';
+    wp_meta();
+    echo '    </ul>';
+    echo '    <h2>Subscribe</h2>';
+    echo '    <ul>';
+    echo '        <li><a href="' . get_bloginfo('rss2_url') . '">Entries (RSS)</a></li>';
+    echo '        <li><a href="' . get_bloginfo('comments_rss2_url') . '">Comments (RSS)</a></li>';
+    echo '    </ul>';
+}
+?>
+</aside>

@@ -49,7 +49,6 @@ add_filter('pre_get_posts', 'wtf_exclude_rss_cats');
 /**
  * WTF Extended Functionality Methods
  */
-
 function wtf_breadcrumbs()
 {
     global $wp_query;
