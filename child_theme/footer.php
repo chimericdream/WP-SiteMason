@@ -1,7 +1,6 @@
-        <div id="footer">
-            &copy;<?php echo date("Y"); echo " "; bloginfo('name'); ?>
-        </div>
-    </div>
+    <footer role="page-foot">
+        &copy;<?php echo date("Y"); echo " "; bloginfo('name'); ?>
+    </footer>
     <?php wp_footer(); ?>
     <!-- Don't forget analytics -->
     </body>
