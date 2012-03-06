@@ -31,7 +31,7 @@ class collapsArchWidget extends WP_Widget
         $instance['number'] = preg_replace('/[a-zA-Z-]/', '', $instance['number']);
         echo "<ul id='" . $this->get_field_id('top') . "' class='collapsing archives list'>\n";
         if (function_exists('collapsArch')) {
-            collapsArch($instance);
+            echo collapsArch($instance);
         } else {
             wp_list_archives();
         }
