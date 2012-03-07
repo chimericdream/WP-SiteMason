@@ -63,4 +63,4 @@ function checkActivePage($url, $whichPage)
         return ' class="active"';
     }
     return '';
-}
+} //end checkActivePage

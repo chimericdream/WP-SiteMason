@@ -42,12 +42,25 @@
 .option input {
 	padding:30px 10px;
 }
-.option span.description {
+.option .description {
 	display:block;
 	float:right;
-	width:280px;
+	width:380px;
 	color:#999;
 	font-style:normal;
+}
+.option .description p {
+    margin-top:0;
+}
+.option .description h5 {
+    font-size:15px;
+    margin-bottom:0;
+}
+.option .description .success {
+    color:#0f0;
+}
+.option .description .error {
+    color:#f00;
 }
 .option input[type="text"], .option select {
 	width:280px;

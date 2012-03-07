@@ -1,20 +1,26 @@
 <?php
+global $wtf_plugins;
+
 $wtf_plugins = array(
-    array(
+    'wtf-plugins-google-calendar' => array(
         'title'       => 'Calendar (Google)',
         'field_name'  => 'gcal',
         'note'        => 'This enables you to use a Google Calendar feed for '
                        . 'embedding in your site and sidebar.',
         'option_name' => 'wtf-plugins-google-calendar',
+        'file'        => 'gcal',
+        'depends'     => array(),
     ),
-    array(
+    'wtf-plugins-wp-calendar' => array(
         'title'       => 'Calendar (WordPress)',
         'field_name'  => 'wp_calendar',
         'note'        => 'This enables you to use a WordPress-based calendar '
                        . 'for embedding in your site and sidebar.',
         'option_name' => 'wtf-plugins-wp-calendar',
+        'file'        => 'calendar',
+        'depends'     => array(),
     ),
-    array(
+    'wtf-plugins-collapse-arch' => array(
         'title'       => 'Collapsing Archives',
         'field_name'  => 'collapse_arch',
         'note'        => 'This enables you to have either a widget or template '
@@ -22,18 +28,47 @@ $wtf_plugins = array(
                        . 'sidebar. Useful if you want to display your archives '
                        . 'but don\'t want to take up a lot of space with them.',
         'option_name' => 'wtf-plugins-collapse-arch',
+        'file'        => 'collapse-archives',
+        'depends'     => array(),
     ),
-    array(
+    'wtf-plugins-geshi' => array(
+        'title'       => 'GeSHi Syntax Highlighter',
+        'field_name'  => 'geshi',
+        'note'        => 'GeSHi is a code syntax highlighting plugin that '
+                       . 'allows you to embed formatted and highlighted code '
+                       . 'samples in your blog.',
+        'option_name' => 'wtf-plugins-geshi',
+        'file'        => 'geshi',
+        'depends'     => array(
+            'wtf-plugins-raw',
+        ),
+    ),
+    'wtf-plugins-raw' => array(
+        'title'       => 'Raw content shortcode',
+        'field_name'  => 'raw_shortcode',
+        'note'        => 'This enables a shortcode to embed raw content into '
+                       . 'your pages using the following syntax:</p><p>[raw]'
+                       . 'Your content here.[/raw]</p><p>The content will '
+                       . 'not be parsed for automatic &lt;br&gt; tags or '
+                       . '&lt;p&gt; tags, but HTML inside the [raw] tags will '
+                       . 'still be parsed normally by the browser.',
+        'option_name' => 'wtf-plugins-raw',
+        'file'        => 'raw',
+        'depends'     => array(),
+    ),
+    'wtf-plugins-twitter' => array(
         'title'       => 'Twitter Feed',
         'field_name'  => 'twitter',
         'note'        => 'This enables a plugin to show a Twitter feed in your '
                        . 'sidebar.',
         'option_name' => 'wtf-plugins-twitter',
+        'file'        => 'twitter',
+        'depends'     => array(),
     ),
 );
 
 //set defaults
-foreach ($wtf_plugins as $p) {
+foreach ($wtf_plugins as $name => $p) {
     if (!get_option($p['option_name'])) {
         add_option($p['option_name'], false);
     }
@@ -86,10 +121,28 @@ function wtf_plugin_page() {
 
 function wtf_plugin_option_html($title, $field_name, $note, $option_name)
 {
+    global $wtf_plugins;
     ?>
                 <div class="option">
                     <label for="<?php echo $field_name; ?>_yes"><?php echo $title; ?></label>
-                    <span class="description"><?php echo $note; ?></span>
+                    <div class="description">
+                        <p><?php echo $note; ?></p>
+                        <?php if (!empty($wtf_plugins[$option_name]['depends'])) : ?>
+                        <h5>Dependencies:</h5>
+                        <ul>
+                        <?php foreach ($wtf_plugins[$option_name]['depends'] as $d) : ?>
+                            <li>
+                                <?php echo $wtf_plugins[$d]['title']; ?>:
+                                <?php if (check_wtf_plugin($d)) : ?>
+                                <span class="success">Active</span>
+                                <?php else : ?>
+                                <span class="error">Inactive</span>
+                                <?php endif; ?>
+                            </li>
+                        <?php endforeach; ?>
+                        </ul>
+                        <?php endif; ?>
+                    </div>
                     <fieldset>
                         <label for="<?php echo $field_name; ?>_yes"><input type="radio" value="true" id="<?php echo $field_name; ?>_yes" name="<?php echo $field_name; ?>"<?php
     if ((bool) get_option($option_name) == true) {
