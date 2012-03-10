@@ -52,3 +52,25 @@ function your_namespace_here_init()
 //{
 //    add_image_size('image-size-name', width, height, (bool) crop);
 //} //end setup_extra_thumbnail_sizes
+
+function redirect_based_on_role()
+{
+    //get current user info
+    global $current_user;
+    get_currentuserinfo();
+   
+    if ($current_user->user_level == 0) {
+     // User is subsriber    
+     // Redirect to respective page
+    } else if ($current_user->user_level > 1) {
+      // User is contributor
+      // Redirect to respective page
+    } else if ($current_user->user_level >8) {
+      // User is editor
+      // Redirect to respective page
+    } else {
+      // No User role found
+      // Get out of here
+    }
+} //end redirect_based_on_role
+add_action("admin_init","redirect_based_on_role");
