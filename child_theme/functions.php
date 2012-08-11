@@ -59,9 +59,9 @@ function redirect_based_on_role()
     //get current user info
     global $current_user;
     get_currentuserinfo();
-   
+
     if ($current_user->user_level == 0) {
-     // User is subsriber    
+     // User is subsriber
      // Redirect to respective page
     } else if ($current_user->user_level > 1) {
       // User is contributor
