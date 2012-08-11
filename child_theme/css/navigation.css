@@ -3,3 +3,35 @@
 .next-posts { }
 
 .prev-posts { }
+
+.breadcrumbs {
+    font-size: 80%;
+    list-style-type: none;
+    margin-bottom: 10px;
+}
+
+.breadcrumbs li {
+    float: left;
+    list-style-type: none;
+    margin-right: 5px;
+}
+
+.breadcrumbs li:after {
+    content: "\00bb";
+    margin: 0 2px 0 5px;
+}
+
+.breadcrumbs li:last-child:after {
+    content: "";
+    margin: 0;
+}
+
+.breadcrumbs:after {
+    clear: both;
+    content: " ";
+    display: block;
+    float: none;
+    height: 0;
+    overflow: hidden;
+    width: 0;
+}

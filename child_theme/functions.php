@@ -3,6 +3,7 @@ define('THEME_NAMESPACE', 'your_namespace_here');
 define('WP_HOME',   'http://www.yourdomain.com/path/to/wordpress/');
 define('SITE_HOME', 'http://www.yourdomain.com/');
 define('HOME_URI', get_bloginfo('url'));
+define('CHILD_THEME_PATH', STYLESHEETPATH);
 define('THEME_URI', get_stylesheet_directory_uri());
 define('THEME_URI_RELATIVE', str_replace(WP_HOME, '', THEME_URI));
 define('THEME_IMAGES', THEME_URI . '/images');

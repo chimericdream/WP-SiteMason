@@ -46,11 +46,13 @@ if (!defined('SITE_TAGLINE')) {
 }
 
 require_once WTF_PATH . '/wtf.php';
-if (file_exists(TEMPLATEPATH . '/inc/taxonomies.php')) {
-    require_once TEMPLATEPATH . '/inc/taxonomies.php';
-}
-if (file_exists(TEMPLATEPATH . '/inc/post_types.php')) {
-    require_once TEMPLATEPATH . '/inc/post_types.php';
+if (defined('CHILD_THEME_PATH')) {
+    if (file_exists(CHILD_THEME_PATH . '/inc/taxonomies.php')) {
+        require_once CHILD_THEME_PATH . '/inc/taxonomies.php';
+    }
+    if (file_exists(CHILD_THEME_PATH . '/inc/post_types.php')) {
+        require_once CHILD_THEME_PATH . '/inc/post_types.php';
+    }
 }
 
 function checkActivePage($url, $whichPage)
