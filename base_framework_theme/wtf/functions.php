@@ -199,6 +199,21 @@ function wtf_feedburner_count($feedburner_id)
     return '0';
 } //end wtf_feedburner_count
 
+function wtf_get_attachment_extension($attachment)
+{
+    if (!is_object($attachment) || $attachment->post_type != 'attachment') {
+        return null;
+    }
+
+    if (!preg_match('/\./', $attachment->guid)) {
+        $ext = '';
+    } else {
+        $ext = preg_replace('/^.*\./', '', $attachment->guid);
+    }
+
+    return $ext;
+} //end wtf_get_attachment_extension
+
 //cURL helper method
 function wtf_api_call($url)
 {
