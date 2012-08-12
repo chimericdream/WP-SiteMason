@@ -11,10 +11,15 @@ plugins.
 FEATURES
 ---------------------
 
-Full feature list coming soon.
+Full feature list and documentation coming soon.
 
 AUTHORS
 ---------------------
+
+WP SiteMason was originally based on an early version of the WordPress Theme
+Framework created by Dev7Studios <http://wtf.dev7studios.com/>. It has since
+been significantly modified and expanded upon to become the framework you see
+here.
 
 WP SiteMason is created and maintained by Bill Parrott <bill@eternalsecond.com>
 and Nick Mosher <nick@eternalsecond.com>
@@ -39,3 +44,9 @@ tool.
 
 Please use the issue tracker <https://github.com/chimericdream/WP-SiteMason/issues>
 built into Github for all bug reports.
+
+LICENSE
+---------------------
+
+Like the framework it was originally based on as well as the core WordPress
+software, WP SiteMason is licensed under the GPL.
