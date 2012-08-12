@@ -1,40 +1,40 @@
 <?php
 // Create a master category for Calendar and its sub-pages
-add_action('admin_menu', 'wtf_cal_calendar_menu');
+add_action('admin_menu', 'wpsm_cal_calendar_menu');
 
 // Function to deal with adding the calendar menus
-function wtf_cal_calendar_menu()
+function wpsm_cal_calendar_menu()
 {
     global $wpdb;
 
     // Use the database to *potentially* override the above if allowed
-    $allowed_group = (get_option('wtf_cal_can_manage_events')) ? 
-        get_option('wtf_cal_can_manage_events') : 
+    $allowed_group = (get_option('wpsm_cal_can_manage_events')) ? 
+        get_option('wpsm_cal_can_manage_events') : 
         'manage_options';
 
     // Add the admin panel pages for Calendar. Use permissions pulled from above
     if (function_exists('add_menu_page')) {
-        add_menu_page(__('Calendar', 'wtf_calendar'), __('Calendar', 'wtf_calendar'), $allowed_group, 'calendar', 'wtf_cal_edit_calendar');
+        add_menu_page(__('Calendar', 'wpsm_calendar'), __('Calendar', 'wpsm_calendar'), $allowed_group, 'calendar', 'wpsm_cal_edit_calendar');
     }
     if (function_exists('add_submenu_page')) {
-        add_submenu_page('calendar', __('Manage Calendar', 'wtf_calendar'), __('Manage Calendar', 'wtf_calendar'), $allowed_group, 'calendar', 'wtf_cal_edit_calendar');
-        add_action("admin_head", 'wtf_cal_calendar_add_javascript');
+        add_submenu_page('calendar', __('Manage Calendar', 'wpsm_calendar'), __('Manage Calendar', 'wpsm_calendar'), $allowed_group, 'calendar', 'wpsm_cal_edit_calendar');
+        add_action("admin_head", 'wpsm_cal_calendar_add_javascript');
         // Note only admin can change calendar options
-        add_submenu_page('calendar', __('Manage Categories', 'wtf_calendar'), __('Manage Categories', 'wtf_calendar'), 'manage_options', 'calendar-categories', 'wtf_cal_manage_categories');
-        add_submenu_page('calendar', __('Calendar Config', 'wtf_calendar'), __('Calendar Options', 'wtf_calendar'), 'manage_options', 'calendar-config', 'wtf_cal_edit_calendar_config');
+        add_submenu_page('calendar', __('Manage Categories', 'wpsm_calendar'), __('Manage Categories', 'wpsm_calendar'), 'manage_options', 'calendar-categories', 'wpsm_cal_manage_categories');
+        add_submenu_page('calendar', __('Calendar Config', 'wpsm_calendar'), __('Calendar Options', 'wpsm_calendar'), 'manage_options', 'calendar-config', 'wpsm_cal_edit_calendar_config');
     }
-} //end wtf_cal_calendar_menu
+} //end wpsm_cal_calendar_menu
 
 // Function to add the javascript to the admin header
-function wtf_cal_calendar_add_javascript()
+function wpsm_cal_calendar_add_javascript()
 {
     echo '<script type="text/javascript" src="';
     bloginfo('template_url');
-    echo '/wtf/widgets/calendar/javascript.js"></script><script type="text/javascript">document.write(getCalendarStyles());</script>';
-} //end wtf_cal_calendar_add_javascript
+    echo '/wpsm/widgets/calendar/javascript.js"></script><script type="text/javascript">document.write(getCalendarStyles());</script>';
+} //end wpsm_cal_calendar_add_javascript
 
 // Display the admin configuration page
-function wtf_cal_edit_calendar_config()
+function wpsm_cal_edit_calendar_config()
 {
     global $wpdb;
 
@@ -85,25 +85,25 @@ function wtf_cal_edit_calendar_config()
             $enable_categories = 'false';
         }
 
-        update_option('wtf_cal_can_manage_events', $new_perms);
-        update_option('wtf_cal_display_author', $disp_author);
-        update_option('wtf_cal_display_jump', $disp_jump);
-        update_option('wtf_cal_display_todays', $disp_todays);
-        update_option('wtf_cal_display_upcoming', $disp_upcoming);
-        update_option('wtf_cal_display_upcoming_days', $display_upcoming_days);
-        update_option('wtf_cal_enable_categories', $enable_categories);
+        update_option('wpsm_cal_can_manage_events', $new_perms);
+        update_option('wpsm_cal_display_author', $disp_author);
+        update_option('wpsm_cal_display_jump', $disp_jump);
+        update_option('wpsm_cal_display_todays', $disp_todays);
+        update_option('wpsm_cal_display_upcoming', $disp_upcoming);
+        update_option('wpsm_cal_display_upcoming_days', $display_upcoming_days);
+        update_option('wpsm_cal_enable_categories', $enable_categories);
 
-        echo "<div class=\"updated\"><p><strong>" . __('Settings saved', 'wtf_calendar') . ".</strong></p></div>";
+        echo "<div class=\"updated\"><p><strong>" . __('Settings saved', 'wpsm_calendar') . ".</strong></p></div>";
     }
 
     // Pull the values out of the database that we need for the form
-    $allowed_group = get_option('wtf_cal_can_manage_events');
-    $disp_author = get_option('wtf_cal_display_author');
-    $disp_jump = get_option('wtf_cal_display_jump');
-    $disp_todays = get_option('wtf_cal_display_todays');
-    $disp_upcoming = get_option('wtf_cal_display_upcoming');
-    $upcoming_days = get_option('wtf_cal_display_upcoming_days');
-    $enable_categories = get_option('wtf_cal_enable_categories');
+    $allowed_group = get_option('wpsm_cal_can_manage_events');
+    $disp_author = get_option('wpsm_cal_display_author');
+    $disp_jump = get_option('wpsm_cal_display_jump');
+    $disp_todays = get_option('wpsm_cal_display_todays');
+    $disp_upcoming = get_option('wpsm_cal_display_upcoming');
+    $upcoming_days = get_option('wpsm_cal_display_upcoming_days');
+    $enable_categories = get_option('wpsm_cal_enable_categories');
 
     $subscriber_selected = $contributor_selected = $author_selected = 
     $editor_selected     = $admin_selected       = '';
@@ -224,14 +224,14 @@ function wtf_cal_edit_calendar_config()
         </form>
     </div>
     <?php
-} //end wtf_cal_edit_calendar_config
+} //end wpsm_cal_edit_calendar_config
 
 // Used on the manage events admin page to display a list of events
-function wtf_cal_events_display_list()
+function wpsm_cal_events_display_list()
 {
     global $wpdb;
 
-    $events = $wpdb->get_results("SELECT * FROM " . WTF_CALENDAR_TABLE . " ORDER BY event_begin DESC");
+    $events = $wpdb->get_results("SELECT * FROM " . WPSM_CALENDAR_TABLE . " ORDER BY event_begin DESC");
 
     if (!empty($events)) {
         ?>
@@ -262,7 +262,7 @@ function wtf_cal_events_display_list()
                     <td><?php echo stripslashes($event->event_begin); ?></td>
                     <td><?php echo stripslashes($event->event_end); ?></td>
                     <td><?php if ($event->event_time == '00:00:00') {
-                echo __('N/A', 'wtf_calendar');
+                echo __('N/A', 'wpsm_calendar');
             } else {
                 echo stripslashes($event->event_time);
             } ?></td>
@@ -270,15 +270,15 @@ function wtf_cal_events_display_list()
             <?php
             // Interpret the DB values into something human readable
             if ($event->event_recur == 'S') {
-                echo __('Never', 'wtf_calendar');
+                echo __('Never', 'wpsm_calendar');
             } else if ($event->event_recur == 'W') {
-                echo __('Weekly', 'wtf_calendar');
+                echo __('Weekly', 'wpsm_calendar');
             } else if ($event->event_recur == 'M') {
-                echo __('Monthly (date)', 'wtf_calendar');
+                echo __('Monthly (date)', 'wpsm_calendar');
             } else if ($event->event_recur == 'U') {
-                echo __('Monthly (day)', 'wtf_calendar');
+                echo __('Monthly (day)', 'wpsm_calendar');
             } else if ($event->event_recur == 'Y') {
-                echo __('Yearly', 'wtf_calendar');
+                echo __('Yearly', 'wpsm_calendar');
             }
             ?>
                     </td>
@@ -286,24 +286,24 @@ function wtf_cal_events_display_list()
             <?php
             // Interpret the DB values into something human readable
             if ($event->event_recur == 'S') {
-                echo __('N/A', 'wtf_calendar');
+                echo __('N/A', 'wpsm_calendar');
             } else if ($event->event_repeats == 0) {
-                echo __('Forever', 'wtf_calendar');
+                echo __('Forever', 'wpsm_calendar');
             } else if ($event->event_repeats > 0) {
-                echo stripslashes($event->event_repeats) . ' ' . __('Times', 'wtf_calendar');
+                echo stripslashes($event->event_repeats) . ' ' . __('Times', 'wpsm_calendar');
             }
             ?>
                     </td>
                     <td><?php $e = get_userdata($event->event_author);
             echo $e->display_name; ?></td>
                         <?php
-                        $sql = "SELECT * FROM " . WTF_CALENDAR_CATEGORIES_TABLE . " WHERE category_id=" . mysql_escape_string($event->event_category);
+                        $sql = "SELECT * FROM " . WPSM_CALENDAR_CATEGORIES_TABLE . " WHERE category_id=" . mysql_escape_string($event->event_category);
                         $this_cat = $wpdb->get_row($sql);
                         ?>
                     <td><?php echo stripslashes($this_cat->category_name); ?></td>
                         <?php unset($this_cat); ?>
-                    <td><a href="<?php echo bloginfo('wpurl') ?>/wp-admin/admin.php?page=calendar&amp;action=edit&amp;event_id=<?php echo stripslashes($event->event_id); ?>" class='edit'><?php echo __('Edit', 'wtf_calendar'); ?></a></td>
-                    <td><a href="<?php echo bloginfo('wpurl') ?>/wp-admin/admin.php?page=calendar&amp;action=delete&amp;event_id=<?php echo stripslashes($event->event_id); ?>" class="delete" onclick="return confirm('<?php _e('Are you sure you want to delete this event?', 'calendar'); ?>')"><?php echo __('Delete', 'wtf_calendar'); ?></a></td>
+                    <td><a href="<?php echo bloginfo('wpurl') ?>/wp-admin/admin.php?page=calendar&amp;action=edit&amp;event_id=<?php echo stripslashes($event->event_id); ?>" class='edit'><?php echo __('Edit', 'wpsm_calendar'); ?></a></td>
+                    <td><a href="<?php echo bloginfo('wpurl') ?>/wp-admin/admin.php?page=calendar&amp;action=delete&amp;event_id=<?php echo stripslashes($event->event_id); ?>" class="delete" onclick="return confirm('<?php _e('Are you sure you want to delete this event?', 'calendar'); ?>')"><?php echo __('Delete', 'wpsm_calendar'); ?></a></td>
                 </tr>
             <?php
         }
@@ -315,20 +315,20 @@ function wtf_cal_events_display_list()
         <p><?php _e("There are no events in the database!", 'calendar') ?></p>
         <?php
     }
-} //end wtf_cal_events_display_list
+} //end wpsm_cal_events_display_list
 
 // The event edit form for the manage events admin page
-function wtf_cal_events_edit_form($mode = 'add', $event_id = false)
+function wpsm_cal_events_edit_form($mode = 'add', $event_id = false)
 {
     global $wpdb, $users_entries;
     $data = false;
 
     if ($event_id !== false) {
         if (intval($event_id) != $event_id) {
-            echo "<div class=\"error\"><p>" . __('Bad Monkey! No banana!', 'wtf_calendar') . "</p></div>";
+            echo "<div class=\"error\"><p>" . __('Bad Monkey! No banana!', 'wpsm_calendar') . "</p></div>";
             return;
         } else {
-            $data = $wpdb->get_results("SELECT * FROM " . WTF_CALENDAR_TABLE . " WHERE event_id='" . mysql_escape_string($event_id) . "' LIMIT 1");
+            $data = $wpdb->get_results("SELECT * FROM " . WPSM_CALENDAR_TABLE . " WHERE event_id='" . mysql_escape_string($event_id) . "' LIMIT 1");
             if (empty($data)) {
                 echo "<div class=\"error\"><p>" . __("An event with that ID couldn't be found", 'calendar') . "</p></div>";
                 return;
@@ -367,7 +367,7 @@ function wtf_cal_events_edit_form($mode = 'add', $event_id = false)
                     <td>	 <select name="event_category">
     <?php
     // Grab all the categories and list them
-    $sql = "SELECT * FROM " . WTF_CALENDAR_CATEGORIES_TABLE;
+    $sql = "SELECT * FROM " . WPSM_CALENDAR_CATEGORIES_TABLE;
     $cats = $wpdb->get_results($sql);
     foreach ($cats as $cat) {
         echo '<option value="' . stripslashes($cat->category_id) . '"';
@@ -400,7 +400,7 @@ function wtf_cal_events_edit_form($mode = 'add', $event_id = false)
                         if (!empty($data)) {
                             echo htmlspecialchars(stripslashes($data->event_begin));
                         } else {
-                            echo date("Y-m-d", wtf_cal_ctwo());
+                            echo date("Y-m-d", wpsm_cal_ctwo());
                         }
     ?>" /> <a href="#" onClick="cal_begin.select(document.forms['quoteform'].event_begin,'event_begin_anchor','yyyy-MM-dd'); return false;" name="event_begin_anchor" id="event_begin_anchor"><?php _e('Select Date', 'calendar'); ?></a>
                     </td>
@@ -424,7 +424,7 @@ function wtf_cal_events_edit_form($mode = 'add', $event_id = false)
                         if (!empty($data)) {
                             echo htmlspecialchars(stripslashes($data->event_end));
                         } else {
-                            echo date("Y-m-d", wtf_cal_ctwo());
+                            echo date("Y-m-d", wpsm_cal_ctwo());
                         }
     ?>" />  <a href="#" onClick="check_and_print(); return false;" name="event_end_anchor" id="event_end_anchor"><?php _e('Select Date', 'calendar'); ?></a>
                     </td>
@@ -440,7 +440,7 @@ function wtf_cal_events_edit_form($mode = 'add', $event_id = false)
                                    echo date("H:i", strtotime(htmlspecialchars(stripslashes($data->event_time))));
                                }
                            } else {
-                               echo date("H:i", wtf_cal_ctwo());
+                               echo date("H:i", wpsm_cal_ctwo());
                            }
                            ?>" /> <?php _e('Optional, set blank if not required.', 'calendar'); ?> <?php _e('Current time difference from GMT is ', 'calendar');
                            echo get_option('gmt_offset');
@@ -498,11 +498,11 @@ function wtf_cal_events_edit_form($mode = 'add', $event_id = false)
         <input type="submit" name="save" class="button bold" value="<?php _e('Save', 'calendar'); ?> &raquo;" />
     </form>
     <?php
-} //end wtf_cal_events_edit_form
+} //end wpsm_cal_events_edit_form
 
 // The actual function called to render the manage events page and
 // to deal with posts
-function wtf_cal_edit_calendar()
+function wpsm_cal_edit_calendar()
 {
     global $current_user, $wpdb, $users_entries;
     ?>
@@ -545,7 +545,7 @@ function wtf_cal_edit_calendar()
 
 // Deal with adding an event to the database
     if ($action == 'add') {
-        delete_transient('wtf-cal');
+        delete_transient('wpsm-cal');
         $title = !empty($_REQUEST['event_title']) ? $_REQUEST['event_title'] : '';
         $desc = !empty($_REQUEST['event_desc']) ? $_REQUEST['event_desc'] : '';
         $begin = !empty($_REQUEST['event_begin']) ? $_REQUEST['event_begin'] : '';
@@ -632,13 +632,13 @@ function wtf_cal_edit_calendar()
             <?php
         }
         if (isset($start_date_ok) && isset($end_date_ok) && isset($time_ok) && isset($url_ok) && isset($title_ok) && isset($recurring_ok)) {
-            $sql = "INSERT INTO " . WTF_CALENDAR_TABLE . " SET event_title='" . mysql_escape_string($title)
+            $sql = "INSERT INTO " . WPSM_CALENDAR_TABLE . " SET event_title='" . mysql_escape_string($title)
                     . "', event_desc='" . mysql_escape_string($desc) . "', event_begin='" . mysql_escape_string($begin)
                     . "', event_end='" . mysql_escape_string($end) . "', event_time='" . mysql_escape_string($time_to_use) . "', event_recur='" . mysql_escape_string($recur) . "', event_repeats='" . mysql_escape_string($repeats) . "', event_author=" . $current_user->ID . ", event_category=" . mysql_escape_string($category) . ", event_link='" . mysql_escape_string($linky) . "'";
 
             $wpdb->get_results($sql);
 
-            $sql = "SELECT event_id FROM " . WTF_CALENDAR_TABLE . " WHERE event_title='" . mysql_escape_string($title) . "'"
+            $sql = "SELECT event_id FROM " . WPSM_CALENDAR_TABLE . " WHERE event_title='" . mysql_escape_string($title) . "'"
                     . " AND event_desc='" . mysql_escape_string($desc) . "' AND event_begin='" . mysql_escape_string($begin) . "' AND event_end='" . mysql_escape_string($end) . "' AND event_recur='" . mysql_escape_string($recur) . "' AND event_repeats='" . mysql_escape_string($repeats) . "' LIMIT 1";
             $result = $wpdb->get_results($sql);
 
@@ -666,7 +666,7 @@ function wtf_cal_edit_calendar()
     }
 // Permit saving of events that have been edited
     elseif ($action == 'edit_save') {
-        delete_transient('wtf-cal');
+        delete_transient('wpsm-cal');
         $title = !empty($_REQUEST['event_title']) ? $_REQUEST['event_title'] : '';
         $desc = !empty($_REQUEST['event_desc']) ? $_REQUEST['event_desc'] : '';
         $begin = !empty($_REQUEST['event_begin']) ? $_REQUEST['event_begin'] : '';
@@ -758,13 +758,13 @@ function wtf_cal_edit_calendar()
                 <?php
             }
             if (isset($start_date_ok) && isset($end_date_ok) && isset($time_ok) && isset($url_ok) && isset($title_ok) && isset($recurring_ok)) {
-                $sql = "UPDATE " . WTF_CALENDAR_TABLE . " SET event_title='" . mysql_escape_string($title)
+                $sql = "UPDATE " . WPSM_CALENDAR_TABLE . " SET event_title='" . mysql_escape_string($title)
                         . "', event_desc='" . mysql_escape_string($desc) . "', event_begin='" . mysql_escape_string($begin)
                         . "', event_end='" . mysql_escape_string($end) . "', event_time='" . mysql_escape_string($time_to_use) . "', event_recur='" . mysql_escape_string($recur) . "', event_repeats='" . mysql_escape_string($repeats) . "', event_author=" . $current_user->ID . ", event_category=" . mysql_escape_string($category) . ", event_link='" . mysql_escape_string($linky) . "' WHERE event_id='" . mysql_escape_string($event_id) . "'";
 
                 $wpdb->get_results($sql);
 
-                $sql = "SELECT event_id FROM " . WTF_CALENDAR_TABLE . " WHERE event_title='" . mysql_escape_string($title) . "'"
+                $sql = "SELECT event_id FROM " . WPSM_CALENDAR_TABLE . " WHERE event_title='" . mysql_escape_string($title) . "'"
                         . " AND event_desc='" . mysql_escape_string($desc) . "' AND event_begin='" . mysql_escape_string($begin) . "' AND event_end='" . mysql_escape_string($end) . "' AND event_recur='" . mysql_escape_string($recur) . "' AND event_repeats='" . mysql_escape_string($repeats) . "' LIMIT 1";
                 $result = $wpdb->get_results($sql);
 
@@ -794,16 +794,16 @@ function wtf_cal_edit_calendar()
     }
 // Deal with deleting an event from the database
     elseif ($action == 'delete') {
-        delete_transient('wtf-cal');
+        delete_transient('wpsm-cal');
         if (empty($event_id)) {
             ?>
             <div class="error"><p><strong><?php _e('Error', 'calendar'); ?>:</strong> <?php _e("You can't delete an event if you haven't submitted an event id", 'calendar'); ?></p></div>
             <?php
         } else {
-            $sql = "DELETE FROM " . WTF_CALENDAR_TABLE . " WHERE event_id='" . mysql_escape_string($event_id) . "'";
+            $sql = "DELETE FROM " . WPSM_CALENDAR_TABLE . " WHERE event_id='" . mysql_escape_string($event_id) . "'";
             $wpdb->get_results($sql);
 
-            $sql = "SELECT event_id FROM " . WTF_CALENDAR_TABLE . " WHERE event_id='" . mysql_escape_string($event_id) . "'";
+            $sql = "SELECT event_id FROM " . WPSM_CALENDAR_TABLE . " WHERE event_id='" . mysql_escape_string($event_id) . "'";
             $result = $wpdb->get_results($sql);
 
             if (empty($result) || empty($result[0]->event_id)) {
@@ -831,25 +831,25 @@ function wtf_cal_edit_calendar()
         if (empty($event_id)) {
             echo "<div class=\"error\"><p>" . __("You must provide an event id in order to edit it", 'calendar') . "</p></div>";
         } else {
-            wtf_cal_events_edit_form('edit_save', $event_id);
+            wpsm_cal_events_edit_form('edit_save', $event_id);
         }
     } else {
         ?>
             <h2><?php _e('Add Event', 'calendar'); ?></h2>
-        <?php wtf_cal_events_edit_form(); ?>
+        <?php wpsm_cal_events_edit_form(); ?>
 
             <h2><?php _e('Manage Events', 'calendar'); ?></h2>
         <?php
-        wtf_cal_events_display_list();
+        wpsm_cal_events_display_list();
     }
     ?>
     </div>
 
     <?php
-} //end wtf_cal_edit_calendar
+} //end wpsm_cal_edit_calendar
 
 // Function to handle the management of categories
-function wtf_cal_manage_categories()
+function wpsm_cal_manage_categories()
 {
     global $wpdb;
     ?>
@@ -886,21 +886,21 @@ function wtf_cal_manage_categories()
     <?php
     // We do some checking to see what we're doing
     if (isset($_POST['mode']) && $_POST['mode'] == 'add') {
-        delete_transient('wtf-cal');
+        delete_transient('wpsm-cal');
         // Proceed with the save
-        $sql = "INSERT INTO " . WTF_CALENDAR_CATEGORIES_TABLE . " SET category_name='" . mysql_escape_string($_POST['category_name']) . "', category_colour='" . mysql_escape_string($_POST['category_colour']) . "'";
+        $sql = "INSERT INTO " . WPSM_CALENDAR_CATEGORIES_TABLE . " SET category_name='" . mysql_escape_string($_POST['category_name']) . "', category_colour='" . mysql_escape_string($_POST['category_colour']) . "'";
         $wpdb->get_results($sql);
-        echo "<div class=\"updated\"><p><strong>" . __('Category added successfully', 'wtf_calendar') . "</strong></p></div>";
+        echo "<div class=\"updated\"><p><strong>" . __('Category added successfully', 'wpsm_calendar') . "</strong></p></div>";
     } else if (isset($_GET['mode']) && isset($_GET['category_id']) && $_GET['mode'] == 'delete') {
-        delete_transient('wtf-cal');
-        $sql = "DELETE FROM " . WTF_CALENDAR_CATEGORIES_TABLE . " WHERE category_id=" . mysql_escape_string($_GET['category_id']);
+        delete_transient('wpsm-cal');
+        $sql = "DELETE FROM " . WPSM_CALENDAR_CATEGORIES_TABLE . " WHERE category_id=" . mysql_escape_string($_GET['category_id']);
         $wpdb->get_results($sql);
-        $sql = "UPDATE " . WTF_CALENDAR_TABLE . " SET event_category=1 WHERE event_category=" . mysql_escape_string($_GET['category_id']);
+        $sql = "UPDATE " . WPSM_CALENDAR_TABLE . " SET event_category=1 WHERE event_category=" . mysql_escape_string($_GET['category_id']);
         $wpdb->get_results($sql);
-        echo "<div class=\"updated\"><p><strong>" . __('Category deleted successfully', 'wtf_calendar') . "</strong></p></div>";
+        echo "<div class=\"updated\"><p><strong>" . __('Category deleted successfully', 'wpsm_calendar') . "</strong></p></div>";
     } else if (isset($_GET['mode']) && isset($_GET['category_id']) && $_GET['mode'] == 'edit' && !isset($_POST['mode'])) {
-        delete_transient('wtf-cal');
-        $sql = "SELECT * FROM " . WTF_CALENDAR_CATEGORIES_TABLE . " WHERE category_id=" . intval(mysql_escape_string($_GET['category_id']));
+        delete_transient('wpsm-cal');
+        $sql = "SELECT * FROM " . WPSM_CALENDAR_CATEGORIES_TABLE . " WHERE category_id=" . intval(mysql_escape_string($_GET['category_id']));
         $cur_cat = $wpdb->get_row($sql);
         ?>
         <div class="wrap">
@@ -928,11 +928,11 @@ function wtf_cal_manage_categories()
         </div>
         <?php
     } else if (isset($_POST['mode']) && isset($_POST['category_id']) && isset($_POST['category_name']) && isset($_POST['category_colour']) && $_POST['mode'] == 'edit') {
-        delete_transient('wtf-cal');
+        delete_transient('wpsm-cal');
         // Proceed with the save
-        $sql = "UPDATE " . WTF_CALENDAR_CATEGORIES_TABLE . " SET category_name='" . mysql_escape_string($_POST['category_name']) . "', category_colour='" . mysql_escape_string($_POST['category_colour']) . "' WHERE category_id=" . mysql_escape_string($_POST['category_id']);
+        $sql = "UPDATE " . WPSM_CALENDAR_CATEGORIES_TABLE . " SET category_name='" . mysql_escape_string($_POST['category_name']) . "', category_colour='" . mysql_escape_string($_POST['category_colour']) . "' WHERE category_id=" . mysql_escape_string($_POST['category_id']);
         $wpdb->get_results($sql);
-        echo "<div class=\"updated\"><p><strong>" . __('Category edited successfully', 'wtf_calendar') . "</strong></p></div>";
+        echo "<div class=\"updated\"><p><strong>" . __('Category edited successfully', 'wpsm_calendar') . "</strong></p></div>";
     }
 
     $get_mode = 0;
@@ -975,7 +975,7 @@ function wtf_cal_manage_categories()
             <h2><?php _e('Manage Categories', 'calendar'); ?></h2>
         <?php
         // We pull the categories from the database
-        $categories = $wpdb->get_results("SELECT * FROM " . WTF_CALENDAR_CATEGORIES_TABLE . " ORDER BY category_id ASC");
+        $categories = $wpdb->get_results("SELECT * FROM " . WPSM_CALENDAR_CATEGORIES_TABLE . " ORDER BY category_id ASC");
 
         if (!empty($categories)) {
             ?>
@@ -998,13 +998,13 @@ function wtf_cal_manage_categories()
                             <th scope="row"><?php echo stripslashes($category->category_id); ?></th>
                             <td><?php echo stripslashes($category->category_name); ?></td>
                             <td>&nbsp;</td>
-                            <td><a href="<?php echo bloginfo('wpurl') ?>/wp-admin/admin.php?page=calendar-categories&amp;mode=edit&amp;category_id=<?php echo stripslashes($category->category_id); ?>" class='edit'><?php echo __('Edit', 'wtf_calendar'); ?></a></td>
+                            <td><a href="<?php echo bloginfo('wpurl') ?>/wp-admin/admin.php?page=calendar-categories&amp;mode=edit&amp;category_id=<?php echo stripslashes($category->category_id); ?>" class='edit'><?php echo __('Edit', 'wpsm_calendar'); ?></a></td>
                 <?php
                 if ($category->category_id == 1) {
-                    echo '<td>' . __('N/A', 'wtf_calendar') . '</td>';
+                    echo '<td>' . __('N/A', 'wpsm_calendar') . '</td>';
                 } else {
                     ?>
-                                <td><a href="<?php echo bloginfo('wpurl') ?>/wp-admin/admin.php?page=calendar-categories&amp;mode=delete&amp;category_id=<?php echo stripslashes($category->category_id); ?>" class="delete" onclick="return confirm('<?php echo __('Are you sure you want to delete this category?', 'wtf_calendar'); ?>')"><?php echo __('Delete', 'wtf_calendar'); ?></a></td>
+                                <td><a href="<?php echo bloginfo('wpurl') ?>/wp-admin/admin.php?page=calendar-categories&amp;mode=delete&amp;category_id=<?php echo stripslashes($category->category_id); ?>" class="delete" onclick="return confirm('<?php echo __('Are you sure you want to delete this category?', 'wpsm_calendar'); ?>')"><?php echo __('Delete', 'wpsm_calendar'); ?></a></td>
                     <?php
                 }
                 ?>
@@ -1015,12 +1015,12 @@ function wtf_cal_manage_categories()
                 </table>
             <?php
         } else {
-            echo '<p>' . __('There are no categories in the database - something has gone wrong!', 'wtf_calendar') . '</p>';
+            echo '<p>' . __('There are no categories in the database - something has gone wrong!', 'wpsm_calendar') . '</p>';
         }
         ?>
         </div>
 
         <?php
     }
-} //end wtf_cal_manage_categories
+} //end wpsm_cal_manage_categories
 

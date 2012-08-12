@@ -5,16 +5,16 @@ add_action('widgets_init', 'loadWtfTwitterWidget');
 
 function loadWtfTwitterWidget()
 {
-    register_widget('WTF_Twitter_Widget');
-    if ((bool) get_option('wtf-twitter-use-css') == true) {
-        wp_register_style('wtf-twitter-widget', WTF_URI . '/plugins/twitter/style.css');
-        wp_enqueue_style('wtf-twitter-widget');
+    register_widget('WPSM_Twitter_Widget');
+    if ((bool) get_option('wpsm-twitter-use-css') == true) {
+        wp_register_style('wpsm-twitter-widget', WPSM_URI . '/plugins/twitter/style.css');
+        wp_enqueue_style('wpsm-twitter-widget');
     }
 } //end loadWtfTwitterWidget
 
-class WTF_Twitter_Widget extends WP_Widget
+class WPSM_Twitter_Widget extends WP_Widget
 {
-    public $id_base = 'wtf-twitter-widget';
+    public $id_base = 'wpsm-twitter-widget';
     public $name = 'Recent Tweets';
 
     /**
@@ -22,7 +22,7 @@ class WTF_Twitter_Widget extends WP_Widget
      *
      * Set up the widget.
      */
-    public function WTF_Twitter_Widget()
+    public function WPSM_Twitter_Widget()
     {
         /* Widget settings. */
         $options = array(
@@ -36,7 +36,7 @@ class WTF_Twitter_Widget extends WP_Widget
         );
 
         parent::WP_Widget($this->id_base, __($this->name, $this->id_base), $options, $controls);
-    } //end WTF_Twitter_Widget
+    } //end WPSM_Twitter_Widget
 
     /**
      * Displays the widget settings controls on the widget panel.
@@ -45,8 +45,8 @@ class WTF_Twitter_Widget extends WP_Widget
      */
     public function form($instance)
     {
-        $default_account = get_option('wtf-twitter-default-account', 'youraccount');
-        $tweet_limit     = get_option('wtf-twitter-tweet-limit', '5');
+        $default_account = get_option('wpsm-twitter-default-account', 'youraccount');
+        $tweet_limit     = get_option('wpsm-twitter-tweet-limit', '5');
         /* Set up some default widget settings. */
         $defaults = array(
             'title' => __($this->name, $this->id_base),
@@ -121,7 +121,7 @@ class WTF_Twitter_Widget extends WP_Widget
 
     private function getTwitterFeed($account, $limit)
     {
-        $key = 'wtf_twitter_feed' . $account;
+        $key = 'wpsm_twitter_feed' . $account;
 
         // Let's see if we have a cached version
         $tweetlist = get_transient($key);
@@ -199,10 +199,10 @@ class WTF_Twitter_Widget extends WP_Widget
             $tweetlist .= '</div>';
         }
 
-        $time_limit = 60 * (int) get_option('wtf-twitter-time-limit', '15');
+        $time_limit = 60 * (int) get_option('wpsm-twitter-time-limit', '15');
         // Cache the tweet list for 15 minutes
         set_transient($key, $tweetlist, $time_limit);
 
         return $tweetlist;
     } //end getTwitterFeed
-} //end class WTF_Twitter_Widget
+} //end class WPSM_Twitter_Widget

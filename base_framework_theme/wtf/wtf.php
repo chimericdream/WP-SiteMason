@@ -15,11 +15,11 @@
  */
 
 //Edit this to customize the theme name in the options menu
-define('WTF_THEME_NAME', SITE_TITLE . ' Theme');
-add_action('init', 'wtf_init', 0);
-add_action('after_setup_theme', 'wtf_setup');
+define('WPSM_THEME_NAME', SITE_TITLE . ' Theme');
+add_action('init', 'wpsm_init', 0);
+add_action('after_setup_theme', 'wpsm_setup');
 
-add_action('admin_menu', 'wtf_admin');
+add_action('admin_menu', 'wpsm_admin');
 
 require_once dirname(__FILE__) . '/admin.php';
 require_once dirname(__FILE__) . '/functions.php';
@@ -29,10 +29,10 @@ require_once dirname(__FILE__) . '/plugins.php';
 add_theme_support('automatic-feed-links');
 
 if (!current_user_can('manage_options')) {
-    add_action('wp_dashboard_setup', 'wtf_remove_dashboard_widgets');
+    add_action('wp_dashboard_setup', 'wpsm_remove_dashboard_widgets');
 }
 
-function wtf_remove_dashboard_widgets()
+function wpsm_remove_dashboard_widgets()
 {
     global $wp_meta_boxes;
 
@@ -42,7 +42,7 @@ function wtf_remove_dashboard_widgets()
     unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_secondary']);
 }
 
-//end wtf_remove_dashboard_widgets
+//end wpsm_remove_dashboard_widgets
 
 remove_action('wp_head', 'wp_generator');
 
@@ -55,7 +55,7 @@ if (!is_admin()) {
     if ($test_url !== false) {
         wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js', false, '1.7.2');
     } else {  
-        wp_register_script('jquery', WTF_URI . '/../js/jquery-1.7.2.min.js', false, '1.7.2');
+        wp_register_script('jquery', WPSM_URI . '/../js/jquery-1.7.2.min.js', false, '1.7.2');
     }    
     
     wp_enqueue_script('jquery');
@@ -80,9 +80,9 @@ if (function_exists('register_sidebar')) {
     ));
 }
 
-function wtf_init()
+function wpsm_init()
 {
-    wtf_remove_head_links();
+    wpsm_remove_head_links();
     $taxonomies = 'build_' . THEME_NAMESPACE . '_taxonomies';
     if (function_exists($taxonomies)) {
         $taxonomies();
@@ -91,16 +91,16 @@ function wtf_init()
     if (function_exists($post_types)) {
         $post_types();
     }
-} //end wtf_init
+} //end wpsm_init
 
 // Clean up the <head>
-function wtf_remove_head_links()
+function wpsm_remove_head_links()
 {
     remove_action('wp_head', 'rsd_link');
     remove_action('wp_head', 'wlwmanifest_link');
-} //end wtf_remove_head_links
+} //end wpsm_remove_head_links
 
-function wtf_setup()
+function wpsm_setup()
 {
     // First we check to see if our default theme settings have been applied.
     $the_theme_status = get_option('theme_setup_status');
@@ -170,7 +170,7 @@ function wtf_setup()
         }
 
         // Set the permalink structure to our desired default
-        wtf_change_permalinks();
+        wpsm_change_permalinks();
 
         // Once done, we register our setting to make sure we don't duplicate everytime we activate.
         update_option('theme_setup_status', '1');
@@ -197,16 +197,16 @@ function wtf_setup()
         </div>';
         add_action('admin_notices', $c = create_function('', 'echo "' . addcslashes($msg, '"') . '";'));
     }
-} //end wtf_setup
+} //end wpsm_setup
 
-function wtf_change_permalinks()
+function wpsm_change_permalinks()
 {
     global $wp_rewrite;
     $wp_rewrite->set_permalink_structure(THEME_PERMALINKS);
     $wp_rewrite->flush_rules();
-} //end wtf_change_permalinks
+} //end wpsm_change_permalinks
 
-function wtf_htaccess_optimization($rules)
+function wpsm_htaccess_optimization($rules)
 {
     $smart_optimizer = <<<EOD
 \n# BEGIN Smart Optimizer Code
@@ -223,7 +223,7 @@ function wtf_htaccess_optimization($rules)
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} !^.*wp-admin.*$
 EOD;
-    $smart_optimizer .= "\n" . '    RewriteRule ^(.*\.(js|css))$ ' . WTF_URI_RELATIVE . '/smartoptimizer/?$1' . "\n";
+    $smart_optimizer .= "\n" . '    RewriteRule ^(.*\.(js|css))$ ' . WPSM_URI_RELATIVE . '/smartoptimizer/?$1' . "\n";
     $smart_optimizer .= <<<EOD
 
     <IfModule mod_expires.c>
@@ -231,7 +231,7 @@ EOD;
         RewriteCond %{REQUEST_URI} !^.*wp-admin.*$
 EOD;
 
-    $smart_optimizer .= "\n" . '        RewriteRule ^(.*\.(js|css|html?|xml|txt))$ ' . WTF_URI_RELATIVE . '/smartoptimizer/?$1' . "\n";
+    $smart_optimizer .= "\n" . '        RewriteRule ^(.*\.(js|css|html?|xml|txt))$ ' . WPSM_URI_RELATIVE . '/smartoptimizer/?$1' . "\n";
     $smart_optimizer .= <<<EOD
     </IfModule>
 
@@ -240,7 +240,7 @@ EOD;
         RewriteCond %{REQUEST_URI} !^.*wp-admin.*$
 EOD;
 
-    $smart_optimizer .= "\n" . '        RewriteRule ^(.*\.(gif|jpg|jpeg|png|swf|css|js|html?|xml|txt|ico))$ ' . WTF_URI_RELATIVE . '/smartoptimizer/?$1' . "\n";
+    $smart_optimizer .= "\n" . '        RewriteRule ^(.*\.(gif|jpg|jpeg|png|swf|css|js|html?|xml|txt|ico))$ ' . WPSM_URI_RELATIVE . '/smartoptimizer/?$1' . "\n";
     $smart_optimizer .= <<<EOD
     </IfModule>
 </IfModule>
@@ -251,6 +251,6 @@ EOD;
 EOD;
 
     return $rules . $smart_optimizer;
-} //end wtf_htaccess_optimization
+} //end wpsm_htaccess_optimization
 
-add_filter('mod_rewrite_rules', 'wtf_htaccess_optimization');
+add_filter('mod_rewrite_rules', 'wpsm_htaccess_optimization');

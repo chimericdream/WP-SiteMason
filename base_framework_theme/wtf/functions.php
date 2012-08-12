@@ -1,55 +1,55 @@
 <?php
 
 /**
- * WTF Options Methods
+ * WPSM Options Methods
  */
 
-function wtf_rss_url()
+function wpsm_rss_url()
 {
-    echo get_option('wtf_rss_url');
-} //end wtf_rss_url
+    echo get_option('wpsm_rss_url');
+} //end wpsm_rss_url
 
-function wtf_rss_email()
+function wpsm_rss_email()
 {
-    echo get_option('wtf_rss_email');
-} //end wtf_rss_email
+    echo get_option('wpsm_rss_email');
+} //end wpsm_rss_email
 
-function wtf_tracking_code()
+function wpsm_tracking_code()
 {
-    echo get_option('wtf_tracking_code');
-} //end wtf_tracking_code
+    echo get_option('wpsm_tracking_code');
+} //end wpsm_tracking_code
 
-function wtf_navigation($page_options = 'title_li=', $cat_options = 'show_count=0&title_li=')
+function wpsm_navigation($page_options = 'title_li=', $cat_options = 'show_count=0&title_li=')
 {
-    if (get_option('wtf_top_nav') == 'cats') {
+    if (get_option('wpsm_top_nav') == 'cats') {
         wp_list_categories($cat_options);
     } else {
         wp_list_pages($page_options);
     }
-} //end wtf_navigation
+} //end wpsm_navigation
 
-function wtf_custom_css()
+function wpsm_custom_css()
 {
-    if (get_option('wtf_custom_css') != '') {
-        echo '<link rel="stylesheet" href="' . get_bloginfo('template_url') . '/' . get_option('wtf_custom_css') . '" type="text/css" media="screen" />';
+    if (get_option('wpsm_custom_css') != '') {
+        echo '<link rel="stylesheet" href="' . get_bloginfo('template_url') . '/' . get_option('wpsm_custom_css') . '" type="text/css" media="screen" />';
     }
-} //end wtf_custom_css
+} //end wpsm_custom_css
 
-function wtf_exclude_rss_cats($query)
+function wpsm_exclude_rss_cats($query)
 {
-    if ($query->is_feed && get_option('wtf_exclude_rss_cats') != '') {
-        $query->set('cat', get_option('wtf_exclude_rss_cats'));
+    if ($query->is_feed && get_option('wpsm_exclude_rss_cats') != '') {
+        $query->set('cat', get_option('wpsm_exclude_rss_cats'));
     }
 
     return $query;
-} //end wtf_exclude_rss_cats
+} //end wpsm_exclude_rss_cats
 
-add_filter('pre_get_posts', 'wtf_exclude_rss_cats');
+add_filter('pre_get_posts', 'wpsm_exclude_rss_cats');
 
 /**
- * WTF Extended Functionality Methods
+ * WPSM Extended Functionality Methods
  */
-function wtf_breadcrumbs()
+function wpsm_breadcrumbs()
 {
     global $wp_query;
 
@@ -103,9 +103,9 @@ function wtf_breadcrumbs()
         // End the UL
         echo '</ul>';
     }
-} //end wtf_breadcrumbs
+} //end wpsm_breadcrumbs
 
-function wtf_popular_posts($showposts = 5)
+function wpsm_popular_posts($showposts = 5)
 {
     global $wpdb;
 
@@ -121,10 +121,10 @@ function wtf_popular_posts($showposts = 5)
         }
     }
     echo '</ul>';
-} //end wtf_popular_posts
+} //end wpsm_popular_posts
 
 //for use in the loop and only works with tags
-function wtf_related_posts($showposts = 5)
+function wpsm_related_posts($showposts = 5)
 {
     global $post;
     $tags = wp_get_post_tags($post->ID);
@@ -147,9 +147,9 @@ function wtf_related_posts($showposts = 5)
             echo '</ul>';
         }
     }
-} //end wtf_related_posts
+} //end wpsm_related_posts
 
-function wtf_future_posts($showposts = 5, $date_format = 'jS F Y')
+function wpsm_future_posts($showposts = 5, $date_format = 'jS F Y')
 {
     query_posts('showposts=' . $showposts . '&post_status=future');
     if (have_posts()) {
@@ -161,30 +161,30 @@ function wtf_future_posts($showposts = 5, $date_format = 'jS F Y')
         }
         echo '</ul>';
     }
-} //end wtf_future_posts
+} //end wpsm_future_posts
 
-function wtf_pings_count($post_id)
+function wpsm_pings_count($post_id)
 {
     global $wpdb;
     $count = "SELECT COUNT(*) FROM $wpdb->comments WHERE (comment_type = 'pingback' OR comment_type = 'trackback') AND comment_post_ID = '$post_id'";
     return $wpdb->get_var($count);
-} //end wtf_pings_count
+} //end wpsm_pings_count
 
-function wtf_tiny_url($url)
+function wpsm_tiny_url($url)
 {
     $dataUrl = 'http://tinyurl.com/api-create.php?url=' . $url;
-    $tinyurl = wtf_api_call($dataUrl);
+    $tinyurl = wpsm_api_call($dataUrl);
     if ($tinyurl != false) {
         return $tinyurl;
     } else {
         return $url;
     }
-} //end wtf_tiny_url
+} //end wpsm_tiny_url
 
-function wtf_feedburner_count($feedburner_id)
+function wpsm_feedburner_count($feedburner_id)
 {
     $url = "https://feedburner.google.com/api/awareness/1.0/GetFeedData?uri=" . $feedburner_id;
-    $data = wtf_api_call($url);
+    $data = wpsm_api_call($url);
     if ($data != false) {
         try
         {
@@ -197,9 +197,9 @@ function wtf_feedburner_count($feedburner_id)
         return $count;
     }
     return '0';
-} //end wtf_feedburner_count
+} //end wpsm_feedburner_count
 
-function wtf_get_attachment_extension($attachment)
+function wpsm_get_attachment_extension($attachment)
 {
     if (!is_object($attachment) || $attachment->post_type != 'attachment') {
         return null;
@@ -212,10 +212,10 @@ function wtf_get_attachment_extension($attachment)
     }
 
     return $ext;
-} //end wtf_get_attachment_extension
+} //end wpsm_get_attachment_extension
 
 //cURL helper method
-function wtf_api_call($url)
+function wpsm_api_call($url)
 {
     if (function_exists('curl_init')) {
         $ch = curl_init();
@@ -233,4 +233,4 @@ function wtf_api_call($url)
         //cURL disabled on server
         return false;
     }
-} //end wtf_api_call
+} //end wpsm_api_call

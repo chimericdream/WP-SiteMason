@@ -26,14 +26,14 @@ if (!defined('THEME_CSS')) {
 if (!defined('THEME_JS')) {
     define('THEME_JS', THEME_URI . '/js');
 }
-if (!defined('WTF_PATH')) {
-    define('WTF_PATH', TEMPLATEPATH . '/wtf');
+if (!defined('WPSM_PATH')) {
+    define('WPSM_PATH', TEMPLATEPATH . '/wpsm');
 }
-if (!defined('WTF_URI')) {
-    define('WTF_URI', THEME_URI . '/wtf');
+if (!defined('WPSM_URI')) {
+    define('WPSM_URI', THEME_URI . '/wpsm');
 }
-if (!defined('WTF_URI_RELATIVE')) {
-    define('WTF_URI_RELATIVE', str_replace(WP_HOME, '', WTF_URI));
+if (!defined('WPSM_URI_RELATIVE')) {
+    define('WPSM_URI_RELATIVE', str_replace(WP_HOME, '', WPSM_URI));
 }
 if (!defined('THEME_PERMALINKS')) {
     define('THEME_PERMALINKS', '/%year%/%monthnum%/%postname%/');
@@ -45,7 +45,7 @@ if (!defined('SITE_TAGLINE')) {
     define('SITE_TAGLINE', 'This is an awesome tagline');
 }
 
-require_once WTF_PATH . '/wtf.php';
+require_once WPSM_PATH . '/wpsm.php';
 if (defined('CHILD_THEME_PATH')) {
     if (file_exists(CHILD_THEME_PATH . '/inc/taxonomies.php')) {
         require_once CHILD_THEME_PATH . '/inc/taxonomies.php';

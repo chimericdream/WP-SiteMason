@@ -1,9 +1,9 @@
 <?php
 require_once dirname(__FILE__) . '/geshi/geshi.php';
 
-global $wtf_plaintext_shortcodes;
-$wtf_plaintext_shortcodes[] = '\[geshi(?:[^\]]+)?\].*?\[\/geshi\]';
-$wtf_plaintext_shortcodes[] = '\[sourcecode(?:[^\]]+)?\].*?\[\/sourcecode\]';
+global $wpsm_plaintext_shortcodes;
+$wpsm_plaintext_shortcodes[] = '\[geshi(?:[^\]]+)?\].*?\[\/geshi\]';
+$wpsm_plaintext_shortcodes[] = '\[sourcecode(?:[^\]]+)?\].*?\[\/sourcecode\]';
 
 function geshi_shortcode($atts, $content = '') {
     extract(shortcode_atts(array(

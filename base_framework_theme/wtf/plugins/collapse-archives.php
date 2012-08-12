@@ -225,7 +225,7 @@ function list_archives($options)
 
 function collapsArch($args = '')
 {
-    $archives = get_transient('wtf-collapse-archives');
+    $archives = get_transient('wpsm-collapse-archives');
     if (false !== $archives) {
         return $archives;
     }
@@ -265,14 +265,14 @@ function collapsArch($args = '')
         }
         $archives = list_archives($options);
     
-        set_transient('wtf-collapse-archives', $archives, 60*60*24*7);
+        set_transient('wpsm-collapse-archives', $archives, 60*60*24*7);
         return $archives;
     }
 } //end collapsArch
 
 function collapseArchNewPost()
 {
-    delete_transient('wtf-collapse-archives');
+    delete_transient('wpsm-collapse-archives');
 } //end collapseArchNewPost
 
 add_action('save_post', 'collapseArchNewPost');

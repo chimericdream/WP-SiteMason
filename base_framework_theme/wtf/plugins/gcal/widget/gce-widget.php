@@ -219,8 +219,8 @@ function gce_widget_content_grid($feed_ids, $title_text, $max_events, $widget_id
                 fwrite($fh, $string);
                 fclose($fh);
             }
-            wp_register_script('wtf-gcal-cache-' . $hash, $fileuri, array('jquery', 'gce_scripts', 'gce_jquery_qtip'));
-            wp_enqueue_script('wtf-gcal-cache-' . $hash);
+            wp_register_script('wpsm-gcal-cache-' . $hash, $fileuri, array('jquery', 'gce_scripts', 'gce_jquery_qtip'));
+            wp_enqueue_script('wpsm-gcal-cache-' . $hash);
         }
 
         $markup .= $grid->get_grid($year, $month, $ajaxified);

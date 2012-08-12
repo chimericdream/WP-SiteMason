@@ -1,11 +1,11 @@
 <?php
 // Add the widgets if we are using version 2.8
-add_action('widgets_init', 'wtf_cal_widget_init_calendar_today');
-add_action('widgets_init', 'wtf_cal_widget_init_calendar_upcoming');
-add_action('widgets_init', 'wtf_cal_widget_init_events_calendar');
+add_action('widgets_init', 'wpsm_cal_widget_init_calendar_today');
+add_action('widgets_init', 'wpsm_cal_widget_init_calendar_upcoming');
+add_action('widgets_init', 'wpsm_cal_widget_init_events_calendar');
 
 // The widget to show the mini calendar
-function wtf_cal_widget_init_events_calendar()
+function wpsm_cal_widget_init_events_calendar()
 {
     // Check for required functions
     if (!function_exists('wp_register_sidebar_widget'))
@@ -16,8 +16,8 @@ function wtf_cal_widget_init_events_calendar()
         extract($args);
         $the_title = stripslashes(get_option('events_calendar_widget_title'));
         $the_cats = stripslashes(get_option('events_calendar_widget_cats'));
-        $widget_title = empty($the_title) ? __('Events Calendar', 'wtf_calendar') : $the_title;
-        $the_events = wtf_cal_minical($the_cats);
+        $widget_title = empty($the_title) ? __('Events Calendar', 'wpsm_calendar') : $the_title;
+        $the_events = wpsm_cal_minical($the_cats);
         if ($the_events != '') {
             echo $before_widget;
             echo $before_title . $widget_title . $after_title;
@@ -44,12 +44,12 @@ function wtf_cal_widget_init_events_calendar()
         <?php
     }
 
-    wp_register_sidebar_widget('events_calendar', __('Events Calendar', 'wtf_calendar'), 'widget_events_calendar', array('description' => 'A calendar of your events'));
+    wp_register_sidebar_widget('events_calendar', __('Events Calendar', 'wpsm_calendar'), 'widget_events_calendar', array('description' => 'A calendar of your events'));
     wp_register_widget_control('events_calendar', 'events_calendar', 'widget_events_calendar_control');
-} //end wtf_cal_widget_init_events_calendar
+} //end wpsm_cal_widget_init_events_calendar
 
 // The widget to show todays events in the sidebar
-function wtf_cal_widget_init_calendar_today()
+function wpsm_cal_widget_init_calendar_today()
 {
     // Check for required functions
     if (!function_exists('wp_register_sidebar_widget'))
@@ -61,7 +61,7 @@ function wtf_cal_widget_init_calendar_today()
         $the_title = stripslashes(get_option('calendar_today_widget_title'));
         $the_cats = stripslashes(get_option('calendar_today_widget_cats'));
         $widget_title = empty($the_title) ? __('Today\'s Events', 'calendar') : $the_title;
-        $the_events = wtf_cal_todays_events($the_cats);
+        $the_events = wpsm_cal_todays_events($the_cats);
         if ($the_events != '') {
             echo $before_widget;
             echo $before_title . $widget_title . $after_title;
@@ -90,10 +90,10 @@ function wtf_cal_widget_init_calendar_today()
 
     wp_register_sidebar_widget('todays_events_calendar', __('Today\'s Events', 'calendar'), 'widget_calendar_today', array('description' => 'A list of your events today'));
     wp_register_widget_control('todays_events_calendar', 'todays_events_calendar', 'widget_calendar_today_control');
-} //end wtf_cal_widget_init_calendar_today
+} //end wpsm_cal_widget_init_calendar_today
 
 // The widget to show upcoming events in the sidebar
-function wtf_cal_widget_init_calendar_upcoming()
+function wpsm_cal_widget_init_calendar_upcoming()
 {
     // Check for required functions
     if (!function_exists('wp_register_sidebar_widget'))
@@ -104,8 +104,8 @@ function wtf_cal_widget_init_calendar_upcoming()
         extract($args);
         $the_title = stripslashes(get_option('calendar_upcoming_widget_title'));
         $the_cats = stripslashes(get_option('calendar_upcoming_widget_cats'));
-        $widget_title = empty($the_title) ? __('Upcoming Events', 'wtf_calendar') : $the_title;
-        $the_events = wtf_cal_upcoming_events($the_cats);
+        $widget_title = empty($the_title) ? __('Upcoming Events', 'wpsm_calendar') : $the_title;
+        $the_events = wpsm_cal_upcoming_events($the_cats);
         if ($the_events != '') {
             echo $before_widget;
             echo $before_title . $widget_title . $after_title;
@@ -132,6 +132,6 @@ function wtf_cal_widget_init_calendar_upcoming()
         <?php
     }
 
-    wp_register_sidebar_widget('upcoming_events_calendar', __('Upcoming Events', 'wtf_calendar'), 'widget_calendar_upcoming', array('description' => 'A list of your upcoming events'));
+    wp_register_sidebar_widget('upcoming_events_calendar', __('Upcoming Events', 'wpsm_calendar'), 'widget_calendar_upcoming', array('description' => 'A list of your upcoming events'));
     wp_register_widget_control('upcoming_events_calendar', 'upcoming_events_calendar', 'widget_calendar_upcoming_control');
-} //end wtf_cal_widget_init_calendar_upcoming
+} //end wpsm_cal_widget_init_calendar_upcoming

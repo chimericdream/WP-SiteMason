@@ -1,49 +1,49 @@
 <?php
-global $wtf_plugins;
+global $wpsm_plugins;
 
-$wtf_plugins = array(
-    'wtf-plugins-google-calendar' => array(
+$wpsm_plugins = array(
+    'wpsm-plugins-google-calendar' => array(
         'title'       => 'Calendar (Google)',
         'field_name'  => 'gcal',
         'note'        => 'This enables you to use a Google Calendar feed for '
                        . 'embedding in your site and sidebar.',
-        'option_name' => 'wtf-plugins-google-calendar',
+        'option_name' => 'wpsm-plugins-google-calendar',
         'file'        => 'gcal',
         'depends'     => array(),
     ),
-    'wtf-plugins-wp-calendar' => array(
+    'wpsm-plugins-wp-calendar' => array(
         'title'       => 'Calendar (WordPress)',
         'field_name'  => 'wp_calendar',
         'note'        => 'This enables you to use a WordPress-based calendar '
                        . 'for embedding in your site and sidebar.',
-        'option_name' => 'wtf-plugins-wp-calendar',
+        'option_name' => 'wpsm-plugins-wp-calendar',
         'file'        => 'calendar',
         'depends'     => array(),
     ),
-    'wtf-plugins-collapse-arch' => array(
+    'wpsm-plugins-collapse-arch' => array(
         'title'       => 'Collapsing Archives',
         'field_name'  => 'collapse_arch',
         'note'        => 'This enables you to have either a widget or template '
                        . 'function to enable collapsing archives in your '
                        . 'sidebar. Useful if you want to display your archives '
                        . 'but don\'t want to take up a lot of space with them.',
-        'option_name' => 'wtf-plugins-collapse-arch',
+        'option_name' => 'wpsm-plugins-collapse-arch',
         'file'        => 'collapse-archives',
         'depends'     => array(),
     ),
-    'wtf-plugins-geshi' => array(
+    'wpsm-plugins-geshi' => array(
         'title'       => 'GeSHi Syntax Highlighter',
         'field_name'  => 'geshi',
         'note'        => 'GeSHi is a code syntax highlighting plugin that '
                        . 'allows you to embed formatted and highlighted code '
                        . 'samples in your blog.',
-        'option_name' => 'wtf-plugins-geshi',
+        'option_name' => 'wpsm-plugins-geshi',
         'file'        => 'geshi',
         'depends'     => array(
-            'wtf-plugins-raw',
+            'wpsm-plugins-raw',
         ),
     ),
-    'wtf-plugins-raw' => array(
+    'wpsm-plugins-raw' => array(
         'title'       => 'Raw content shortcode',
         'field_name'  => 'raw_shortcode',
         'note'        => 'This enables a shortcode to embed raw content into '
@@ -52,33 +52,33 @@ $wtf_plugins = array(
                        . 'not be parsed for automatic &lt;br&gt; tags or '
                        . '&lt;p&gt; tags, but HTML inside the [raw] tags will '
                        . 'still be parsed normally by the browser.',
-        'option_name' => 'wtf-plugins-raw',
+        'option_name' => 'wpsm-plugins-raw',
         'file'        => 'raw',
         'depends'     => array(),
     ),
-    'wtf-plugins-twitter' => array(
+    'wpsm-plugins-twitter' => array(
         'title'       => 'Twitter Feed',
         'field_name'  => 'twitter',
         'note'        => 'This enables a plugin to show a Twitter feed in your '
                        . 'sidebar.',
-        'option_name' => 'wtf-plugins-twitter',
+        'option_name' => 'wpsm-plugins-twitter',
         'file'        => 'twitter',
         'depends'     => array(),
     ),
 );
 
 //set defaults
-foreach ($wtf_plugins as $name => $p) {
+foreach ($wpsm_plugins as $name => $p) {
     if (!get_option($p['option_name'])) {
         add_option($p['option_name'], false);
     }
 }
 
-function wtf_plugin_page() {
-    global $wtf_plugins;
+function wpsm_plugin_page() {
+    global $wpsm_plugins;
     $saved = false;
     if ($_REQUEST['action'] == 'save') {
-        foreach ($wtf_plugins as $p) {
+        foreach ($wpsm_plugins as $p) {
             $value = ($_POST[$p['field_name']] == 'true') ? true : false;
             update_option($p['option_name'], $value);
         }
@@ -88,9 +88,9 @@ function wtf_plugin_page() {
     ?>
     <div class="wrap">
         <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
-            <div id="icon-themes" class="icon32"></div> <h2><?php echo WTF_THEME_NAME; ?></h2>
+            <div id="icon-themes" class="icon32"></div> <h2><?php echo WPSM_THEME_NAME; ?></h2>
     <?php if ($saved) { ?><div class="updated fade" id="message"><p><strong>Settings saved.</strong></p></div><?php } ?>
-            <p>These plugins are theme specific and will only apply when the current theme (<strong><?php echo WTF_THEME_NAME; ?></strong>) is enabled.</p><br />
+            <p>These plugins are theme specific and will only apply when the current theme (<strong><?php echo WPSM_THEME_NAME; ?></strong>) is enabled.</p><br />
             <!-- START SECTION -->
             <div class="section">
                 <div class="section-title">
@@ -102,12 +102,12 @@ function wtf_plugin_page() {
 
                 <!-- START OPTIONS -->
                 <?php
-                foreach ($wtf_plugins as $p) {
+                foreach ($wpsm_plugins as $p) {
                     $title       = $p['title'];
                     $field_name  = $p['field_name'];
                     $note        = $p['note'];
                     $option_name = $p['option_name'];
-                    wtf_plugin_option_html($title, $field_name, $note, $option_name);
+                    wpsm_plugin_option_html($title, $field_name, $note, $option_name);
                 }
                 ?>
                 <!-- END OPTIONS -->
@@ -117,23 +117,23 @@ function wtf_plugin_page() {
     </div>
     <div style="clear:both;height:20px;"></div>
     <?php
-} //end wtf_plugin_page
+} //end wpsm_plugin_page
 
-function wtf_plugin_option_html($title, $field_name, $note, $option_name)
+function wpsm_plugin_option_html($title, $field_name, $note, $option_name)
 {
-    global $wtf_plugins;
+    global $wpsm_plugins;
     ?>
                 <div class="option">
                     <label for="<?php echo $field_name; ?>_yes"><?php echo $title; ?></label>
                     <div class="description">
                         <p><?php echo $note; ?></p>
-                        <?php if (!empty($wtf_plugins[$option_name]['depends'])) : ?>
+                        <?php if (!empty($wpsm_plugins[$option_name]['depends'])) : ?>
                         <h5>Dependencies:</h5>
                         <ul>
-                        <?php foreach ($wtf_plugins[$option_name]['depends'] as $d) : ?>
+                        <?php foreach ($wpsm_plugins[$option_name]['depends'] as $d) : ?>
                             <li>
-                                <?php echo $wtf_plugins[$d]['title']; ?>:
-                                <?php if (check_wtf_plugin($d)) : ?>
+                                <?php echo $wpsm_plugins[$d]['title']; ?>:
+                                <?php if (check_wpsm_plugin($d)) : ?>
                                 <span class="success">Active</span>
                                 <?php else : ?>
                                 <span class="error">Inactive</span>
@@ -158,13 +158,13 @@ function wtf_plugin_option_html($title, $field_name, $note, $option_name)
                     <div class="clear"></div>
                 </div>
     <?php
-} //end wtf_plugin_option_html
+} //end wpsm_plugin_option_html
 
-function wtf_plugin_main_page() {
+function wpsm_plugin_main_page() {
     ?>
     <div class="wrap">
-        <div id="icon-themes" class="icon32"></div> <h2><?php echo WTF_THEME_NAME; ?></h2>
-        <p>As you enable plugins in the menu above ("<?php echo WTF_THEME_NAME; ?>"->"Plugins"), their options pages will show up here.</p>
+        <div id="icon-themes" class="icon32"></div> <h2><?php echo WPSM_THEME_NAME; ?></h2>
+        <p>As you enable plugins in the menu above ("<?php echo WPSM_THEME_NAME; ?>"->"Plugins"), their options pages will show up here.</p>
     </div>
     <?php
-} //end wtf_plugin_main_page
+} //end wpsm_plugin_main_page

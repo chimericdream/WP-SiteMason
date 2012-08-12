@@ -36,8 +36,8 @@ define('GCE_OPTIONS_NAME', 'gce_options');
 define('GCE_GENERAL_OPTIONS_NAME', 'gce_general');
 define('GCE_VERSION', '0.7.2');
 define('GCE_DIRECTORY', dirname(__FILE__) . '/gcal');
-define('GCE_CSS_DIRECTORY', WTF_URI . '/plugins/gcal/css');
-define('GCE_JS_DIRECTORY', WTF_URI . '/plugins/gcal/js');
+define('GCE_CSS_DIRECTORY', WPSM_URI . '/plugins/gcal/css');
+define('GCE_JS_DIRECTORY', WPSM_URI . '/plugins/gcal/js');
 define('GCE_LANG_DIRECTORY', GCE_DIRECTORY . '/languages');
 
 if (!class_exists('Google_Calendar_Events')) {
@@ -223,7 +223,7 @@ if (!class_exists('Google_Calendar_Events')) {
             global $gce_settings_page;
 
             $gce_settings_page = add_submenu_page('theme-plugins', 'Google Calendar Events', 'Google Calendar Events', 'manage_options', 'theme-plugins-gcal', array($this, 'admin_page'));
-            add_action('admin_head-' . $gce_settings_page, 'wtf_header');
+            add_action('admin_head-' . $gce_settings_page, 'wpsm_header');
             add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
         } //end setup_admin
 
@@ -722,8 +722,8 @@ function gce_print_grid($feed_ids, $title_text, $max_events, $ajaxified = false,
                 fwrite($fh, $string);
                 fclose($fh);
             }
-            wp_register_script('wtf-gcal-cache-' . $hash, $fileuri, array('jquery', 'gce_scripts', 'gce_jquery_qtip'));
-            wp_enqueue_script('wtf-gcal-cache-' . $hash);
+            wp_register_script('wpsm-gcal-cache-' . $hash, $fileuri, array('jquery', 'gce_scripts', 'gce_jquery_qtip'));
+            wp_enqueue_script('wpsm-gcal-cache-' . $hash);
         }
 
         $markup .= $grid->get_grid($year, $month, $ajaxified) . '</div>';

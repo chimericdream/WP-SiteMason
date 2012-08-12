@@ -1,19 +1,19 @@
-.wtf-twitter-widget {
+.wpsm-twitter-widget {
     font-size: 90%;
 }
 
-.wtf-twitter-widget h2 {
+.wpsm-twitter-widget h2 {
     font-size: 125%;
 }
 
-.wtf-twitter-widget > p {
+.wpsm-twitter-widget > p {
     color: #555;
 }
 
-.wtf-twitter-widget .tweet {
+.wpsm-twitter-widget .tweet {
     padding: 10px;
 }
 
-.wtf-twitter-widget .tweet.alt {
+.wpsm-twitter-widget .tweet.alt {
     background-color: #ddd;
 }

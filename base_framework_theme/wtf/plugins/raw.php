@@ -1,12 +1,12 @@
 <?php
-global $wtf_plaintext_shortcodes;
-$wtf_plaintext_shortcodes[] = '\[raw\].*?\[\/raw\]';
+global $wpsm_plaintext_shortcodes;
+$wpsm_plaintext_shortcodes[] = '\[raw\].*?\[\/raw\]';
 
 function allow_raw_content($content)
 {
-    global $wtf_plaintext_shortcodes;
+    global $wpsm_plaintext_shortcodes;
     $new_content = '';
-	$pattern_full = '/(' . implode('|', $wtf_plaintext_shortcodes) . ')/is';
+	$pattern_full = '/(' . implode('|', $wpsm_plaintext_shortcodes) . ')/is';
 	$pattern_contents = '/\[(raw|geshi|sourcecode)\](.*?)\[\/\1\]/is';
 	$pieces = preg_split($pattern_full, $content, -1, PREG_SPLIT_DELIM_CAPTURE);
 

@@ -1,9 +1,9 @@
 <?php
 // Used to create a hover will all a day's events in for minical
-function wtf_cal_minical_draw_events($events, $day_of_week = '')
+function wpsm_cal_minical_draw_events($events, $day_of_week = '')
 {
     // We need to sort arrays of objects by time
-    usort($events, "wtf_cal_time_cmp");
+    usort($events, "wpsm_cal_time_cmp");
     // Only show anything if there are events
     $output = '';
     if (count($events)) {
@@ -24,30 +24,30 @@ function wtf_cal_minical_draw_events($events, $day_of_week = '')
         $output .= $day_of_week;
     }
     return $output;
-} //end wtf_cal_minical_draw_events
+} //end wpsm_cal_minical_draw_events
 
-function wtf_cal_minical($cat_list = '')
+function wpsm_cal_minical($cat_list = '')
 {
     global $wpdb;
 
     // Deal with the week not starting on a monday
     if (get_option('start_of_week') == 0) {
-        $name_days = array(1 => __('Su', 'wtf_calendar'), __('Mo', 'wtf_calendar'), __('Tu', 'wtf_calendar'), __('We', 'wtf_calendar'), __('Th', 'wtf_calendar'), __('Fr', 'wtf_calendar'), __('Sa', 'wtf_calendar'));
+        $name_days = array(1 => __('Su', 'wpsm_calendar'), __('Mo', 'wpsm_calendar'), __('Tu', 'wpsm_calendar'), __('We', 'wpsm_calendar'), __('Th', 'wpsm_calendar'), __('Fr', 'wpsm_calendar'), __('Sa', 'wpsm_calendar'));
     }
     // Choose Monday if anything other than Sunday is set
     else {
-        $name_days = array(1 => __('Mo', 'wtf_calendar'), __('Tu', 'wtf_calendar'), __('We', 'wtf_calendar'), __('Th', 'wtf_calendar'), __('Fr', 'wtf_calendar'), __('Sa', 'wtf_calendar'), __('Su', 'wtf_calendar'));
+        $name_days = array(1 => __('Mo', 'wpsm_calendar'), __('Tu', 'wpsm_calendar'), __('We', 'wpsm_calendar'), __('Th', 'wpsm_calendar'), __('Fr', 'wpsm_calendar'), __('Sa', 'wpsm_calendar'), __('Su', 'wpsm_calendar'));
     }
 
     // Carry on with the script
-    $name_months = array(1 => __('January', 'wtf_calendar'), __('February', 'wtf_calendar'), __('March', 'wtf_calendar'), __('April', 'wtf_calendar'), __('May', 'wtf_calendar'), __('June', 'wtf_calendar'), __('July', '\
-calendar'), __('August', 'wtf_calendar'), __('September', 'wtf_calendar'), __('October', 'wtf_calendar'), __('November', 'wtf_calendar'), __('December', 'wtf_calendar'));
+    $name_months = array(1 => __('January', 'wpsm_calendar'), __('February', 'wpsm_calendar'), __('March', 'wpsm_calendar'), __('April', 'wpsm_calendar'), __('May', 'wpsm_calendar'), __('June', 'wpsm_calendar'), __('July', '\
+calendar'), __('August', 'wpsm_calendar'), __('September', 'wpsm_calendar'), __('October', 'wpsm_calendar'), __('November', 'wpsm_calendar'), __('December', 'wpsm_calendar'));
 
     // If we don't pass arguments we want a calendar that is relevant to today
     if (empty($_GET['month']) || empty($_GET['yr'])) {
-        $c_year = date("Y", wtf_cal_ctwo());
-        $c_month = date("m", wtf_cal_ctwo());
-        $c_day = date("d", wtf_cal_ctwo());
+        $c_year = date("Y", wpsm_cal_ctwo());
+        $c_month = date("m", wpsm_cal_ctwo());
+        $c_day = date("d", wpsm_cal_ctwo());
     }
 
     // Years get funny if we exceed 3000, so we use this check
@@ -86,21 +86,21 @@ calendar'), __('August', 'wtf_calendar'), __('September', 'wtf_calendar'), __('O
                     $t_month = 12;
                 }
                 $c_month = $t_month;
-                $c_day = date("d", wtf_cal_ctwo());
+                $c_day = date("d", wpsm_cal_ctwo());
             }
             // No valid month causes the calendar to default to today
             else {
-                $c_year = date("Y", wtf_cal_ctwo());
-                $c_month = date("m", wtf_cal_ctwo());
-                $c_day = date("d", wtf_cal_ctwo());
+                $c_year = date("Y", wpsm_cal_ctwo());
+                $c_month = date("m", wpsm_cal_ctwo());
+                $c_day = date("d", wpsm_cal_ctwo());
             }
         }
     }
     // No valid year causes the calendar to default to today
     else {
-        $c_year = date("Y", wtf_cal_ctwo());
-        $c_month = date("m", wtf_cal_ctwo());
-        $c_day = date("d", wtf_cal_ctwo());
+        $c_year = date("Y", wpsm_cal_ctwo());
+        $c_month = date("m", wpsm_cal_ctwo());
+        $c_day = date("d", wpsm_cal_ctwo());
     }
 
     // Fix the days of the week if week start is not on a monday
@@ -127,9 +127,9 @@ calendar'), __('August', 'wtf_calendar'), __('September', 'wtf_calendar'), __('O
                <td colspan="7" class="calendar-heading">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
-                            <td class="calendar-prev">' . wtf_cal_prev_link($c_year, $c_month, true) . '</td>
+                            <td class="calendar-prev">' . wpsm_cal_prev_link($c_year, $c_month, true) . '</td>
                             <td class="calendar-month">' . $name_months[(int) $c_month] . ' ' . $c_year . '</td>
-                            <td class="calendar-next">' . wtf_cal_next_link($c_year, $c_month, true) . '</td>
+                            <td class="calendar-next">' . wpsm_cal_next_link($c_year, $c_month, true) . '</td>
                         </tr>
                     </table>
                </td>
@@ -159,19 +159,19 @@ calendar'), __('August', 'wtf_calendar'), __('September', 'wtf_calendar'), __('O
                 // Colours again, this time for the day numbers
                 if (get_option('start_of_week') == 0) {
                     // This bit of code is for styles believe it or not.
-                    $grabbed_events = wtf_cal_grab_events($c_year, $c_month, $i, 'calendar', $cat_list);
+                    $grabbed_events = wpsm_cal_grab_events($c_year, $c_month, $i, 'calendar', $cat_list);
                     $no_events_class = '';
                     if (!count($grabbed_events)) {
                         $no_events_class = ' no-events';
                     }
-                    $calendar_body .= '        <td class="' . (date("Ymd", mktime(0, 0, 0, $c_month, $i, $c_year)) == date("Ymd", wtf_cal_ctwo()) ? 'current-day' : 'day-with-date') . $no_events_class . '"><span ' . ($ii < 7 && $ii > 1 ? '' : 'class="weekend"') . '>' . wtf_cal_minical_draw_events($grabbed_events, $i++) . '</span></td>';
+                    $calendar_body .= '        <td class="' . (date("Ymd", mktime(0, 0, 0, $c_month, $i, $c_year)) == date("Ymd", wpsm_cal_ctwo()) ? 'current-day' : 'day-with-date') . $no_events_class . '"><span ' . ($ii < 7 && $ii > 1 ? '' : 'class="weekend"') . '>' . wpsm_cal_minical_draw_events($grabbed_events, $i++) . '</span></td>';
                 } else {
-                    $grabbed_events = wtf_cal_grab_events($c_year, $c_month, $i, 'calendar', $cat_list);
+                    $grabbed_events = wpsm_cal_grab_events($c_year, $c_month, $i, 'calendar', $cat_list);
                     $no_events_class = '';
                     if (!count($grabbed_events)) {
                         $no_events_class = ' no-events';
                     }
-                    $calendar_body .= '        <td class="' . (date("Ymd", mktime(0, 0, 0, $c_month, $i, $c_year)) == date("Ymd", wtf_cal_ctwo()) ? 'current-day' : 'day-with-date') . $no_events_class . '"><span ' . ($ii < 6 ? '' : 'class="weekend"') . '>' . wtf_cal_minical_draw_events($grabbed_events, $i++) . '</span></td>';
+                    $calendar_body .= '        <td class="' . (date("Ymd", mktime(0, 0, 0, $c_month, $i, $c_year)) == date("Ymd", wpsm_cal_ctwo()) ? 'current-day' : 'day-with-date') . $no_events_class . '"><span ' . ($ii < 6 ? '' : 'class="weekend"') . '>' . wpsm_cal_minical_draw_events($grabbed_events, $i++) . '</span></td>';
                 }
             } else {
                 $calendar_body .= '        <td class="day-without-date">&nbsp;</td>';
@@ -186,4 +186,4 @@ calendar'), __('August', 'wtf_calendar'), __('September', 'wtf_calendar'), __('O
     // Phew! After that bit of string building, spit it all out.
     // The actual printing is done by the calling function.
     return $calendar_body;
-} //end wtf_cal_minical
+} //end wpsm_cal_minical
