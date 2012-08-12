@@ -7,7 +7,7 @@ function loadWtfTwitterWidget()
 {
     register_widget('WTF_Twitter_Widget');
     if ((bool) get_option('wtf-twitter-use-css') == true) {
-        wp_register_style('wtf-twitter-widget', WTF_URI . '/widgets/twitter/style.css');
+        wp_register_style('wtf-twitter-widget', WTF_URI . '/plugins/twitter/style.css');
         wp_enqueue_style('wtf-twitter-widget');
     }
 } //end loadWtfTwitterWidget
