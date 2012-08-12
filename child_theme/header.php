@@ -35,18 +35,18 @@
     echo "</title>\n";
     echo '    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />';
     echo '    <link rel="stylesheet" href="' . get_bloginfo('stylesheet_url') . '" type="text/css" media="screen" />';
-    echo '    <link rel="stylesheet" href="' . get_bloginfo('template_directory') . '/css/print.css" type="text/css" media="print" />';
+    echo '    <link rel="stylesheet" href="' . get_stylesheet_directory_uri() . '/css/print.css" type="text/css" media="print" />';
     echo '    <!--[If IE 6]>';
-    echo '        <link rel="stylesheet" href="' . get_bloginfo('template_directory') . '/css/ie6.css" type="text/css" media="screen" />';
+    echo '        <link rel="stylesheet" href="' . get_stylesheet_directory_uri() . '/css/ie6.css" type="text/css" media="screen" />';
     echo '    <![endif]-->';
     echo '    <!--[If IE 7]>';
-    echo '        <link rel="stylesheet" href="' . get_bloginfo('template_directory') . '/css/ie7.css" type="text/css" media="screen" />';
+    echo '        <link rel="stylesheet" href="' . get_stylesheet_directory_uri() . '/css/ie7.css" type="text/css" media="screen" />';
     echo '    <![endif]-->';
     echo '    <!--[If IE 8]>';
-    echo '        <link rel="stylesheet" href="' . get_bloginfo('template_directory') . '/css/ie8.css" type="text/css" media="screen" />';
+    echo '        <link rel="stylesheet" href="' . get_stylesheet_directory_uri() . '/css/ie8.css" type="text/css" media="screen" />';
     echo '    <![endif]-->';
     echo '    <!--[If IE 9]>';
-    echo '        <link rel="stylesheet" href="' . get_bloginfo('template_directory') . '/css/ie9.css" type="text/css" media="screen" />';
+    echo '        <link rel="stylesheet" href="' . get_stylesheet_directory_uri() . '/css/ie9.css" type="text/css" media="screen" />';
     echo '    <![endif]-->';
     echo '    <link rel="pingback" href="' . get_bloginfo('pingback_url') . '" />';
 
