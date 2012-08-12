@@ -49,8 +49,7 @@ remove_action('wp_head', 'wp_generator');
 if (!is_admin()) {
     // Pull jQuery from Google CDN instead of local install
     wp_deregister_script('jquery');
-    $jqprotocol = is_ssl() ? 'https' : 'http';
-    wp_register_script('jquery', ("{$jqprotocol}://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"), false);
+    wp_register_script('jquery', ("https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"), false);
     wp_enqueue_script('jquery');
 
     remove_action('wp_head', 'wp_print_scripts');
