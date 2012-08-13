@@ -119,8 +119,7 @@ function wpsm_plugin_page() {
     <?php
 } //end wpsm_plugin_page
 
-function wpsm_plugin_option_html($title, $field_name, $note, $option_name)
-{
+function wpsm_plugin_option_html($title, $field_name, $note, $option_name) {
     global $wpsm_plugins;
     ?>
                 <div class="option">
