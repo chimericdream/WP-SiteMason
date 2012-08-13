@@ -1,21 +1,24 @@
 <?php
 define('THEME_NAMESPACE', 'your_namespace_here');
-define('WP_HOME',   'http://www.yourdomain.com/path/to/wordpress/');
-define('SITE_HOME', 'http://www.yourdomain.com/');
-define('HOME_URI', get_bloginfo('url'));
+
 define('THEME_PATH', STYLESHEETPATH);
 define('THEME_URI', get_stylesheet_directory_uri());
 define('THEME_URI_RELATIVE', str_replace(WP_HOME, '', THEME_URI));
 define('THEME_IMAGES', THEME_URI . '/images');
 define('THEME_CSS', THEME_URI . '/css');
 define('THEME_JS', THEME_URI . '/js');
+
 define('WPSM_FRAMEWORK_PATH', TEMPLATEPATH);
 define('WPSM_PATH', TEMPLATEPATH . '/wpsm');
 define('WPSM_URI', get_template_directory_uri() . '/wpsm');
 define('WPSM_URI_RELATIVE', str_replace(WP_HOME, '', WPSM_URI));
-define('THEME_PERMALINKS', '/%year%/%monthnum%/%postname%/');
+
 define('SITE_TITLE',   'Your Site Title Here');
 define('SITE_TAGLINE', 'This is an awesome tagline');
+define('WP_HOME',   'http://www.yourdomain.com/path/to/wordpress/');
+define('SITE_HOME', 'http://www.yourdomain.com/');
+define('HOME_URI', get_bloginfo('url'));
+define('THEME_PERMALINKS', '/%year%/%monthnum%/%postname%/');
 
 add_theme_support('post-thumbnails');
 add_action('init', THEME_NAMESPACE . '_init', 0);
