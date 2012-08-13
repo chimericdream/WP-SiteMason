@@ -17,16 +17,8 @@ function wpsm_admin() {
     $analytics_subpage = add_submenu_page('theme-admin', 'Google Analytics', 'Google Analytics', 'edit_themes', 'theme-admin-analytics', 'wpsm_analytics_page');
     $rss_subpage       = add_submenu_page('theme-admin', 'RSS Settings', 'RSS Settings', 'edit_themes', 'theme-admin-rss', 'wpsm_rss_page');
     $plugin_subpage    = add_submenu_page('theme-admin', 'Plugins', 'Plugins', 'edit_themes', 'theme-admin-plugins', 'wpsm_plugin_page');
-//    $analytics_page = add_submenu_page(
-//        'theme-admin',
-//        'Google Analytics',
-//        'Google Analytics',
-//        'edit_themes',
-//        'theme-admin-analytics',
-//        'wpsm_analytics_page'
-//    );
-//
-    add_action('admin_head-' . $main_page,      'wpsm_header');
+
+    add_action('admin_head-' . $main_page,         'wpsm_header');
     add_action('admin_head-' . $plugin_subpage,    'wpsm_header');
     add_action('admin_head-' . $rss_subpage,       'wpsm_header');
     add_action('admin_head-' . $analytics_subpage, 'wpsm_header');
@@ -38,11 +30,11 @@ function wpsm_admin() {
         'theme-plugins',
         'wpsm_plugin_main_page'
     );
+    
     $plugin_page = add_submenu_page('theme-plugins', 'About the plugins', 'About the plugins', 'manage_options', 'theme-plugins', 'wpsm_plugin_main_page');
+    
     add_action('admin_head-' . $plugin_page,    'wpsm_header');
-}
-
-//end wpsm_admin
+} //end wpsm_admin
 
 function wpsm_header() {
     ?>
