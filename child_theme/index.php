@@ -7,7 +7,7 @@ if (have_posts()) {
         <section <?php post_class(); ?> id="post-<?php the_ID(); ?>">
             <header>
                 <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-                <?php include (TEMPLATEPATH . '/inc/meta.php' ); ?>
+                <?php include (THEME_PATH . '/inc/meta.php' ); ?>
             </header>
             <article class="entry">
                 <?php the_content(); ?>
@@ -20,7 +20,7 @@ if (have_posts()) {
         </section>
         <?php
     }
-    include (TEMPLATEPATH . '/inc/nav.php' );
+    include (THEME_PATH . '/inc/nav.php' );
 } else {
     echo '<h2>Not Found</h2>';
 }
