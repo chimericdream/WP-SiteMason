@@ -54,10 +54,10 @@ if (!is_admin()) {
     $test_url = @fopen($url, 'r');
     if ($test_url !== false) {
         wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js', false, '1.7.2');
-    } else {  
+    } else {
         wp_register_script('jquery', WPSM_URI . '/../js/jquery-1.7.2.min.js', false, '1.7.2');
-    }    
-    
+    }
+
     wp_enqueue_script('jquery');
 
     remove_action('wp_head', 'wp_print_scripts');
@@ -178,14 +178,14 @@ function wpsm_setup()
         // Lets let the admin know whats going on.
         $msg = '
         <div class="updated">
-            <p>The ' . get_option('current_theme') . 'theme has changed your WordPress default <a href="' . admin_url('options-general.php') . '" title="See Settings">settings</a> and deleted default posts & comments.</p>
+            <p>The ' . get_option('current_theme') . ' theme has changed your WordPress default <a href="' . admin_url('options-general.php') . '" title="See Settings">settings</a> and deleted default posts & comments.</p>
         </div>';
         add_action('admin_notices', $c = create_function('', 'echo "' . addcslashes($msg, '"') . '";'));
 
         if ($errors) {
             $msg = '
             <div class="error">
-                <p>There were errors while setting up the ' . get_option('current_theme') . 'theme. Please verify your settings are correct.</p>
+                <p>There were errors while setting up the ' . get_option('current_theme') . ' theme. Please verify your settings are correct.</p>
             </div>';
             add_action('admin_notices', $c = create_function('', 'echo "' . addcslashes($msg, '"') . '";'));
         }
@@ -218,7 +218,7 @@ function wpsm_htaccess_optimization($rules)
 </IfModule>
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    
+
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} !^.*wp-admin.*$
