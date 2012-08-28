@@ -16,8 +16,13 @@ function wpsm_rss_email()
 
 function wpsm_tracking_code()
 {
-    echo get_option('wpsm_tracking_code');
+    $code = get_option('wpsm_tracking_code');
+    if ($code != '') {
+        echo '<script>' . $code . '</script>';
+    }
 } //end wpsm_tracking_code
+
+add_action('wp_head', 'wpsm_tracking_code', 10000);
 
 function wpsm_navigation($page_options = 'title_li=', $cat_options = 'show_count=0&title_li=')
 {
