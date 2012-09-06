@@ -56,6 +56,10 @@ if (defined('CHILD_THEME_PATH')) {
     if (file_exists(CHILD_THEME_PATH . '/inc/roles_capabilities.php')) {
         require_once CHILD_THEME_PATH . '/inc/roles_capabilities.php';
     }
+    if (file_exists(CHILD_THEME_PATH . '/inc/admin_bar.php')) {
+        require_once CHILD_THEME_PATH . '/inc/admin_bar.php';
+        add_action('wp_before_admin_bar_render', 'build_' . THEME_NAMESPACE . '_admin_bar');
+    }
 }
 
 function checkActivePage($url, $whichPage)
