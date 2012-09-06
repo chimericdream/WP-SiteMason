@@ -46,12 +46,12 @@ if (!defined('SITE_TAGLINE')) {
 }
 
 require_once WPSM_PATH . '/wpsm.php';
-if (defined('THEME_PATH')) {
-    if (file_exists(THEME_PATH . '/inc/taxonomies.php')) {
-        require_once THEME_PATH . '/inc/taxonomies.php';
+if (defined('CHILD_THEME_PATH')) {
+    if (file_exists(CHILD_THEME_PATH . '/inc/taxonomies.php')) {
+        require_once CHILD_THEME_PATH . '/inc/taxonomies.php';
     }
-    if (file_exists(THEME_PATH . '/inc/post_types.php')) {
-        require_once THEME_PATH . '/inc/post_types.php';
+    if (file_exists(CHILD_THEME_PATH . '/inc/post_types.php')) {
+        require_once CHILD_THEME_PATH . '/inc/post_types.php';
     }
 }
 
