@@ -91,6 +91,10 @@ function wpsm_init()
     if (function_exists($post_types)) {
         $post_types();
     }
+    $roles_capabilities = 'build_' . THEME_NAMESPACE . '_roles_capabilities';
+    if (function_exists($roles_capabilities)) {
+        $roles_capabilities();
+    }
 } //end wpsm_init
 
 // Clean up the <head>

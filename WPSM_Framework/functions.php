@@ -53,6 +53,9 @@ if (defined('CHILD_THEME_PATH')) {
     if (file_exists(CHILD_THEME_PATH . '/inc/post_types.php')) {
         require_once CHILD_THEME_PATH . '/inc/post_types.php';
     }
+    if (file_exists(CHILD_THEME_PATH . '/inc/roles_capabilities.php')) {
+        require_once CHILD_THEME_PATH . '/inc/roles_capabilities.php';
+    }
 }
 
 function checkActivePage($url, $whichPage)
