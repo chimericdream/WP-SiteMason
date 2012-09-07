@@ -21,6 +21,8 @@ add_action('after_setup_theme', 'wpsm_setup');
 
 add_action('admin_menu', 'wpsm_admin');
 
+add_filter('widget_text', 'do_shortcode');
+
 require_once dirname(__FILE__) . '/admin.php';
 require_once dirname(__FILE__) . '/functions.php';
 require_once dirname(__FILE__) . '/plugins.php';
