@@ -2,24 +2,6 @@
 global $wpsm_plugins;
 
 $wpsm_plugins = array(
-    'wpsm-plugins-google-calendar' => array(
-        'title'       => 'Calendar (Google)',
-        'field_name'  => 'gcal',
-        'note'        => 'This enables you to use a Google Calendar feed for '
-                       . 'embedding in your site and sidebar.',
-        'option_name' => 'wpsm-plugins-google-calendar',
-        'file'        => 'gcal',
-        'depends'     => array(),
-    ),
-    'wpsm-plugins-wp-calendar' => array(
-        'title'       => 'Calendar (WordPress)',
-        'field_name'  => 'wp_calendar',
-        'note'        => 'This enables you to use a WordPress-based calendar '
-                       . 'for embedding in your site and sidebar.',
-        'option_name' => 'wpsm-plugins-wp-calendar',
-        'file'        => 'calendar',
-        'depends'     => array(),
-    ),
     'wpsm-plugins-collapse-arch' => array(
         'title'       => 'Collapsing Archives',
         'field_name'  => 'collapse_arch',
@@ -30,18 +12,6 @@ $wpsm_plugins = array(
         'option_name' => 'wpsm-plugins-collapse-arch',
         'file'        => 'collapse-archives',
         'depends'     => array(),
-    ),
-    'wpsm-plugins-geshi' => array(
-        'title'       => 'GeSHi Syntax Highlighter',
-        'field_name'  => 'geshi',
-        'note'        => 'GeSHi is a code syntax highlighting plugin that '
-                       . 'allows you to embed formatted and highlighted code '
-                       . 'samples in your blog.',
-        'option_name' => 'wpsm-plugins-geshi',
-        'file'        => 'geshi',
-        'depends'     => array(
-            'wpsm-plugins-raw',
-        ),
     ),
     'wpsm-plugins-raw' => array(
         'title'       => 'Raw content shortcode',
