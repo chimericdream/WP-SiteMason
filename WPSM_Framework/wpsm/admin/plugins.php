@@ -2,39 +2,6 @@
 global $wpsm_plugins;
 
 $wpsm_plugins = array(
-    'wpsm-plugins-collapse-arch' => array(
-        'title'       => 'Collapsing Archives',
-        'field_name'  => 'collapse_arch',
-        'note'        => 'This enables you to have either a widget or template '
-                       . 'function to enable collapsing archives in your '
-                       . 'sidebar. Useful if you want to display your archives '
-                       . 'but don\'t want to take up a lot of space with them.',
-        'option_name' => 'wpsm-plugins-collapse-arch',
-        'file'        => 'collapse-archives',
-        'depends'     => array(),
-    ),
-    'wpsm-plugins-raw' => array(
-        'title'       => 'Raw content shortcode',
-        'field_name'  => 'raw_shortcode',
-        'note'        => 'This enables a shortcode to embed raw content into '
-                       . 'your pages using the following syntax:</p><p>[raw]'
-                       . 'Your content here.[/raw]</p><p>The content will '
-                       . 'not be parsed for automatic &lt;br&gt; tags or '
-                       . '&lt;p&gt; tags, but HTML inside the [raw] tags will '
-                       . 'still be parsed normally by the browser.',
-        'option_name' => 'wpsm-plugins-raw',
-        'file'        => 'raw',
-        'depends'     => array(),
-    ),
-    'wpsm-plugins-twitter' => array(
-        'title'       => 'Twitter Feed',
-        'field_name'  => 'twitter',
-        'note'        => 'This enables a plugin to show a Twitter feed in your '
-                       . 'sidebar.',
-        'option_name' => 'wpsm-plugins-twitter',
-        'file'        => 'twitter',
-        'depends'     => array(),
-    ),
 );
 
 //set defaults
