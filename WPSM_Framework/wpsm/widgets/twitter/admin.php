@@ -7,7 +7,7 @@ function wpsm_twitter_admin()
     add_action('admin_head-' . $twitter_page,    'wpsm_header');
 } //end wpsm_twitter_admin
 
-function wpsm_twitter_plugin_page()
+function wpsm_twitter_widget_page()
 {
     $saved = false;
     if ($_REQUEST['action'] == 'save') {
@@ -81,4 +81,4 @@ function wpsm_twitter_plugin_page()
 </div>
 <div style="clear:both;height:20px;"></div>
     <?php
-} //end wpsm_twitter_plugin_page
+} //end wpsm_twitter_widget_page
