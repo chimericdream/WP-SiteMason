@@ -25,7 +25,36 @@ add_filter('widget_text', 'do_shortcode');
 
 require_once dirname(__FILE__) . '/admin.php';
 require_once dirname(__FILE__) . '/functions.php';
-require_once dirname(__FILE__) . '/plugins.php';
+
+global $wpsm_plugins, $wpsm_shortcodes, $wpsm_utilities, $wpsm_widgets;
+
+foreach ($wpsm_plugins as $p) {
+    if (check_wpsm_item($p['option_name']) &&
+            check_wpsm_item_dependencies($wpsm_plugins, $p['option_name'])) {
+        require_once dirname(__FILE__) .'/plugins/' . $p['file'] . '.php';
+    }
+}
+
+foreach ($wpsm_shortcodes as $s) {
+    if (check_wpsm_item($s['option_name']) &&
+            check_wpsm_item_dependencies($wpsm_shortcodes, $s['option_name'])) {
+        require_once dirname(__FILE__) .'/shortcodes/' . $s['file'] . '.php';
+    }
+}
+
+foreach ($wpsm_utilities as $u) {
+    if (check_wpsm_item($u['option_name']) &&
+            check_wpsm_item_dependencies($wpsm_utilities, $u['option_name'])) {
+        require_once dirname(__FILE__) .'/utilities/' . $u['file'] . '.php';
+    }
+}
+
+foreach ($wpsm_widgets as $w) {
+    if (check_wpsm_item($w['option_name']) &&
+            check_wpsm_item_dependencies($wpsm_widgets, $w['option_name'])) {
+        require_once dirname(__FILE__) .'/widgets/' . $w['file'] . '.php';
+    }
+}
 
 // Add RSS links to <head> section
 add_theme_support('automatic-feed-links');
@@ -260,3 +289,27 @@ EOD;
 } //end wpsm_htaccess_optimization
 
 add_filter('mod_rewrite_rules', 'wpsm_htaccess_optimization');
+
+function check_wpsm_item_dependencies($global_item_list, $item_name)
+{
+    if (empty($global_item_list[$item_name]['depends'])) {
+        return true;
+    }
+
+    foreach ($global_item_list[$item_name]['depends'] as $dep) {
+        if (!check_wpsm_item($dep)) {
+            return false;
+        }
+    }
+
+    return true;
+} //end check_wpsm_item_dependencies
+
+function check_wpsm_item($item_name)
+{
+    if ((bool) get_option($item_name) == true) {
+        return true;
+    }
+
+    return false;
+} //end check_wpsm_item
