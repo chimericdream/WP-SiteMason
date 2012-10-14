@@ -3,7 +3,7 @@ add_action('admin_menu', 'wpsm_twitter_admin');
 
 function wpsm_twitter_admin()
 {
-    $twitter_page = add_submenu_page('theme-plugins', 'Twitter', 'Twitter', 'manage_options', 'theme-plugins-twitter', 'wpsm_twitter_plugin_page');
+    $twitter_page = add_submenu_page('theme-widgets', 'Twitter', 'Twitter', 'manage_options', 'theme-widgets-twitter', 'wpsm_twitter_widget_page');
     add_action('admin_head-' . $twitter_page,    'wpsm_header');
 } //end wpsm_twitter_admin
 

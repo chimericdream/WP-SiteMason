@@ -46,7 +46,7 @@ function wpsm_admin() {
         WPSM_THEME_NAME . ' Shortcodes',
         WPSM_THEME_NAME . ' Shortcodes',
         'manage_options',
-        'theme-plugins',
+        'theme-shortcodes',
         'wpsm_shortcode_main_page'
     );
     $shortcode_page = add_submenu_page('theme-shortcodes', 'About the shortcodes', 'About the shortcodes', 'manage_options', 'theme-shortcodes', 'wpsm_shortcode_main_page');
