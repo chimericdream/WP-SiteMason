@@ -17,9 +17,15 @@ function wpsm_admin() {
     $analytics_subpage = add_submenu_page('theme-admin', 'Google Analytics', 'Google Analytics', 'edit_themes', 'theme-admin-analytics', 'wpsm_analytics_page');
     $rss_subpage       = add_submenu_page('theme-admin', 'RSS Settings', 'RSS Settings', 'edit_themes', 'theme-admin-rss', 'wpsm_rss_page');
     $plugin_subpage    = add_submenu_page('theme-admin', 'Plugins', 'Plugins', 'edit_themes', 'theme-admin-plugins', 'wpsm_plugin_page');
+    $shortcode_subpage = add_submenu_page('theme-admin', 'Shortcodes', 'Shortcodes', 'edit_themes', 'theme-admin-shortcodes', 'wpsm_shortcode_page');
+    $utility_subpage   = add_submenu_page('theme-admin', 'Utilities', 'Utilities', 'edit_themes', 'theme-admin-utilities', 'wpsm_utility_page');
+    $widget_subpage    = add_submenu_page('theme-admin', 'Widgets', 'Widgets', 'edit_themes', 'theme-admin-widgets', 'wpsm_widget_page');
 
     add_action('admin_head-' . $main_page,         'wpsm_header');
     add_action('admin_head-' . $plugin_subpage,    'wpsm_header');
+    add_action('admin_head-' . $shortcode_subpage, 'wpsm_header');
+    add_action('admin_head-' . $utility_subpage,   'wpsm_header');
+    add_action('admin_head-' . $widget_subpage,    'wpsm_header');
     add_action('admin_head-' . $rss_subpage,       'wpsm_header');
     add_action('admin_head-' . $analytics_subpage, 'wpsm_header');
 
@@ -30,10 +36,38 @@ function wpsm_admin() {
         'theme-plugins',
         'wpsm_plugin_main_page'
     );
-    
     $plugin_page = add_submenu_page('theme-plugins', 'About the plugins', 'About the plugins', 'manage_options', 'theme-plugins', 'wpsm_plugin_main_page');
-    
     add_action('admin_head-' . $plugin_page,    'wpsm_header');
+
+    $shortcode_page = add_menu_page(
+        WPSM_THEME_NAME . ' Shortcodes',
+        WPSM_THEME_NAME . ' Shortcodes',
+        'manage_options',
+        'theme-plugins',
+        'wpsm_shortcode_main_page'
+    );
+    $shortcode_page = add_submenu_page('theme-shortcodes', 'About the shortcodes', 'About the shortcodes', 'manage_options', 'theme-shortcodes', 'wpsm_shortcode_main_page');
+    add_action('admin_head-' . $shortcode_page,    'wpsm_header');
+
+    $utility_page = add_menu_page(
+        WPSM_THEME_NAME . ' Utilities',
+        WPSM_THEME_NAME . ' Utilities',
+        'manage_options',
+        'theme-utilities',
+        'wpsm_utility_main_page'
+    );
+    $utility_page = add_submenu_page('theme-utilities', 'About the utilities', 'About the utilities', 'manage_options', 'theme-utilities', 'wpsm_utility_main_page');
+    add_action('admin_head-' . $utility_page,    'wpsm_header');
+
+    $widget_page = add_menu_page(
+        WPSM_THEME_NAME . ' Widgets',
+        WPSM_THEME_NAME . ' Widgets',
+        'manage_options',
+        'theme-widgets',
+        'wpsm_widget_main_page'
+    );
+    $widget_page = add_submenu_page('theme-widgets', 'About the widgets', 'About the widgets', 'manage_options', 'theme-widgets', 'wpsm_widget_main_page');
+    add_action('admin_head-' . $widget_page,    'wpsm_header');
 } //end wpsm_admin
 
 function wpsm_header() {
