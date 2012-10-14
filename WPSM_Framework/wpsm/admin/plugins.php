@@ -1,4 +1,6 @@
 <?php
+require_once dirname(__FILE__) . '/common.php';
+
 global $wpsm_plugins;
 
 $wpsm_plugins = array(

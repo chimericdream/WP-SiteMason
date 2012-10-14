@@ -3,6 +3,9 @@ require_once dirname(__FILE__) . '/admin/analytics.php';
 require_once dirname(__FILE__) . '/admin/main.php';
 require_once dirname(__FILE__) . '/admin/rss.php';
 require_once dirname(__FILE__) . '/admin/plugins.php';
+require_once dirname(__FILE__) . '/admin/shortcodes.php';
+require_once dirname(__FILE__) . '/admin/utilities.php';
+require_once dirname(__FILE__) . '/admin/widgets.php';
 
 function wpsm_admin() {
     $main_page = add_menu_page(
