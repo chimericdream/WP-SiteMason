@@ -1,7 +1,7 @@
 <?php
 define('THEME_NAMESPACE', 'your_namespace_here');
 
-define('THEME_PATH', STYLESHEETPATH);
+define('CHILD_THEME_PATH', STYLESHEETPATH);
 define('THEME_URI', get_stylesheet_directory_uri());
 define('THEME_URI_RELATIVE', str_replace(WP_HOME, '', THEME_URI));
 define('THEME_IMAGES', THEME_URI . '/images');
