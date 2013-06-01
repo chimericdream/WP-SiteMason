@@ -65,11 +65,11 @@ if (defined('CHILD_THEME_PATH')) {
 function checkActivePage($url, $whichPage)
 {
     if ($whichPage == 'home' && $url == '/') {
-        return ' class="active"';
+        return ' active';
     }
 
     if (strpos($url, $whichPage) !== false) {
-        return ' class="active"';
+        return ' active';
     }
     return '';
 } //end checkActivePage
