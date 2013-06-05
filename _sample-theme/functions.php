@@ -20,6 +20,9 @@ define('SITE_HOME', 'http://www.yourdomain.com/');
 define('HOME_URI', get_bloginfo('url'));
 define('THEME_PERMALINKS', '/%year%/%monthnum%/%postname%/');
 
+// Uncomment this line if you wish to use your own copy of jQuery
+//define('AUTO_JQUERY', false);
+
 add_theme_support('post-thumbnails');
 add_action('init', THEME_NAMESPACE . '_init', 0);
 
