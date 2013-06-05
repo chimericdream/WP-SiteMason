@@ -81,15 +81,17 @@ if (!is_admin()) {
     // Pull jQuery from Google CDN instead of local install; fallback to local if needed
     wp_deregister_script('jquery');
 
-    $url = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js';
-    $test_url = @fopen($url, 'r');
-    if ($test_url !== false) {
-        wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js', false, '1.7.2');
-    } else {
-        wp_register_script('jquery', WPSM_URI . '/../js/jquery-1.7.2.min.js', false, '1.7.2');
-    }
+    if (!defined('AUTO_JQUERY') || AUTO_JQUERY) {
+        $url = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js';
+        $test_url = @fopen($url, 'r');
+        if ($test_url !== false) {
+            wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js', false, '1.7.2');
+        } else {
+            wp_register_script('jquery', WPSM_URI . '/../js/jquery-1.7.2.min.js', false, '1.7.2');
+        }
 
-    wp_enqueue_script('jquery');
+        wp_enqueue_script('jquery');
+    }
 
     remove_action('wp_head', 'wp_print_scripts');
     remove_action('wp_head', 'wp_print_head_scripts', 9);
