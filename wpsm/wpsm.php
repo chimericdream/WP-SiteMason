@@ -63,8 +63,7 @@ if (!current_user_can('manage_options')) {
     add_action('wp_dashboard_setup', 'wpsm_remove_dashboard_widgets');
 }
 
-function wpsm_remove_dashboard_widgets()
-{
+function wpsm_remove_dashboard_widgets() {
     global $wp_meta_boxes;
 
     unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_plugins']);
@@ -113,8 +112,7 @@ if (function_exists('register_sidebar')) {
     ));
 }
 
-function wpsm_init()
-{
+function wpsm_init() {
     wpsm_remove_head_links();
     $taxonomies = 'build_' . THEME_NAMESPACE . '_taxonomies';
     if (function_exists($taxonomies)) {
@@ -131,14 +129,12 @@ function wpsm_init()
 } //end wpsm_init
 
 // Clean up the <head>
-function wpsm_remove_head_links()
-{
+function wpsm_remove_head_links() {
     remove_action('wp_head', 'rsd_link');
     remove_action('wp_head', 'wlwmanifest_link');
 } //end wpsm_remove_head_links
 
-function wpsm_setup()
-{
+function wpsm_setup() {
     if (defined('SKIP_WPSM_SETUP') && SKIP_WPSM_SETUP) {
         return;
     }
@@ -247,15 +243,13 @@ function wpsm_setup()
     }
 } //end wpsm_setup
 
-function wpsm_change_permalinks()
-{
+function wpsm_change_permalinks() {
     global $wp_rewrite;
     $wp_rewrite->set_permalink_structure(THEME_PERMALINKS);
     $wp_rewrite->flush_rules();
 } //end wpsm_change_permalinks
 
-function wpsm_htaccess_optimization($rules)
-{
+function wpsm_htaccess_optimization($rules) {
     $smart_optimizer = <<<EOD
 \n# BEGIN Smart Optimizer Code
 <IfModule mod_expires.c>
@@ -305,8 +299,7 @@ if (defined('WPSM_USE_SMARTOPTIMIZER') && WPSM_USE_SMARTOPTIMIZER) {
     add_filter('mod_rewrite_rules', 'wpsm_htaccess_optimization');
 }
 
-function check_wpsm_item_dependencies($global_item_list, $item_name)
-{
+function check_wpsm_item_dependencies($global_item_list, $item_name) {
     if (empty($global_item_list[$item_name]['depends'])) {
         return true;
     }
@@ -320,8 +313,7 @@ function check_wpsm_item_dependencies($global_item_list, $item_name)
     return true;
 } //end check_wpsm_item_dependencies
 
-function check_wpsm_item($item_name)
-{
+function check_wpsm_item($item_name) {
     if ((bool) get_option($item_name) == true) {
         return true;
     }
