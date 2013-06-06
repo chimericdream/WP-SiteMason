@@ -215,8 +215,10 @@ function wpsm_setup()
             update_option($k, $v);
         }
 
-        // Set the permalink structure to our desired default
-        wpsm_change_permalinks();
+        if (defined('WPSM_CHANGE_PERMALINKS') && WPSM_CHANGE_PERMALINKS) {
+            // Set the permalink structure to our desired default
+            wpsm_change_permalinks();
+        }
 
         // Once done, we register our setting to make sure we don't duplicate everytime we activate.
         update_option('theme_setup_status', '1');
@@ -299,7 +301,9 @@ EOD;
     return $rules . $smart_optimizer;
 } //end wpsm_htaccess_optimization
 
-add_filter('mod_rewrite_rules', 'wpsm_htaccess_optimization');
+if (defined('WPSM_USE_SMARTOPTIMIZER') && WPSM_USE_SMARTOPTIMIZER) {
+    add_filter('mod_rewrite_rules', 'wpsm_htaccess_optimization');
+}
 
 function check_wpsm_item_dependencies($global_item_list, $item_name)
 {

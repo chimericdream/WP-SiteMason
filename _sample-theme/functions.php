@@ -38,6 +38,14 @@ define('THEME_PERMALINKS', '/%year%/%monthnum%/%postname%/');
 // config settings
 //define('WPSM_CREATE_HOME_BLOG_PAGES', true);
 
+// Update the permalink structure for the site
+//define('WPSM_CHANGE_PERMALINKS', true);
+
+// Use the built-in SmartOptimizer to minify, compress, cache, etc. front-end
+// files.
+// See: https://github.com/farhadi/SmartOptimizer
+//define('WPSM_USE_SMARTOPTIMIZER', true);
+
 /* END Template Initialization Options */
 
 add_theme_support('post-thumbnails');
