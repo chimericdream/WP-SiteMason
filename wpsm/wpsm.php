@@ -149,41 +149,45 @@ function wpsm_setup()
     if ($the_theme_status !== '1') {
         $errors = false;
 
-        // Delete dummy post, page and comment.
-        wp_delete_post(1, true);
-        wp_delete_post(2, true);
-        wp_delete_comment(1);
+        if (defined('WPSM_REMOVE_DEFAULT_POSTS') && WPSM_REMOVE_DEFAULT_POSTS) {
+            // Delete dummy post, page and comment.
+            wp_delete_post(1, true);
+            wp_delete_post(2, true);
+            wp_delete_comment(1);
+        }
 
-        // Add default home and blog pages
-        global $user_ID;
-        $pages = array(
-            'home' => array(
-                'post_type' => 'page',
-                'post_content' => '',
-                'post_parent' => 0,
-                'post_author' => $user_ID,
-                'post_status' => 'publish',
-                'comment_status' => 'closed',
-                'post_name' => 'home',
-                'post_title' => 'Home',
-            ),
-            'blog' => array(
-                'post_type' => 'page',
-                'post_content' => '',
-                'post_parent' => 0,
-                'post_author' => $user_ID,
-                'post_status' => 'publish',
-                'comment_status' => 'closed',
-                'post_name' => 'blog',
-                'post_title' => 'Blog',
-            ),
-        );
-        foreach ($pages as &$page) {
-            $pageid = wp_insert_post($page);
-            if ($pageid != 0) {
-                $page['post_id'] = $pageid;
-            } else {
-                $errors = true;
+        if (defined('WPSM_CREATE_HOME_BLOG_PAGES') && WPSM_CREATE_HOME_BLOG_PAGES) {
+            // Add default home and blog pages
+            global $user_ID;
+            $pages = array(
+                'home' => array(
+                    'post_type' => 'page',
+                    'post_content' => '',
+                    'post_parent' => 0,
+                    'post_author' => $user_ID,
+                    'post_status' => 'publish',
+                    'comment_status' => 'closed',
+                    'post_name' => 'home',
+                    'post_title' => 'Home',
+                ),
+                'blog' => array(
+                    'post_type' => 'page',
+                    'post_content' => '',
+                    'post_parent' => 0,
+                    'post_author' => $user_ID,
+                    'post_status' => 'publish',
+                    'comment_status' => 'closed',
+                    'post_name' => 'blog',
+                    'post_title' => 'Blog',
+                ),
+            );
+            foreach ($pages as &$page) {
+                $pageid = wp_insert_post($page);
+                if ($pageid != 0) {
+                    $page['post_id'] = $pageid;
+                } else {
+                    $errors = true;
+                }
             }
         }
 
@@ -202,9 +206,11 @@ function wpsm_setup()
             'avatar_rating' => 'G',
             'comments_per_page' => 20,
             'show_on_front' => 'page',
-            'page_on_front' => $pages['home']['post_id'],
-            'page_for_posts' => $pages['blog']['post_id'],
         );
+        if (defined('WPSM_CREATE_HOME_BLOG_PAGES') && WPSM_CREATE_HOME_BLOG_PAGES) {
+            $core_settings['page_on_front']  = $pages['home']['post_id'];
+            $core_settings['page_for_posts'] = $pages['blog']['post_id'];
+        }
         foreach ($core_settings as $k => $v) {
             update_option($k, $v);
         }

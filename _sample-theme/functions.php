@@ -30,6 +30,14 @@ define('THEME_PERMALINKS', '/%year%/%monthnum%/%postname%/');
 // (recommended if you are adding this theme to an existing site)
 //define('SKIP_WPSM_SETUP', true);
 
+// WP SiteMason can automatically delete the starter post, page, and comment
+// created by WordPress when you set up a new site.
+//define('WPSM_REMOVE_DEFAULT_POSTS', true);
+
+// Create new pages for the home and blog front pages. Also updates the global
+// config settings
+//define('WPSM_CREATE_HOME_BLOG_PAGES', true);
+
 /* END Template Initialization Options */
 
 add_theme_support('post-thumbnails');
