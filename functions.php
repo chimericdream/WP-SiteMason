@@ -62,8 +62,7 @@ if (defined('CHILD_THEME_PATH')) {
     }
 }
 
-function checkActivePage($url, $whichPage)
-{
+function checkActivePage($url, $whichPage) {
     if ($whichPage == 'home' && $url == '/') {
         return ' active';
     }
@@ -74,8 +73,7 @@ function checkActivePage($url, $whichPage)
     return '';
 } //end checkActivePage
 
-function is_blog ()
-{
+function is_blog() {
     global $post;
     $posttype = get_post_type($post);
     return ( ((is_archive()) || (is_author()) || (is_category()) || (is_home()) || (is_single()) || (is_tag())) && ( $posttype == 'post') ) ? true : false;
