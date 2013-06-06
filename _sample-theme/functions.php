@@ -23,6 +23,11 @@ define('THEME_PERMALINKS', '/%year%/%monthnum%/%postname%/');
 // Uncomment this line if you wish to use your own copy of jQuery
 //define('AUTO_JQUERY', false);
 
+// Use the built-in SmartOptimizer to minify, compress, cache, etc. front-end
+// files.
+// See: https://github.com/farhadi/SmartOptimizer
+//define('WPSM_USE_SMARTOPTIMIZER', true);
+
 /**
  * Template Initialization Options
  */
@@ -40,11 +45,6 @@ define('THEME_PERMALINKS', '/%year%/%monthnum%/%postname%/');
 
 // Update the permalink structure for the site
 //define('WPSM_CHANGE_PERMALINKS', true);
-
-// Use the built-in SmartOptimizer to minify, compress, cache, etc. front-end
-// files.
-// See: https://github.com/farhadi/SmartOptimizer
-//define('WPSM_USE_SMARTOPTIMIZER', true);
 
 /* END Template Initialization Options */
 
