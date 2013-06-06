@@ -139,6 +139,9 @@ function wpsm_remove_head_links()
 
 function wpsm_setup()
 {
+    if (defined('SKIP_WPSM_SETUP') && SKIP_WPSM_SETUP) {
+        return;
+    }
     // First we check to see if our default theme settings have been applied.
     $the_theme_status = get_option('theme_setup_status');
 

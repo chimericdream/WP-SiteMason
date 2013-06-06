@@ -23,6 +23,15 @@ define('THEME_PERMALINKS', '/%year%/%monthnum%/%postname%/');
 // Uncomment this line if you wish to use your own copy of jQuery
 //define('AUTO_JQUERY', false);
 
+/**
+ * Template Initialization Options
+ */
+// Uncomment this line if you want to skip the entire initialization process
+// (recommended if you are adding this theme to an existing site)
+//define('SKIP_WPSM_SETUP', true);
+
+/* END Template Initialization Options */
+
 add_theme_support('post-thumbnails');
 add_action('init', THEME_NAMESPACE . '_init', 0);
 
