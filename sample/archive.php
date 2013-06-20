@@ -27,14 +27,14 @@ if (have_posts()) {
     } elseif (isset($_GET['paged']) && !empty($_GET['paged'])) { /* If this is a paged archive */
         echo '    <h2 class="pagetitle">Blog Archives</h2>';
     }
-    include (TEMPLATEPATH . '/inc/nav.php' );
+    include (THEME_PATH . '/inc/nav.php' );
     while (have_posts()) {
         the_post();
         ?>
         <section <?php post_class(); ?>>
             <header>
                 <h2 id="post-<?php the_ID(); ?>"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-                <?php include (TEMPLATEPATH . '/inc/meta.php' ); ?>
+                <?php include (THEME_PATH . '/inc/meta.php' ); ?>
             </header>
             <article class="entry">
                 <?php the_content(); ?>
@@ -42,9 +42,8 @@ if (have_posts()) {
         </section>
         <?php
     }
-    include (TEMPLATEPATH . '/inc/nav.php' );
+    include (THEME_PATH . '/inc/nav.php' );
 } else {
     echo '<h2>Nothing found</h2>';
 }
-get_sidebar();
 get_footer();

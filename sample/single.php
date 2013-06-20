@@ -7,7 +7,7 @@ if (have_posts()) {
         <section <?php post_class(); ?> id="post-<?php the_ID(); ?>">
             <header>
                 <h2><?php the_title(); ?></h2>
-                <?php include (TEMPLATEPATH . '/inc/meta.php' ); ?>
+                <?php include (THEME_PATH . '/inc/meta.php' ); ?>
             </header>
             <article class="entry">
                 <?php
@@ -24,5 +24,4 @@ if (have_posts()) {
         comments_template();
     }
 }
-get_sidebar();
 get_footer();
