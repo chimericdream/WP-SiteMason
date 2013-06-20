@@ -114,6 +114,10 @@ if (function_exists('register_sidebar')) {
 
 function wpsm_init() {
     wpsm_remove_head_links();
+    $shortcodes = 'build_' . THEME_NAMESPACE . '_shortcodes';
+    if (function_exists($shortcodes)) {
+        $shortcodes();
+    }
     $taxonomies = 'build_' . THEME_NAMESPACE . '_taxonomies';
     if (function_exists($taxonomies)) {
         $taxonomies();

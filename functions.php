@@ -47,6 +47,9 @@ if (!defined('SITE_TAGLINE')) {
 
 require_once WPSM_PATH . '/wpsm.php';
 if (defined('CHILD_THEME_PATH')) {
+    if (file_exists(CHILD_THEME_PATH . '/inc/shortcodes.php')) {
+        require_once CHILD_THEME_PATH . '/inc/shortcodes.php';
+    }
     if (file_exists(CHILD_THEME_PATH . '/inc/taxonomies.php')) {
         require_once CHILD_THEME_PATH . '/inc/taxonomies.php';
     }
