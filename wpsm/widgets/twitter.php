@@ -121,6 +121,7 @@ class WPSM_Twitter_Widget extends WP_Widget
 
     private function getTwitterFeed($account, $limit)
     {
+        return '';
         $key = 'wpsm_twitter_feed' . $account;
 
         // Let's see if we have a cached version
